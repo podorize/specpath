@@ -4,10 +4,10 @@
     "files": {
       "paper/IEEEtran.cls": "da751920a317ed318b7b5cd7fa585a6cc7d28502d457856382e9be24b10a3bd7",
       "paper/figures/decision_tree_compact.pdf": "1f491739fb1532432b19ad76b5c2b21fcc8b3e14d4aed3589d94f14dd0b9ce93",
-      "paper/main.tex": "30a494d75674524fe5424c2341ab25ccaa11014f448bd03e7a80d97310780775",
+      "paper/main.tex": "707586b6d045b04fd2a8efe089ad792a1e3a11cd0ee85b0c6d2e81384c0e8f0a",
       "paper/references.bib": "86bd9c2124487b9031579368675c6a67a07745eb6d4a1b99d19333dcb4001be4"
     },
-    "sha256": "c40cb13bdeb3391f877692f1311b3988fc09936c6ddbc603212cb0da20ab3092"
+    "sha256": "5c41fa1ed2db78ce20e6b57b995c12a768b4de853667955b26c4fedd9944861f"
   },
   "replication": {
     "archive": "specpath_msr2027_anonymous_replication_candidate.zip",
@@ -502,7 +502,7 @@
       "paper/figures/decision_tree_compact.svg": "b2af4eb5233fef2a412dc5066e7ee5a906619858377fbd980922596a9e78df5b",
       "paper/figures/final_decision_tree.svg": "0b6eaaaea8db573e6bbd05a78e39f6d769b74d355997b0900e8b4b6b0de758be",
       "paper/figures/generate_compact_tree.py": "c8d3646e65b2b0a1e56560b936558861f9b4c579656b79265df6ef715c894c5a",
-      "paper/main.tex": "30a494d75674524fe5424c2341ab25ccaa11014f448bd03e7a80d97310780775",
+      "paper/main.tex": "707586b6d045b04fd2a8efe089ad792a1e3a11cd0ee85b0c6d2e81384c0e8f0a",
       "paper/references.bib": "86bd9c2124487b9031579368675c6a67a07745eb6d4a1b99d19333dcb4001be4",
       "pyproject.toml": "92f4c331a1312073d3f3da3fe1ce550159b917fb84c628ba9a132ba500a42dc2",
       "results/population_382_agentic/EXECUTION_NOTES.md": "099130e69ae89cdd3e1f71c902898f05f1979ed213499a9686a281b2604d6983",
@@ -546,6 +546,6 @@
       "validation/llm_judge_output_schema_openai_agentic.json": "0f3cbc9b06b46fc7d854ed7f5f33a2f09a9bf6d1a313adc5ade46d06d6ade8ad",
       "RELEASE_REDACTIONS.json": "d1fff155947ac5101e3987044b87bf3b976462e2e3a5094673805e917855ce44"
     },
-    "sha256": "6492b5a2603e3c722eace0865701a9f398c6133c9ddb4b797e661cf13b2ee616"
+    "sha256": "a113e45acace92c743f17935b8d8bc07ddd8ac9c2da4c36aaaa246685d1e0d63"
   }
 }
