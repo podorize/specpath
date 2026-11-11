@@ -4,10 +4,10 @@
     "files": {
       "paper/IEEEtran.cls": "da751920a317ed318b7b5cd7fa585a6cc7d28502d457856382e9be24b10a3bd7",
       "paper/figures/decision_tree_compact.pdf": "1f491739fb1532432b19ad76b5c2b21fcc8b3e14d4aed3589d94f14dd0b9ce93",
-      "paper/main.tex": "1bbffef04279d0c15fa6826d46169716bc9071dc486d1de2228a5b72f09374bc",
+      "paper/main.tex": "4c7c2a55cd4ba995dd43f3948ed9aa28f5db17e38f0a0653a095607956c7c753",
       "paper/references.bib": "86bd9c2124487b9031579368675c6a67a07745eb6d4a1b99d19333dcb4001be4"
     },
-    "sha256": "4947785462f8db0bf044f411b8fed13942138da617fa9a5540e85a8a6c9c5e5e"
+    "sha256": "c290340fc9c77b5f0578ba95e24560bbbc4b004159a2dcb01bb4c7fdd1cc5648"
   },
   "replication": {
     "archive": "specpath_msr2027_anonymous_replication_candidate.zip",
@@ -502,7 +502,7 @@
       "paper/figures/decision_tree_compact.svg": "b2af4eb5233fef2a412dc5066e7ee5a906619858377fbd980922596a9e78df5b",
       "paper/figures/final_decision_tree.svg": "0b6eaaaea8db573e6bbd05a78e39f6d769b74d355997b0900e8b4b6b0de758be",
       "paper/figures/generate_compact_tree.py": "c8d3646e65b2b0a1e56560b936558861f9b4c579656b79265df6ef715c894c5a",
-      "paper/main.tex": "1bbffef04279d0c15fa6826d46169716bc9071dc486d1de2228a5b72f09374bc",
+      "paper/main.tex": "4c7c2a55cd4ba995dd43f3948ed9aa28f5db17e38f0a0653a095607956c7c753",
       "paper/references.bib": "86bd9c2124487b9031579368675c6a67a07745eb6d4a1b99d19333dcb4001be4",
       "pyproject.toml": "92f4c331a1312073d3f3da3fe1ce550159b917fb84c628ba9a132ba500a42dc2",
       "results/population_382_agentic/EXECUTION_NOTES.md": "099130e69ae89cdd3e1f71c902898f05f1979ed213499a9686a281b2604d6983",
@@ -546,6 +546,6 @@
       "validation/llm_judge_output_schema_openai_agentic.json": "0f3cbc9b06b46fc7d854ed7f5f33a2f09a9bf6d1a313adc5ade46d06d6ade8ad",
       "RELEASE_REDACTIONS.json": "d1fff155947ac5101e3987044b87bf3b976462e2e3a5094673805e917855ce44"
     },
-    "sha256": "99668f89a607ffa582f7d8e4b98337fa130b7ce570b0a21d3780d00f5a776c8b"
+    "sha256": "87da79cac31cea9b0575d9d7eb323ffaa71c5d8172593d2e4d893f52ef3b4dda"
   }
 }
