@@ -1,9 +1,9 @@
 """Deterministically remove direct identifiers from released source excerpts.
 
-This transformation is for the anonymous review archive. Internal frozen run
-files are retained byte-for-byte; the archive records both hashes for every
-changed member so the numerical results remain auditable without distributing
-email addresses or user-home directory names from repository excerpts.
+This transformation is for the anonymous review archive. The archive records
+original and released hashes for every changed member so the numerical results
+remain auditable without distributing email addresses or user-home directory
+names from repository excerpts.
 """
 
 from __future__ import annotations

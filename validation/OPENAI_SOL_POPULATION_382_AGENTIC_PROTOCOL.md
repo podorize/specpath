@@ -8,11 +8,10 @@ recorded as absent at their reference commits.
 
 ## Sample
 
-The 382 cases are a proportionally allocated nested probability sample from
-the 1,200-case frame: 130 open tasks and 252 completed tasks. Selection uses
-only the parent sample's within-stratum random rank, frozen before repository
-evidence or semantic labels. No outcome-based complement or replacement is
-allowed.
+The 382 cases are a proportionally allocated probability sample: 130 open
+tasks and 252 completed tasks. Selection uses only pre-evidence random ranks
+within task-status strata, fixed before repository evidence or semantic
+labels. No outcome-based complement or replacement is allowed.
 
 ## Measurement architecture
 

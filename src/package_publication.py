@@ -38,15 +38,13 @@ REPLICATION_FILES = [
     "data/final/specpath_gold_human_90.csv",
     "data/final/specpath_gold_human_90_manifest.json",
     "data/interim/validation_final_90_en.csv",
-    "data/final/population_sample_1200/specpath_population_sample_1200.csv",
-    "data/final/population_sample_1200/specpath_population_sample_1200_manifest.json",
     "data/final/population_sample_382/specpath_population_sample_382.csv",
     "data/final/population_sample_382/specpath_population_sample_382_manifest.json",
     "outputs/openai_sol_90_agentic_v2/predictions.jsonl",
     "outputs/openai_sol_90_agentic_v2/frozen_manifest.json",
     "outputs/openai_sol_population_382_agentic/predictions.jsonl",
     "outputs/openai_sol_population_382_agentic/frozen_manifest.json",
-    "src/create_population_subsample_382.py",
+    "src/verify_population_sample_382.py",
     "src/run_openai_sol_population_382_agentic.py",
     "src/run_openai_sol_90_agentic.py",
     "src/run_openai_sol_90_agentic_v2.py",
@@ -81,6 +79,10 @@ def write_archive(name: str, files: list[str], *, redact: bool = False) -> dict:
     archive = DIST / name
     manifest = {}
     redactions = {}
+    previous_redactions = {}
+    record_path = DIST / "RELEASE_REDACTIONS.json"
+    if redact and record_path.is_file():
+        previous_redactions = json.loads(record_path.read_text(encoding="utf-8"))["changed_files"]
     with ZipFile(archive, "w", compression=ZIP_DEFLATED, compresslevel=9) as handle:
         for relative in sorted(set(files)):
             path = ROOT / relative
@@ -94,6 +96,11 @@ def write_archive(name: str, files: list[str], *, redact: bool = False) -> dict:
                         "released_sha256": hashlib.sha256(data).hexdigest(),
                         "counts": counts,
                     }
+                elif (
+                    relative in previous_redactions
+                    and original_sha256 == previous_redactions[relative]["released_sha256"]
+                ):
+                    redactions[relative] = previous_redactions[relative]
                 remaining = remaining_direct_identifiers(data)
                 if any(remaining.values()):
                     raise ValueError(f"Direct identifier remains in {relative}: {remaining}")
@@ -111,18 +118,27 @@ def write_archive(name: str, files: list[str], *, redact: bool = False) -> dict:
             record_data = (json.dumps(release_record, indent=2) + "\n").encode("utf-8")
             write_member(handle, "RELEASE_REDACTIONS.json", record_data)
             manifest["RELEASE_REDACTIONS.json"] = hashlib.sha256(record_data).hexdigest()
+            record_path.write_bytes(record_data)
     return {"archive": archive.name, "files": manifest, "sha256": hashlib.sha256(archive.read_bytes()).hexdigest()}
 
 
 def verify_frozen_inputs(manifest_path: str) -> None:
     manifest = json.loads((ROOT / manifest_path).read_text(encoding="utf-8"))
     amendment = json.loads((ROOT / "validation/PROTOCOL_RECORD_AMENDMENT.json").read_text(encoding="utf-8"))
+    redactions = json.loads((DIST / "RELEASE_REDACTIONS.json").read_text(encoding="utf-8"))["changed_files"]
     for relative, expected_sha256 in manifest["files"].items():
         path = ROOT / relative
         if not path.is_file():
             raise ValueError(f"Frozen input missing or changed: {relative}")
         actual_sha256 = hashlib.sha256(path.read_bytes()).hexdigest()
         if actual_sha256 == expected_sha256:
+            continue
+        release_record = redactions.get(relative)
+        if (
+            release_record
+            and expected_sha256 == release_record["original_sha256"]
+            and actual_sha256 == release_record["released_sha256"]
+        ):
             continue
         if (
             relative == amendment["document"]

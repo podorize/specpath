@@ -39,13 +39,12 @@ The curated local candidate is
 - data/interim/validation_final_90_en.csv, the exact hashed 90-case runner input;
 - validation/DECISION_TREE_CASE_EXAMPLES.md;
 - validation/METHODOLOGICAL_REVIEW_7_CASES.md, the completed human methodological review;
-- data/final/population_sample_1200/ (frozen parent CSV and manifest);
 - data/final/population_sample_382/ (CSV and manifest; Parquet optional);
 - results/validation/openai_sol_90_agentic_v2/;
 - results/population_382_agentic/;
 - outputs/openai_sol_population_382_agentic/predictions.jsonl,
   frozen_manifest.json, and traces/;
-- src/create_population_subsample_382.py,
+- src/verify_population_sample_382.py,
   src/run_openai_sol_population_382_agentic.py,
   src/run_openai_sol_90_agentic.py,
   src/run_openai_sol_90_agentic_v2.py,
@@ -58,10 +57,10 @@ original license to the public post-review release.
 The frozen Gold is the only human reference used for 86/90. Later
 model-informed human reconsiderations are excluded from the study and the
 anonymous archive, while their occurrence remains disclosed. The analysis and
-nested 382-case selection run from the listed files. Both model-run manifests
-have their source files represented in the archive; the packager verifies the
-original hashes before creating it, with the documented protocol-prose
-amendment verified against both its original and current hashes. Privacy redaction changes some public
+382-case sample verification run from the listed files. The population run
+manifest records the release-only cache-path and protocol-prose amendment,
+retaining original hashes; the 90-case protocol amendment is separately
+documented. Privacy redaction changes some public
 members' bytes, and `RELEASE_REDACTIONS.json` records both hashes. Exact model
 re-execution also needs the upstream
 SpecMine records or exact-commit Git caches, which are not repackaged because
@@ -76,7 +75,7 @@ from uv.lock. The named license identifies the author. Superseded
 analyses and large repository caches have been moved
 to a recoverable temporary backup outside the repository. Review traces
 for any non-public content before sharing. The archive integrity check passed
-for all 533 members, including 382 population and 90 Gold-benchmark case traces.
+for all members, including 382 population and 90 Gold-benchmark case traces.
 Its public-redaction step replaced 34 email-like strings and 78 user-home path
 occurrences across 31 files; a second scan found none remaining. A literal
 API-key and local-author-path scan also found no matches. The released archive

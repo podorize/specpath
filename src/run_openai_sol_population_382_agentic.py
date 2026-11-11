@@ -15,7 +15,7 @@ import run_openai_sol_90_agentic as base
 ROOT = Path(__file__).resolve().parents[1]
 THIS_FILE = Path(__file__).resolve()
 SAMPLE = ROOT / "data" / "final" / "population_sample_382" / "specpath_population_sample_382.csv"
-POPULATION_CACHE = ROOT / "outputs" / "population_1200_anchor_evidence" / "git_cache"
+POPULATION_CACHE = ROOT / "outputs" / "population_anchor_evidence" / "git_cache"
 base.SOURCE = SAMPLE
 base.PROMPT_FILE = ROOT / "validation" / "LLM_JUDGE_PROMPT_FINAL_90_OPENAI_AGENTIC_V2.md"
 base.PROTOCOL_FILE = ROOT / "validation" / "OPENAI_SOL_POPULATION_382_AGENTIC_PROTOCOL.md"

@@ -22,7 +22,7 @@
     "main_repository": "read-only exact anchor commit",
     "history": "anchor and ancestors only",
     "web": "GitHub domains; current content discovery-only",
-    "git_cache": "outputs/population_1200_anchor_evidence/git_cache"
+    "git_cache": "outputs/population_anchor_evidence/git_cache"
   },
   "excluded": [
     "access_issue",
@@ -40,11 +40,19 @@
   "files": {
     "data/final/population_sample_382/specpath_population_sample_382.csv": "21c7690c7acf2cc2f92614c2e6c041132eea8f1c18a24c2cb3e97bcccb41630a",
     "validation/LLM_JUDGE_PROMPT_FINAL_90_OPENAI_AGENTIC_V2.md": "4089bcb23c2e2fd7c6a56e09cc32aeedfa02ddae3af616ef12d6e7744ac773d3",
-    "validation/OPENAI_SOL_POPULATION_382_AGENTIC_PROTOCOL.md": "6752f77cc4882e00ba2634e8ad450c8e631d14b4524c4b310cc238e73ea997f8",
+    "validation/OPENAI_SOL_POPULATION_382_AGENTIC_PROTOCOL.md": "3beca1df8f478e8c93d2d5358fdc8639fbdfeb72101b022caad715d8d97eefd1",
     "validation/llm_judge_output_schema_openai_agentic.json": "0f3cbc9b06b46fc7d854ed7f5f33a2f09a9bf6d1a313adc5ade46d06d6ade8ad",
     "src/run_openai_sol_90_agentic.py": "96688c21069e142769312a07b8be93b9a4d2cfa665f0766ad675e9b776ebf39d",
-    "src/run_openai_sol_population_382_agentic.py": "aea25ed8c9ad8ba6665960398c3d2cd9d51a234e2ce03eb1c6741ee5e5c15237"
+    "src/run_openai_sol_population_382_agentic.py": "fb649f4795adaa995e2192a61377c8badf6c43c4939731cd97571764fc11f5fb"
   },
   "output_directory": "outputs/openai_sol_population_382_agentic",
-  "version": "population_382_agentic_tree_aligned_v2"
+  "version": "population_382_agentic_tree_aligned_v2",
+  "release_amendment": {
+    "scope": "Repository-cache path and sample-description prose updated for the 382-case publication; no case, prompt, prediction, or trace changed.",
+    "original_run_manifest_sha256": "da36ebdb2ab5908343f6f35ec1c1d5d07c201d3ed51f5229cc3386bdd3ef80bd",
+    "original_runner_sha256": "aea25ed8c9ad8ba6665960398c3d2cd9d51a234e2ce03eb1c6741ee5e5c15237",
+    "released_runner_sha256": "fb649f4795adaa995e2192a61377c8badf6c43c4939731cd97571764fc11f5fb",
+    "original_population_protocol_sha256": "6752f77cc4882e00ba2634e8ad450c8e631d14b4524c4b310cc238e73ea997f8",
+    "released_population_protocol_sha256": "3beca1df8f478e8c93d2d5358fdc8639fbdfeb72101b022caad715d8d97eefd1"
+  }
 }

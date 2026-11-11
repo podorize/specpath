@@ -11,10 +11,13 @@ With Python 3.12+, `uv`, and the frozen `uv.lock`, run from the repository root:
 
 ```sh
 uv sync --frozen
+uv run --frozen python src/verify_population_sample_382.py
 uv run --frozen python src/analyze_population_382_agentic.py
 ```
 
-This regenerates the class distribution, interpretive groups, exploratory
+The verifier checks the released sample's integrity, stratum ranks, and design
+weights; it does not redraw the sample from the upstream SpecMine frame. The
+analysis regenerates the class distribution, interpretive groups, exploratory
 contrasts, overlap sensitivity table, trace audit, and `summary.json` under
 `results/population_382_agentic/`. It reads the included predictions and
 case-level traces; no API key or repository clone is needed. The 90-case
@@ -40,7 +43,9 @@ traces permit checking that no human label or reviewer note was passed.
 
 The population run has its own frozen manifest at
 `outputs/openai_sol_population_382_agentic/frozen_manifest.json`. The
-execution protocols are preserved as run records. Later clarifications about
+manifest records a release-only amendment to the cache path and sample-
+description prose, with the original file hashes retained. The case inputs,
+prompt, predictions, and traces did not change. Later clarifications about
 the analysis are in `validation/ACTIVE_STUDY_PROTOCOL.md` and the analysis
 code; they did not change the model calls already made.
 
@@ -50,9 +55,9 @@ The anonymous archive applies the deterministic rules in
 `src/redact_public_release.py` to incidental email-like strings and user-home
 path segments in text files. `RELEASE_REDACTIONS.json` inside the archive
 records each changed member's original and released SHA-256 hashes and the
-number of substitutions. The original frozen manifests describe the
-byte-identical internal model runs; their original hashes intentionally
-differ from public members that were redacted. Case identifiers, commit SHAs,
+number of substitutions. The run records preserve original hashes for
+release-amended files; original hashes also intentionally differ from public
+members that were redacted. Case identifiers, commit SHAs,
 classes, weights, and numerical results are unchanged. Re-running
 `src/analyze_population_382_agentic.py` from the public archive reproduces
 the published distribution and audits without an API key.
@@ -69,9 +74,9 @@ local, read-only Git caches containing the cited repositories at their exact
 reference commits. The 90-case runner expects one bare Git repository per
 case at `outputs/openai_sol_90_v3/git_cache/F001` through `F090`; the
 repository names and commit SHAs are in the included source CSV. The
-382-case runner expects bare Git repositories under
-`outputs/population_1200_anchor_evidence/git_cache/`, keyed by repository
-name as implemented in its runner. The original caches are omitted from this
+382-case runner expects bare Git repositories under the cache path configured
+in `src/run_openai_sol_population_382_agentic.py`, keyed by repository name.
+The original caches are omitted from this
 anonymous archive because they contain unrelated Git history and may include
 personal metadata. The included traces preserve the substantive tool outputs
 used in the published decisions, with incidental direct identifiers redacted.

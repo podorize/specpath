@@ -51,9 +51,9 @@ are used in the study.
 
 ## Population sample and analysis
 
-The final 382 cases are a nested probability sample from the frozen
-1,200-case frame. Within each task-status stratum, the first pre-evidence
-random ranks were retained: 130 of 17,752 open and 252 of 34,227 completed.
+The final 382 cases are a probability sample selected by the first
+pre-evidence random ranks within each task-status stratum: 130 of 17,752 open
+and 252 of 34,227 completed.
 No label, access result, or class quota affected selection. Each case uses
 weight N_h/n_h. Population proportions are weighted by the two stratum
 shares. Inaccessible/invalid remains in the primary denominator.

@@ -22,8 +22,8 @@ The unit is a reference, not a repository or a task.
   The judge matched one of three problematic Gold cases and assigned the other
   two to move/deletion; support is too small for reliable sensitivity inference.
 - Population Silver: 382 directly judged references, selected by pre-evidence
-  random rank within open/completed task strata from a frozen 1,200-case
-  probability sample. No class quotas or tabular extrapolation were used.
+  random rank within open/completed task strata. No class quotas or tabular
+  extrapolation were used.
 - Weighted model-assigned estimates: expected creation 34.3%, expected move/removal 18.6%,
   non-file 18.8%, external repository 8.4%, inaccessible/invalid 13.1%,
   confirmed problematic absence 3.4%, and confirmed existence after path
@@ -59,7 +59,7 @@ support a reliable performance or subgroup claim.
 - [Completed methodological review](validation/METHODOLOGICAL_REVIEW_7_CASES.md)
 - [Frozen sample and manifest](data/final/population_sample_382/)
 - [Classified sample and analysis](results/population_382_agentic/)
-- [Sample construction](src/create_population_subsample_382.py),
+- [Frozen-sample verification](src/verify_population_sample_382.py),
   [judge runner](src/run_openai_sol_population_382_agentic.py), and
   [analysis](src/analyze_population_382_agentic.py)
 
@@ -80,9 +80,12 @@ From the repository root, use Python 3.12+ with dependencies in pyproject.toml
 and the frozen uv.lock. Recreate the disposable local environment and run:
 
     uv sync --frozen
+    uv run --frozen python src/verify_population_sample_382.py
     uv run --frozen python src/analyze_population_382_agentic.py
 
-This regenerates the analysis tables from the frozen sample, model predictions,
+The first command checks the released sample's integrity, ranks, and weights;
+it does not redraw the sample from the upstream SpecMine frame. The second
+regenerates the analysis tables from the frozen sample, model predictions,
 and case traces. Re-running the judge is a separate API operation with a
 credential and an exact-commit repository cache; the original 90-case input,
 prompt, protocol, scripts, and hashes are in the replication package. The
