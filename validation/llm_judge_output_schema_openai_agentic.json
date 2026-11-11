@@ -1,0 +1,44 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "review_id": {"type": "string"},
+    "decision": {"type": "string", "enum": ["classify", "abstain"]},
+    "classification": {
+      "type": "string",
+      "enum": [
+        "confirmed_exists",
+        "confirmed_missing_problematic",
+        "expected_absence_create",
+        "expected_absence_move_or_delete",
+        "external_repository_reference",
+        "non_file_reference",
+        "ambiguous_reference",
+        "inaccessible_or_invalid"
+      ]
+    },
+    "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+    "evidence_quote": {"type": "string", "maxLength": 300},
+    "evidence_paths": {
+      "type": "array",
+      "items": {"type": "string", "maxLength": 300},
+      "maxItems": 8
+    },
+    "rationale": {"type": "string", "maxLength": 1000},
+    "missing_evidence": {
+      "type": "array",
+      "items": {"type": "string", "maxLength": 300},
+      "maxItems": 8
+    }
+  },
+  "required": [
+    "review_id",
+    "decision",
+    "classification",
+    "confidence",
+    "evidence_quote",
+    "evidence_paths",
+    "rationale",
+    "missing_evidence"
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "document": "validation/OPENAI_SOL_90_AGENTIC_V2_PROTOCOL.md",
+  "original_manifest_sha256": "f482423229333c167f16a9abf9644ca631d347f0404579d79a6a11a1993550b1",
+  "amended_sha256": "805459b245089f83fca0488b91a6e13f44ab6a9c43dc6a3417cc7f557bfbaa59",
+  "reason": "The prose record was amended to reflect the authors' confirmed chronology: the decision rule was finalized before evaluation of the reported responses.",
+  "scope": "Narrative protocol text only. The prompt supplied to the model, source records, predictions, and case traces are unchanged."
+}

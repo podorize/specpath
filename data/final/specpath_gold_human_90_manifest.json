@@ -1,0 +1,40 @@
+{
+  "status": "frozen_human_gold_for_reported_comparison",
+  "row_count": 90,
+  "gold_csv": "data/final/specpath_gold_human_90.csv",
+  "gold_csv_sha256": "901baec28fc6c504b1216f5fb3ef7f09d4c211a351ffb26abf957c4dfc35214a",
+  "initial_r1_r2_agreement": {
+    "matches": 83,
+    "n": 90,
+    "cohen_kappa": 0.8935091277890467
+  },
+  "initial_disagreement_ids": [
+    "F006",
+    "F033",
+    "F040",
+    "F052",
+    "F064",
+    "F075",
+    "F078"
+  ],
+  "rule": "Use human consensus for seven initial R1/R2 disagreements and identical initial labels for the other 83, followed by five human methodological corrections before the LLM-judge comparison.",
+  "methodological_correction_ids": [
+    "F013",
+    "F024",
+    "F025",
+    "F037",
+    "F064"
+  ],
+  "gold_label_distribution": {
+    "expected_absence_create": 31,
+    "confirmed_exists": 31,
+    "external_repository_reference": 4,
+    "non_file_reference": 4,
+    "inaccessible_or_invalid": 7,
+    "expected_absence_move_or_delete": 10,
+    "confirmed_missing_problematic": 3
+  },
+  "later_human_reconsideration": "Three cases were reconsidered by humans after model disagreements were known. Those later decisions are excluded from the present study, its released Gold, and its reported performance; no post-reconsideration agreement is calculated.",
+  "comparison_output": "results/validation/openai_sol_90_agentic_v2/summary.json",
+  "llm_judge_matches": 86
+}

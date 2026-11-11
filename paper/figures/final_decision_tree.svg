@@ -1,0 +1,156 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1347.8584999999998 2247.255" width="1347.8584999999998" height="2247.255" style="--bg:#1F1F1F;--fg:#CCCCCC;--line:#CCCCCC;--accent:#0078D4;--muted:#CCCCCCCC;--surface:#181818;--border:#CCCCCC;background:var(--bg)">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap');
+  text { font-family: 'Inter', system-ui, sans-serif; }
+  svg {
+    /* Derived from --bg and --fg (overridable via --line, --accent, etc.) */
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 60%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 40%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 25%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 85%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 3%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 20%, var(--bg)));
+    --_group-fill:    var(--bg);
+    --_group-hdr:     color-mix(in srgb, var(--fg) 5%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 10%, var(--bg));
+  }
+</style>
+<defs>
+  <marker id="arrowhead" markerWidth="8" markerHeight="5" refX="7" refY="2.5" orient="auto">
+    <polygon points="0 0, 8 2.5, 0 5" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+  <marker id="arrowhead-start" markerWidth="8" markerHeight="5" refX="1" refY="2.5" orient="auto-start-reverse">
+    <polygon points="8 0, 0 2.5, 8 5" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+</defs>
+<polyline class="edge" data-from="Start" data-to="Step1" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="211.192,76.9 211.192,124.90000000000003" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="Step1" data-to="ClassInaccessible" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Não (erro/404/gaps)" points="156.3578333333333,399.07083333333327 156.3578333333333,1376.427 132.111,1376.427 132.111,1456.7269999999999" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="Step1" data-to="Step2" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Sim" points="266.02616666666665,399.07083333333327 266.02616666666665,465.905 418.577,465.905 418.577,546.2049999999999" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="Step2" data-to="ClassNonFile" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Glob (*, ?), CLI, URL, pacote" points="335.3995,795.7375 335.3995,1546.5269999999998 241.791,1546.5269999999998 241.791,1638.8269999999998" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="Step2" data-to="ClassExternal" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Cita outro repo externo" points="418.577,878.915 418.577,1417.3269999999998 460.68199999999996,1417.3269999999998 460.68199999999996,1497.6269999999997" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="Step2" data-to="Step3" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Caminho local único" points="501.75449999999995,795.7375 501.75449999999995,890.915 758.2629999999999,890.915 758.2629999999999,971.2149999999999" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="Step3" data-to="ClassExists" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Sim (exists_at_anchor = 1)" points="706.2693333333332,1231.1833333333332 706.2693333333332,1570.5269999999998 636.5189999999999,1570.5269999999998 636.5189999999999,1638.8269999999998" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="Step3" data-to="Step4" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Não (exists_at_anchor = 0)" points="810.2566666666665,1231.1833333333334 810.2566666666665,1319.177 880.0069999999998,1319.177 880.0069999999998,1399.4769999999999" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="Step4" data-to="ClassCreate" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Criar / adicionar / implementar / scaffold" points="793.5319999999999,1601.252 793.5319999999999,1699.7269999999999 372.05449999999996,1699.7269999999999 372.05449999999996,1792.0269999999998" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="Step4" data-to="ClassDelete" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Deletar / remover / renomear / mover" points="851.1819999999999,1658.9019999999998 851.1819999999999,1723.7269999999999 638.3694999999999,1723.7269999999999 638.3694999999999,1792.0269999999998" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="Step4" data-to="ClassFriction" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Exige modificar/testar código pré-existente ausente" points="908.8319999999999,1658.9019999999998 908.8319999999999,1723.7269999999999 909.1304999999998,1723.7269999999999 909.1304999999998,1792.0269999999998" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="Step4" data-to="Step5" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Sem verbo claro / ambíguo" points="966.4819999999999,1601.252 966.4819999999999,1699.727 1179.2944999999997,1699.727 1179.2944999999997,1792.0269999999998" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="Step5" data-to="ClassAmbiguous" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Bare filename sem caminho / contexto insuficiente" points="1179.2944999999997,2049.1549999999997 1179.2944999999997,2153.455" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<g class="edge-label" data-from="Step1" data-to="ClassInaccessible" data-label="Não (erro/404/gaps)">
+  <rect x="75.11099999999998" y="1383.427" width="113.28400000000002" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="131.753" y="1398.577" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">Não (erro/404/gaps)</text>
+</g>
+<g class="edge-label" data-from="Step1" data-to="Step2" data-label="Sim">
+  <rect x="401.077" y="472.905" width="34.282" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="418.218" y="488.05499999999995" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">Sim</text>
+</g>
+<g class="edge-label" data-from="Step2" data-to="ClassNonFile" data-label="Glob (*, ?), CLI, URL, pacote">
+  <rect x="168.791" y="1553.5269999999998" width="145.35999999999999" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="241.471" y="1568.677" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">Glob (*, ?), CLI, URL, pacote</text>
+</g>
+<g class="edge-label" data-from="Step2" data-to="ClassExternal" data-label="Cita outro repo externo">
+  <rect x="397.68199999999996" y="1424.3269999999998" width="125.16400000000003" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="460.26399999999995" y="1439.4769999999999" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">Cita outro repo externo</text>
+</g>
+<g class="edge-label" data-from="Step2" data-to="Step3" data-label="Caminho local único">
+  <rect x="702.7629999999999" y="897.915" width="110.31400000000002" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="757.92" y="913.0649999999999" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">Caminho local único</text>
+</g>
+<g class="edge-label" data-from="Step3" data-to="ClassExists" data-label="Sim (exists_at_anchor = 1)">
+  <rect x="567.5189999999999" y="1577.5269999999998" width="137.04400000000004" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="636.0409999999999" y="1592.677" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">Sim (exists_at_anchor = 1)</text>
+</g>
+<g class="edge-label" data-from="Step3" data-to="Step4" data-label="Não (exists_at_anchor = 0)">
+  <rect x="808.5069999999998" y="1326.177" width="142.98400000000004" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="879.9989999999998" y="1341.327" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">Não (exists_at_anchor = 0)</text>
+</g>
+<g class="edge-label" data-from="Step4" data-to="ClassCreate" data-label="Criar / adicionar / implementar / scaffold">
+  <rect x="271.55449999999996" y="1706.7269999999999" width="200.00799999999998" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="371.5585" y="1721.877" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">Criar / adicionar / implementar / scaffold</text>
+</g>
+<g class="edge-label" data-from="Step4" data-to="ClassDelete" data-label="Deletar / remover / renomear / mover">
+  <rect x="543.8694999999998" y="1730.7269999999999" width="188.12800000000004" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="637.9334999999999" y="1745.877" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">Deletar / remover / renomear / mover</text>
+</g>
+<g class="edge-label" data-from="Step4" data-to="ClassFriction" data-label="Exige modificar/testar código pré-existente ausente">
+  <rect x="780.1304999999998" y="1730.7269999999999" width="257.626" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="908.9434999999997" y="1745.877" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">Exige modificar/testar código pré-existente ausente</text>
+</g>
+<g class="edge-label" data-from="Step4" data-to="Step5" data-label="Sem verbo claro / ambíguo">
+  <rect x="1106.7944999999997" y="1706.727" width="144.17200000000003" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="1178.8804999999998" y="1721.8770000000002" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">Sem verbo claro / ambíguo</text>
+</g>
+<g class="edge-label" data-from="Step5" data-to="ClassAmbiguous" data-label="Bare filename sem caminho / contexto insuficiente">
+  <rect x="1056.2944999999997" y="2080.1549999999997" width="245.15199999999996" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="1178.8704999999998" y="2095.305" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">Bare filename sem caminho / contexto insuficiente</text>
+</g>
+<g class="node" data-id="Start" data-label="Referência de Tarefa em tasks.md" data-shape="stadium">
+  <rect x="91.66399999999999" y="40" width="239.05599999999998" height="36.900000000000006" rx="18.450000000000003" ry="18.450000000000003" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="211.19199999999998" y="58.45" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Referência de Tarefa em tasks.md</text>
+</g>
+<g class="node" data-id="Step1" data-label="Passo 1: Acesso Válido?
+O repositório/commit/árvore está acessível?" data-shape="diamond">
+  <polygon points="211.19199999999998,124.9 375.69449999999995,289.4025 211.19199999999998,453.905 46.68950000000001,289.4025" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="211.19199999999998" y="289.4025" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="211.19199999999998" dy="-3.9000000000000012">Passo 1: Acesso Válido?</tspan><tspan x="211.19199999999998" dy="16.900000000000002">O repositório/commit/árvore está acessível?</tspan></text>
+</g>
+<g class="node" data-id="ClassInaccessible" data-label="inaccessible_or_invalid
+(Abstenção)" data-shape="rectangle">
+  <rect x="40" y="1456.7269999999999" width="184.22199999999998" height="53.800000000000004" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="132.111" y="1483.627" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="132.111" dy="-3.9000000000000012">inaccessible_or_invalid</tspan><tspan x="132.111" dy="16.900000000000002">(Abstenção)</tspan></text>
+</g>
+<g class="node" data-id="Step2" data-label="Passo 2: Escopo &amp; Sintaxe?
+É padrão não-arquivo ou repositório externo?" data-shape="diamond">
+  <polygon points="418.577,546.2049999999999 584.932,712.56 418.577,878.915 252.222,712.56" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="418.577" y="712.56" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="418.577" dy="-3.9000000000000012">Passo 2: Escopo &amp; Sintaxe?</tspan><tspan x="418.577" dy="16.900000000000002">É padrão não-arquivo ou repositório externo?</tspan></text>
+</g>
+<g class="node" data-id="ClassNonFile" data-label="non_file_reference" data-shape="rectangle">
+  <rect x="164.5" y="1638.8269999999998" width="154.582" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="241.791" y="1657.2769999999998" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">non_file_reference</text>
+</g>
+<g class="node" data-id="ClassExternal" data-label="external_repository_reference" data-shape="rectangle">
+  <rect x="347.082" y="1497.6269999999997" width="227.19999999999996" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="460.68199999999996" y="1516.0769999999998" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">external_repository_reference</text>
+</g>
+<g class="node" data-id="Step3" data-label="Passo 3: Existência no Anchor?
+O arquivo existe no commit de ancoragem?" data-shape="diamond">
+  <polygon points="758.2629999999999,971.2149999999999 914.2439999999999,1127.196 758.2629999999999,1283.177 602.2819999999999,1127.196" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="758.2629999999999" y="1127.196" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="758.2629999999999" dy="-3.9000000000000012">Passo 3: Existência no Anchor?</tspan><tspan x="758.2629999999999" dy="16.900000000000002">O arquivo existe no commit de ancoragem?</tspan></text>
+</g>
+<g class="node" data-id="ClassExists" data-label="confirmed_exists" data-shape="rectangle">
+  <rect x="565.156" y="1638.8269999999998" width="142.726" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="636.519" y="1657.2769999999998" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">confirmed_exists</text>
+</g>
+<g class="node" data-id="Step4" data-label="Passo 4: Intenção da Tarefa?
+Qual a semântica do verbo e contexto?" data-shape="diamond">
+  <polygon points="880.0069999999998,1399.4769999999999 1024.1319999999998,1543.6019999999999 880.0069999999998,1687.7269999999999 735.8819999999998,1543.6019999999999" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="880.0069999999998" y="1543.6019999999999" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="880.0069999999998" dy="-3.9000000000000012">Passo 4: Intenção da Tarefa?</tspan><tspan x="880.0069999999998" dy="16.900000000000002">Qual a semântica do verbo e contexto?</tspan></text>
+</g>
+<g class="node" data-id="ClassCreate" data-label="expected_absence_create
+(Ausência Benigna Planejada)" data-shape="rectangle">
+  <rect x="262.90049999999997" y="1792.0269999999998" width="218.308" height="53.800000000000004" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="372.05449999999996" y="1818.927" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="372.05449999999996" dy="-3.9000000000000012">expected_absence_create</tspan><tspan x="372.05449999999996" dy="16.900000000000002">(Ausência Benigna Planejada)</tspan></text>
+</g>
+<g class="node" data-id="ClassDelete" data-label="expected_absence_move_or_delete
+(Remoção Planejada)" data-shape="rectangle">
+  <rect x="509.20849999999996" y="1792.0269999999998" width="258.32199999999995" height="53.800000000000004" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="638.3694999999999" y="1818.927" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="638.3694999999999" dy="-3.9000000000000012">expected_absence_move_or_delete</tspan><tspan x="638.3694999999999" dy="16.900000000000002">(Remoção Planejada)</tspan></text>
+</g>
+<g class="node" data-id="ClassFriction" data-label="confirmed_missing_problematic
+(Fricção Real / Quebra)" data-shape="rectangle">
+  <rect x="795.5304999999998" y="1792.0269999999998" width="227.19999999999993" height="53.800000000000004" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="909.1304999999998" y="1818.927" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="909.1304999999998" dy="-3.9000000000000012">confirmed_missing_problematic</tspan><tspan x="909.1304999999998" dy="16.900000000000002">(Fricção Real / Quebra)</tspan></text>
+</g>
+<g class="node" data-id="Step5" data-label="Passo 5: Ambiguidade?
+O contexto é vago ou nome solto?" data-shape="diamond">
+  <polygon points="1179.2944999999997,1792.0269999999998 1307.8584999999998,1920.591 1179.2944999999997,2049.1549999999997 1050.7304999999997,1920.591" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="1179.2944999999997" y="1920.591" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="1179.2944999999997" dy="-3.9000000000000012">Passo 5: Ambiguidade?</tspan><tspan x="1179.2944999999997" dy="16.900000000000002">O contexto é vago ou nome solto?</tspan></text>
+</g>
+<g class="node" data-id="ClassAmbiguous" data-label="ambiguous_reference
+(Abstenção)" data-shape="rectangle">
+  <rect x="1093.1114999999998" y="2153.455" width="172.36599999999999" height="53.800000000000004" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="1179.2944999999997" y="2180.355" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="1179.2944999999997" dy="-3.9000000000000012">ambiguous_reference</tspan><tspan x="1179.2944999999997" dy="16.900000000000002">(Abstenção)</tspan></text>
+</g>
+</svg>

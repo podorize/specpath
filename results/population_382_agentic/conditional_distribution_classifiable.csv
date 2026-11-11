@@ -1,0 +1,9 @@
+classification,sample_count,conditional_weighted_proportion
+confirmed_exists,13,0.039134797219976085
+confirmed_missing_problematic,13,0.03915101047046364
+expected_absence_create,131,0.3949058502139157
+expected_absence_move_or_delete,71,0.21371375108534818
+external_repository_reference,32,0.09632557267590747
+non_file_reference,72,0.2167690183343888
+ambiguous_reference,0,0.0
+inaccessible_or_invalid,0,0.0

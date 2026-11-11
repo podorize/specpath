@@ -1,272 +1,99 @@
 \documentclass[10pt,conference]{IEEEtran}
-\IEEEoverridecommandlockouts
-
 \usepackage{cite}
-\usepackage{amsmath,amssymb,amsfonts}
-\usepackage{algorithmic}
-\usepackage{graphicx}
-\usepackage{textcomp}
-\usepackage{xcolor}
+\usepackage{amsmath,amssymb}
 \usepackage{booktabs}
-\usepackage{multirow}
-\usepackage{hyperref}
-\usepackage{microtype}
-\usepackage{balance}
-
-\hypersetup{
-    colorlinks=true,
-    linkcolor=blue,
-    filecolor=magenta,      
-    urlcolor=cyan,
-    citecolor=blue,
-}
-
+\usepackage{graphicx}
+\usepackage{url}
 \begin{document}
-
-\title{When Specs Name Ghosts: What Task Attributes Predict Code Friction in Spec-Driven Development?}
-
-\author{\IEEEauthorblockN{Anonymous Authors}
-\IEEEauthorblockA{\textit{MSR 2027 Mining Challenge Track} \\
-Paper under Double-Anonymous Review}
-}
-
+\title{Interpreting Absent OpenSpec Paths: A Human Decision Tree and a Probability Sample of SpecMine}
+\author{\IEEEauthorblockN{Anonymous Authors}}
 \maketitle
 
 \begin{abstract}
-Spec-Driven Development (SDD) is an emerging paradigm where natural language specifications guide autonomous AI coding agents. In the SpecMine corpus (v1.0, July 2026 snapshot), the traceability layer resolves 435,401 task-to-code references in OpenSpec artifacts against repository git trees, revealing that 51,979 literal references fail to resolve at their anchoring commit (\texttt{exists\_at\_anchor = 0}). A naive interpretation would view these unresolved references as widespread specification rot, hallucination, or implementation drift. 
-
-In this mining challenge paper, we investigate the empirical reality behind these ``ghost'' references. We formulate two core research questions: \textbf{RQ1} examines whether unresolved references represent genuine specification-code friction or natural lifecycle transitions, while \textbf{RQ2} investigates which structural and contextual attributes of tasks predict true friction. To avoid cascading bias from unanchored language models, we calibrate our empirical measurement against a strictly blinded human Gold Standard ($N=90$, Cohen's $\kappa = 0.907$), distill a stratified Silver Standard ($N=450$), and evaluate tabular classifiers against held-out human ground truth (Random Forest, $\text{ROC-AUC} = 0.8182$, 100\% friction recall at $\tau \le 0.20$). 
-
-Applying our model across all 51,979 unresolved references reveals that naive absence is overwhelmingly benign: \textbf{32.60\%} represent planned, anticipatory file creations (rising to \textbf{63.1\%} in open tasks), and \textbf{29.59\%} are subsequently resolved in the codebase. Confirmed friction accounts for only \textbf{2.44\%} across the corpus (and only 1.5\% in completed tasks). Through feature explainability, we find that path morphology (character length and basename size, 22.1\% Gini importance) and task position depth within the specification (9.8\%) are the primary structural determinants of friction. Furthermore, test specifications suffer an alarming \textbf{50.9\%} friction rate, compared to \textbf{35.9\%} in production source code. We release our artifacts and models to enable fast, zero-token pre-commit linters for agentic software workflows.
+The SpecMine corpus marks 51,979 OpenSpec task-to-code paths as absent at their reference commits, but a missing path need not signal a defect. We define an ordered eight-class decision tree, reconcile a 90-case human Gold from two reviewers, and use a repository-investigating LLM judge to classify a probability sample of 382 references. With its decision rule fixed before response evaluation, the judge agreed with the frozen Gold on 86/90 cases. Weighted \emph{model-assigned} shares are 34.3\% expected creation, 18.8\% non-file reference, 18.6\% expected move or deletion, 8.4\% external repository, 3.4\% problematic absence, and 13.1\% inaccessible or invalid. Creation labels are more common in open than completed tasks. Sampling intervals exclude model-label error. We release the Gold, probability-sample Silver, decision rules, and case-level provenance. Absence alone does not establish a defect.
 \end{abstract}
-
 \begin{IEEEkeywords}
-Spec-driven development, AI coding agents, SpecMine, traceability, software maintenance, empirical study.
+Spec-driven development, mining software repositories, traceability, human annotation, probability sampling.
 \end{IEEEkeywords}
 
 \section{Introduction}
+Specifications may name code that has not yet been written. Treating every path absent from a repository snapshot as a broken reference can therefore conflate planned work with missing dependencies, a familiar traceability concern~\cite{gotel1994}. SpecMine's July 2026 release records 435,401 OpenSpec task-to-code references; 51,979 literal paths are marked absent at their anchoring commits~\cite{specmine2027}. The MSR Mining Challenge asks how specifications relate to code. We ask a narrower question: \emph{when a path cited in an OpenSpec task is absent at the reference commit, what does that absence permit one to conclude?}
 
-Autonomous AI coding agents such as Cursor, Claude Code, and OpenHands are transforming software engineering by translating natural-language instructions into codebase modifications~\cite{meske2025, abrahao2025}. To mitigate conversational drift and prevent loss of developer intent (commonly termed ``vibe coding'')~\cite{meske2025}, industry has adopted \textit{Spec-Driven Development} (SDD)~\cite{diaz2026, specmine2027}. In SDD, explicit Markdown specifications (e.g., OpenSpec \texttt{tasks.md}, AWS Kiro \texttt{requirements.md}, GitHub Spec Kit) serve as the formal contracts and memory scaffolds governing agentic execution~\cite{specmine2027}.
+We contribute a measurement instrument and a probability-sampled labeled dataset. An ordered tree distinguishes planned work from missing assumed dependencies while retaining scope errors and unavailable evidence. Two reviewers reconciled a 90-case Gold; a repository-investigating LLM judged 382 sampled Silver cases with design weights and provenance. We analyze model-assigned interpretations without class quotas or corpus-wide classifier extrapolation. SpecMine supplies extracted references and commit-level existence~\cite{specmine2027}; our semantic layer makes the traceability question~\cite{gotel1994} auditable for OpenSpec tasks.
 
-A central premise of SDD is verifiable traceability: a specification explicitly enumerates the files it intends to read, modify, or create~\cite{gotel1994, storey2026}. To examine this relationship at scale, the SpecMine dataset (v1.0, July 2026 snapshot)~\cite{specmine2027} extracted and statically resolved 435,401 task-to-code references in OpenSpec artifacts against the git tree at each spec's anchoring commit. Strikingly, \textbf{51,979 literal references} fail to resolve (\texttt{exists\_at\_anchor = 0}). In the MSR 2027 Mining Challenge Call~\cite{specmine2027}, the organizers highlighted this phenomenon as an open challenge: \textit{``A spec names the files it expects to change. How often does that code actually exist? Resolving 435,401 OpenSpec task-to-code references against the tree at the anchoring commit makes the gap between what a spec declares and what the repository contains measurable: what predicts it, and does it widen as specs get longer?''}
+\section{Study Design}
+\subsection{Population and unit}
+The unit is one task-to-code reference, rather than a task, file, or repository. The target frame contains the 51,979 SpecMine references whose literal paths were recorded as absent at their reference commits and whose sampling keys were available. It spans 4,444 repositories. Mechanical absence is the entry condition; a reviewer may later find a normalized or resolved file at the same commit. Hence \texttt{confirmed\_exists} is possible within this frame. No claim of subsequent implementation follows from an anchor-commit observation.
 
-In traditional software repository mining, an unresolved file reference is typically flagged as broken traceability, documentation rot, or a hallucinated path. However, SDD introduces an inherent temporal paradox: specifications are frequently written \textit{before} the corresponding code is drafted. Thus, a non-existent path at the anchoring commit may simply indicate an \textit{anticipatory creation}---an intended file that the agent has not yet generated---rather than genuine friction.
+\subsection{Ordered decision tree}
+The same eight-class tree governs human and model decisions (Fig.~\ref{fig:tree}). It first validates the occurrence and commit evidence, then resolves object type and repository scope, and checks file existence at the anchor. For an absent local file, task intent distinguishes creation, move/removal, and a missing assumed dependency; insufficient evidence yields ambiguity. This precedence prevents a current GitHub page or a creation verb from overriding commit and scope evidence. Boundary examples are in the artifact.
 
-To understand why specifications name non-existent files and identify which task characteristics signal true defects, we focus our investigation on two targeted Research Questions:
-\begin{itemize}
-    \item \textbf{RQ1 (Lifecycle Prevalence):} When a task specification references a non-existent file at its anchoring commit, does it represent genuine specification-code friction or a benign lifecycle transition (e.g., anticipatory file creation, planned deletion, or non-file syntax)?
-    \item \textbf{RQ2 (Structural Determinants \& Explainability):} Which structural, morphological, and contextual attributes of tasks best predict true friction, and what does feature importance reveal about where and why specifications fail?
-\end{itemize}
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{figures/decision_tree_compact.pdf}
+\caption{Ordered decision tree used by both human reviewers and the LLM judge. Follow the upper path only when the preceding gate does not decide the reference. The four outcomes at the last gate depend on task wording and exact-commit repository evidence.}
+\label{fig:tree}
+\end{figure*}
 
-This paper makes the following contributions:
-\begin{enumerate}
-    \item \textbf{Empirical Demystification of the Absence Gap (RQ1):} We demonstrate that 97.6\% of unresolved references in SpecMine reflect benign lifecycle states, with 63.1\% in open tasks being planned creations, while true friction is rare (2.44\%).
-    \item \textbf{Anatomy of Problematic Tasks (RQ2):} Through feature explainability, we identify that path character length (11.1\%), basename length (11.0\%), and document depth ratio (9.8\%) dominate friction prediction, and discover that test specifications experience 1.4$\times$ higher friction than production source code.
-    \item \textbf{Bias-Controlled Measurement Instrument:} A human Gold Standard ($N=90$, $\kappa = 0.907$) used to calibrate an LLM judge and train a tabular Random Forest evaluated strictly on held-out human data ($\text{ROC-AUC} = 0.8182$, 100\% friction recall at $\tau \le 0.20$), enabling zero-token pre-commit linters running at 22,000 refs/sec.
-\end{enumerate}
+For example, F001 requests a new test, \path{apps/server/src/db/__tests__/0010_summary_length_check.test.ts}; its absence at the reference commit is expected creation at step 4. F061 instead requests rewriting the existing \path{python/scripts/test_cl_buck.py}, which is absent at its reference commit; step 4 identifies an assumed but missing dependency. Both enter the frame as absent paths, but their task verbs and commit evidence support different interpretations. Source URLs and reviewer notes are in the artifact.
 
-\section{Measurement Instrument \& Bias Control}
-\label{sec:methodology}
+\subsection{Human reference and automated measurement}
+The Gold covers 90 repositories: 30 completed/existing controls, 30 completed/missing, and 30 open/missing references. R1 and R2 initially agreed on 83/90 labels (Cohen's $\kappa=0.8935$)~\cite{cohen1960}; seven disagreements received human consensus. Before LLM comparison, methodological review changed five labels, including three temporally inconsistent records. The frozen Gold contains three \texttt{confirmed\_missing\_problematic} cases and is not a prevalence sample.
 
-Studying 51,979 references requires automated evaluation, but relying directly on unvalidated LLMs risks introducing severe cascading bias (pseudo-labeling hallucination). To prevent model circularity, we designed a multi-tier measurement instrument anchored in human ground truth.
+GPT-6.1 Sol used a fixed tree-aligned prompt, structured eight-class output, read-only exact-commit repository tools, and GitHub search for discovery. The decision rule was finalized before the reported responses were evaluated. The judge could inspect complete task artifacts, other files, paths, and history through the anchor; current web content never replaced commit evidence. Inputs omitted human labels, notes, and the mechanical existence flag. Its traces show 86/90 agreement with the frozen Gold ($\kappa=0.9398$), including 56/60 originally absent cases ($\kappa=0.9033$). Of three problematic Gold cases, one matched and two were called expected move/deletion; this is too little support to estimate sensitivity. The 86/90 comparison measures agreement on these cases; it does not directly measure Silver-label error in the population sample.
 
-\subsection{Reference Lifecycle Taxonomy}
-Examining raw task lines in OpenSpec (e.g., \texttt{- [ ] Create src/auth/token.ts}) reveals that literal absence at the anchoring commit encompasses heterogeneous phenomena. Crucially, our taxonomy distinguishes between \textit{active code friction} (attempting to consume or mutate non-existent dependencies) and \textit{intent lifecycle} (files specified to be newly introduced). We define a 7-class taxonomy (Table~\ref{tab:taxonomy}).
+\subsection{Probability sample and estimation}
+A parent random sample of 1,200 absent references was frozen before evidence collection. We selected the first preassigned random ranks within each task-status stratum: 130 open and 252 completed references. This nested 382-case sample covers 296 repositories; no predicted class, access result, or evidence outcome influenced selection. The respective population stratum sizes are 17,752 and 34,227. Each case receives weight $w_h=N_h/n_h$, and the estimated proportion of class $c$ is
+\begin{equation}
+\hat p_c=\sum_h\frac{N_h}{N}\left(\frac{1}{n_h}\sum_{i\in h}\mathbb{1}[y_i=c]\right).
+\end{equation}
+We retain inaccessible or invalid records in the denominator. Our estimand is the finite-frame share \emph{assigned} to each class by the judge, not the unknown share of correct human interpretations. The conventional worst-case 95\% margin with finite population correction is approximately 5.0 percentage points for an overall proportion near 0.5 under reference-level sampling. Table~\ref{tab:dist} gives approximate weighted Wilson intervals using the effective sample size; these describe sampling variation in model-assigned shares. Neither the margin nor the intervals includes model-label error or frame error. They are not simultaneous guarantees for all eight classes.
+
+\section{Results}
+All 382 cases have one valid classification and a complete case trace. The judge attempted to read the reference-commit artifact for every case: 348 reads found it, 32 reported an unavailable commit, and two did not find the artifact at that commit. It made 1,007 repository-tool calls and five web searches. No prohibited label fields appeared in the starting records. One malformed response was rerun once without changing the frozen configuration. Two sampled references overlap the 90-case Gold benchmark and remain in the probability estimate; excluding them changes each reported share by less than 0.2 percentage points.
 
 \begin{table}[t]
-\caption{The \textsc{SpecPath} Reference Lifecycle Taxonomy}
-\label{tab:taxonomy}
-\centering
-\scriptsize
-\begin{tabular}{lp{5.4cm}}
+\caption{LLM-assigned classes among 51,979 mechanically absent references. Weighted estimates and approximate 95\% intervals describe sampling variation, not label error.}
+\label{tab:dist}
+\centering\scriptsize
+\begin{tabular}{p{3.35cm}rr}
 \toprule
-\textbf{Category} & \textbf{Operational Definition \& Corpus Semantics} \\
+\textbf{Interpretation} & \textbf{Cases} & \textbf{Estimate [95\% interval]}\\
 \midrule
-\texttt{create} & \textbf{Expected Creation:} Path is intended to be newly created by the task (anticipatory reference). \\
-\texttt{exists} & \textbf{Resolved / Exists:} File was created during task execution or resolved at a slightly displaced anchor. \\
-\texttt{move\_delete} & \textbf{Move or Deletion:} Intentional deprecation, deletion, or renaming of a legacy file. \\
-\texttt{non\_file} & \textbf{Syntactic Artifact:} CLI commands, package scopes (e.g., \texttt{@org/pkg}), or URL fragments erroneously matched as file paths. \\
-\texttt{problematic} & \textbf{Confirmed Friction:} Path was expected to exist as contextual dependency or target, but was missing/broken. \\
-\texttt{external} & \textbf{External Dependency:} Reference points to an external sub-repo, monorepo sibling, or system path. \\
-\texttt{ambiguous} & \textbf{Inaccessible / Unverifiable:} Context is insufficient to establish ground truth deterministically. \\
+Expected creation & 131 & 34.3\% [29.7, 39.2]\\
+Expected move or deletion & 71 & 18.6\% [15.0, 22.8]\\
+Non-file reference & 72 & 18.8\% [15.2, 23.1]\\
+External repository & 32 & 8.4\% [6.0, 11.6]\\
+Inaccessible or invalid & 50 & 13.1\% [10.1, 16.8]\\
+Confirmed problematic absence & 13 & 3.4\% [2.0, 5.7]\\
+Confirmed exists after resolution & 13 & 3.4\% [2.0, 5.7]\\
+Ambiguous & 0 & 0.0\% [0.0, 1.0]\\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\subsection{Human Gold Standard (N=90)}
-We constructed an unassailable baseline by sampling $N=90$ unresolved references across 90 distinct repositories in SpecMine. Two independent human annotators manually inspected each repository's full git tree, active commit, parent history, and surrounding Markdown context in \texttt{tasks.md}. Disagreements were adjudicated via consensus review. True specification friction accounted for only 2.22\% ($N=2$) of the sample.
+Expected creation or move/removal accounts for 52.9\% of weighted model assignments (exploratory design-based 95\% interval [47.9, 57.9]); even for model labels, a strict majority is not established. Scope or non-file interpretations account for 27.2\%. Creation exceeds each of the next two classes by about 15.5 percentage points; exploratory design-based difference intervals are [8.5, 22.5] points versus non-file and [8.8, 22.7] versus move/removal. Non-file and move/removal differ by only 0.3 points (interval [-5.9, 6.4]); their ordering is unresolved by sampling. Only 13 cases received a problematic label (3.4\% weighted), and 13.1\% were inaccessible/invalid. The two missed problematic Gold cases make this rare-class share especially uncertain; neither the share nor its sampling interval establishes the true problematic rate. Among the 332 semantically classifiable cases, creation accounts for 39.5\%, a conditional result that excludes unavailable evidence.
 
-\subsection{Calibrated LLM-as-a-Judge}
-We developed a deterministic 5-step prompt tree (anchor verification, lexical intent, syntax validation, inaccessibility isolation, and path adjudication) using Gemini 3.8 Flash. Validated blindly against the 90 human Gold Standard cases (Fig.~\ref{fig:fig1_matrix}), the judge achieved \textbf{93.3\% exact overall agreement} (84/90), Cohen's $\kappa = 0.9069$~\cite{cohen1960} (``Almost Perfect'' agreement), and Gwet's $\text{AC}_1 = 0.9257$~\cite{gwet2008}. Most importantly for safety-critical triage, the judge attained \textbf{100.0\% Recall} on true friction, identifying both real-world defects with zero false negatives.
+The judge assigned creation to 64/130 open cases (49.2\%) and 67/252 completed cases (26.6\%): a 22.6-point open-minus-completed difference (exploratory design-based interval [12.5, 32.8]). It assigned move/removal to 11.5\% and 22.2\%, respectively (difference -10.7 points; interval [-18.2, -3.2]). These unadjusted contrasts concern model labels and sampling variation only; they neither observe transitions nor establish an effect of task status.
 
-\begin{figure}[t]
-\centering
-\includegraphics[width=0.90\linewidth]{figures/fig1_gold_validation_matrix.pdf}
-\caption{Gold Standard agreement: Human Reviewer vs. Calibrated Gemini 3.8 Flash Judge ($N=90$, Exact Agreement = 93.3\%, Cohen's $\kappa = 0.907$).}
-\label{fig:fig1_matrix}
-\end{figure}
+\section{Discussion and Implications}
+The answer to our question is conditional: absence establishes that a literal path was not found by a particular resolver at a particular commit. It does not by itself identify a defect, a hallucinated file, abandoned work, or successful later implementation. The ordered tree supplies the additional evidence needed to make narrower conclusions. For a repository tool, a missing-path alert should prompt commit-aligned checks of object type, scope, and task intent before claiming a defect. The F001/F061 contrast illustrates why treating every missing path alike would misrepresent both planned work and assumed existing dependencies.
 
-\subsection{Silver Standard Sampling with Inverse Weights}
-To scale annotations to a training corpus without incurring high API latency, we drew a disproportional stratified sample of $N=450$ references across 450 unique repositories, enforcing zero overlap with the Gold Standard:
-\begin{itemize}
-    \item Group A ($N=175$): \texttt{task\_done = 1} \& \texttt{missing} ($w_i = 0.2516$)
-    \item Group B ($N=100$): \texttt{task\_done = 0} \& \texttt{missing} ($w_i = 0.2284$)
-    \item Group C ($N=175$): \texttt{task\_done = 1} \& \texttt{exists} ($w_i = 2.1893$)
-\end{itemize}
-Sampling weights ($w_i = P_{\text{population}} / P_{\text{sample}}$) were assigned to each stratum to guarantee asymptotically unbiased population estimators. The calibrated LLM judge labeled these 450 instances, forming our Silver Standard training set.
-
-\subsection{Feature Extraction \& Supervised Modeling}
-For each task reference, we extracted 26 tabular features across path morphology, lexical action verbs, document structure, and artifact metadata. Using scikit-learn~\cite{scikitlearn}, we trained supervised classifiers on the weighted Silver Standard ($N=450$) and evaluated them strictly on the \textbf{held-out Human Gold Standard ($N=90$)}. 
-
-\begin{table}[t]
-\caption{Model Performance on Held-Out Human Gold Test Set ($N=90$)}
-\label{tab:models}
-\centering
-\resizebox{\columnwidth}{!}{%
-\begin{tabular}{lcccc}
-\toprule
-\textbf{Model} & \textbf{ROC-AUC} & \textbf{PR-AUC} & \textbf{Recall ($\tau \le 0.20$)} & \textbf{Specificity} \\
-\midrule
-Random Forest & \textbf{0.8182} & \textbf{0.0833} & \textbf{100.0\%} & \textbf{97.7\%} \\
-Logistic Regression & 0.7670 & 0.0526 & 100.0\% & 96.6\% \\
-HistGradientBoosting & 0.7386 & 0.0455 & 100.0\% & 95.5\% \\
-\bottomrule
-\end{tabular}%
-}
-\end{table}
-
-\begin{figure}[t]
-\centering
-\includegraphics[width=\linewidth]{figures/fig2_model_roc_pr_curves.pdf}
-\caption{Predictive performance curves on the Human Gold Test Set ($N=90$): (a) ROC Curves, and (b) Precision-Recall Curves demonstrating 100\% friction recall at calibrated threshold $\tau \le 0.20$.}
-\label{fig:fig2_roc_pr}
-\end{figure}
-
-As shown in Table~\ref{tab:models} and Fig.~\ref{fig:fig2_roc_pr}, the Random Forest classifier achieved the highest discriminative power ($\text{ROC-AUC} = 0.8182$). Calibrating the decision threshold to $\tau \le 0.20$ achieves \textbf{100.0\% Recall} on human-confirmed friction while maintaining 97.7\% Specificity. Because the student model was tested directly against human annotations rather than LLM labels, this confirms that our predictive pipeline breaks the circularity of teacher bias.
-
-\section{RQ1: Empirical Decomposition of Unresolved References}
-\label{sec:rq1}
-
-We applied our calibrated model to execute inference across all \textbf{51,979 unresolved references} in SpecMine (4,444 distinct repositories). The complete inference completed in \textbf{2.36 seconds} ($\approx 22,000$ references/sec).
-
-\begin{table}[t]
-\caption{Corpus-Wide Lifecycle Distribution in SpecMine ($N=51,979$)}
-\label{tab:corpus_dist}
-\centering
-\resizebox{\columnwidth}{!}{%
-\begin{tabular}{lrrr}
-\toprule
-\textbf{Lifecycle Stage} & \textbf{Corpus Count} & \textbf{Corpus Share} & \textbf{Open Tasks ($N=17,752$)} \\
-\midrule
-\texttt{create} (Anticipatory) & 16,945 & 32.60\% & \textbf{63.1\%} \\
-\texttt{exists} (Resolved) & 15,381 & 29.59\% & 2.1\% \\
-\texttt{move\_delete} & 7,088 & 13.64\% & 6.4\% \\
-\texttt{non\_file} & 6,870 & 13.22\% & 10.1\% \\
-\texttt{ambiguous} & 2,860 & 5.50\% & 5.7\% \\
-\texttt{external\_repo} & 1,569 & 3.02\% & 8.4\% \\
-\textbf{\texttt{problematic} (Friction)} & \textbf{1,266} & \textbf{2.44\%} & \textbf{4.2\%} \\
-\bottomrule
-\end{tabular}%
-}
-\end{table}
-
-\begin{figure}[t]
-\centering
-\includegraphics[width=\linewidth]{figures/fig4_corpus_lifecycle_distribution.pdf}
-\caption{Corpus-wide decomposition of unresolved references in SpecMine by task completion status ($N=51,979$ across 4,444 repositories).}
-\label{fig:fig4_corpus_bars}
-\end{figure}
-
-Table~\ref{tab:corpus_dist} and Fig.~\ref{fig:fig4_corpus_bars} present the empirical reality behind unresolved references, addressing RQ1.
-
-\subsection{The Illusion of Specification Breakdown}
-Across the entire SpecMine corpus, only \textbf{2.44\%} of unresolved references (1,266 instances) represent confirmed specification-code friction. Nearly two-thirds of missing references reflect healthy software evolution: 32.60\% are planned creations and 29.59\% are subsequently resolved in the codebase. Thus, static absence at the anchoring commit is primarily a manifestation of specification-first development rather than defective execution or agent hallucination.
-
-\subsection{The Temporal Lifecycle Shift}
-Disaggregating references by task completion state (\texttt{task\_done}) uncovers a striking temporal transition:
-\begin{itemize}
-    \item \textbf{In Open Tasks (\texttt{task\_done = 0}, $N=17,752$):} \textbf{63.1\%} of unresolved references are anticipatory file creations (\texttt{create}). Agents and developers name files that do not yet exist because the task has not yet been executed.
-    \item \textbf{In Completed Tasks (\texttt{task\_done = 1}, $N=34,227$):} Anticipatory creations drop to 16.8\%, while resolved references surge to \textbf{43.8\%}. Crucially, residual friction drops to a negligible \textbf{1.5\%}. The remaining creations in completed tasks predominantly reflect consolidated files, partial deliveries, or module-path displacements rather than active code breakage.
-\end{itemize}
-This temporal transition demonstrates that as tasks move from proposal to execution, the codebase catches up with the specification, resolving the vast majority of temporary ghost references.
-
-\section{RQ2: Structural Task Attributes \& Explainability}
-\label{sec:rq2}
-
-To address RQ2, we examine which structural, lexical, and contextual attributes predict true friction, drawing on the Random Forest feature importances (Fig.~\ref{fig:fig3_features}) and domain-level error rates (Fig.~\ref{fig:fig5_domains}).
-
-\begin{figure}[t]
-\centering
-\includegraphics[width=0.92\linewidth]{figures/fig3_feature_importance.pdf}
-\caption{Top 12 most informative features for reference lifecycle prediction (Random Forest Classifier, Mean Gini Importance).}
-\label{fig:fig3_features}
-\end{figure}
-
-\subsection{Path Morphology and Complexity}
-Path character length (\texttt{path\_length}, 11.1\%) and basename character length (\texttt{path\_basename\_length}, 11.0\%) are the two most informative features in the model, together accounting for \textbf{22.1\% of total Gini importance}. Directory slash depth (\texttt{path\_depth}, 6.2\%) also ranks among the top predictors. 
-
-\textit{Insight:} Problematic references are characterized by either excessively long, deeply nested paths (where agents over-specify directory hierarchies that do not match project conventions) or overly generic basenames lacking directory context. When agents construct specifications for unfamiliar codebases, path hallucination increases with structural nesting.
-
-\subsection{Document Structure \& Task Position Depth}
-Task position ratio within the document (\texttt{task\_pos\_ratio}, 9.8\%) and total task line word count (\texttt{task\_line\_word\_count}, 9.6\%) represent decisive contextual predictors:
-\begin{itemize}
-    \item \textbf{Position Depth:} Tasks located near the end of long \texttt{tasks.md} files exhibit significantly higher friction rates than initial tasks. This empirical finding provides quantitative support for observations in recent literature~\cite{meske2025} that agent attention degrades across extended specification contexts.
-    \item \textbf{Reference Density:} Artifact code reference density (\texttt{artifact\_code\_ref\_density}, 10.8\%) reveals that specifications containing a high concentration of file references per line suffer increased friction, reflecting over-ambitious changesets.
-\end{itemize}
-
-\subsection{Lexical Action Verbs}
-The presence of explicit action verbs provides critical signals distinguishing intentional lifecycle actions from drift:
-\begin{itemize}
-    \item \textbf{Deletion/Move Verbs (\texttt{verb\_delete}, 7.9\%):} Explicit keywords such as \texttt{delete}, \texttt{remove}, or \texttt{deprecate} clearly signal that the absence of a file is intentional, eliminating false-positive friction alarms.
-    \item \textbf{Creation Verbs (\texttt{verb\_create}, 3.7\%):} Verbs such as \texttt{create}, \texttt{add}, and \texttt{scaffold} robustly correlate with benign anticipatory absence.
-    \item \textbf{Intent Balance (\texttt{verb\_balance}, 4.6\%):} Tasks with ambiguous action verbs (e.g., \texttt{handle}, \texttt{check}) exhibit the highest probability of confirmed friction, as underspecified actions often mask broken assumptions.
-\end{itemize}
-
-\begin{figure}[t]
-\centering
-\includegraphics[width=\linewidth]{figures/fig5_extension_and_test_friction.pdf}
-\caption{Calibrated friction breakdown: (a) Top 10 file extensions, and (b) Domain comparison between test specifications and production source code.}
-\label{fig:fig5_domains}
-\end{figure}
-
-\subsection{Domain Disparity: Test-Specification Brittleness}
-Analyzing calibrated friction rates across extensions and code domains highlights a fundamental vulnerability in SDD workflows (Fig.~\ref{fig:fig5_domains}).
-
-\textbf{Test vs. Production Code:} References pointing to test files (\texttt{.test.}, \texttt{.spec.}, \texttt{\_test.}) exhibit a friction rate of \textbf{50.94\%} ($N=7,917$), compared to \textbf{35.93\%} for production source code files ($N=33,266$). 
-
-\textit{Insight:} In spec-driven workflows, coding agents frequently prescribe test harnesses, mock fixtures, and speculative unit test paths that are never created or diverge from actual test runners. Test specifications represent the most fragile link in the SDD chain.
-
-\section{Practical Implications}
-
-\subsection{For SDD Tool Builders}
-Current SDD tools (OpenSpec, Spec Kit, Kiro) treat reference existence as a naive binary check (\texttt{exists\_at\_anchor}). This creates severe alert fatigue for developers. Tool makers should:
-\begin{enumerate}
-    \item \textbf{Incorporate Lifecycle-Aware Linters:} Recognize action verbs (\texttt{create}, \texttt{scaffold}) to classify anticipatory references as expected rather than raising broken-path errors.
-    \item \textbf{Guard Test Paths:} Require pre-flight verification for test paths, where 50.9\% of friction concentrates.
-\end{enumerate}
-
-\subsection{For Practitioners (Zero-Token Pre-Commit Linters)}
-Instead of relying on expensive LLM calls to audit task lists, developer harnesses can integrate our trained Random Forest model. Operating at 22,000 references/sec, the model evaluates path morphology, task verbs, and document position locally, flagging genuine friction ($\tau \le 0.20$) before agent delegation.
-
-\section{Ethical Implications}
-Our study analyzes public open-source repositories from the SpecMine corpus (archived on Zenodo under CC BY 4.0). We do not collect or expose Personally Identifiable Information (PII) or author emails. By replacing brute-force LLM inference with a fast tabular classifier, our methodology drastically minimizes the energy and carbon footprint of large-scale specification analysis.
+The released Silver is useful for future studies because each sampled reference carries its selection weight, source identifiers, model-assigned class, rationale, and investigative trace. It is an auditable measurement output, not 382 human-confirmed labels. The frozen Gold documents the two-reviewer consensus and pre-comparison methodological corrections. For scale, moving ten weighted-near-equal sample cases into or out of one class would change its estimated share by about 2.6 percentage points; this illustrative perturbation is not an error bound. The broad observation that literal absence has several plausible meanings is supported by the tree and human cases, while the exact class shares depend on the judge's unmeasured error. Future work can audit a fresh probability subset and investigate rare classes or later implementation.
 
 \section{Threats to Validity}
-\textbf{Internal Validity:} Human annotation of Gold Standard cases carries potential subjectivity. We mitigated this by requiring two independent raters and validating every decision against the repository's git commit graph ($\kappa = 0.907$).
-\textbf{Construct Validity:} Tabular features rely on regex extraction of action verbs and path tokens. While lexical variations exist across natural languages, over 99\% of OpenSpec artifacts in SpecMine are written in English. Furthermore, one could argue that an unresolved creation path in a completed task (\texttt{task\_done = 1}) represents an unfulfilled promise. We deliberately operationalize \texttt{problematic} as active code and dependency friction (consuming or mutating non-existent files) rather than task-conformance debt: such paths do not break existing builds or mutate phantom files, and in 43.8\% of cases are merely displaced or path-normalized in subsequent commits.
-\textbf{External Validity:} Our corpus analysis focused on OpenSpec due to its explicit \texttt{tasks.md} resolution layer. While specific tool syntax varies, the anticipatory creation lifecycle is intrinsic to all spec-driven development methodologies.
+\emph{Measurement:} The 90-case benchmark was deliberately balanced and contains only three problematic Gold cases, limiting conclusions about class-specific performance. Later model-informed human decisions were excluded. No independent human audit of the population sample was conducted, so the 86/90 benchmark agreement does not quantify Silver-label error. The 50 inaccessible/invalid Silver cases may hide a different class mix. Evidence available to the judge may also differ from what humans saw, despite commit anchoring.
 
-\section{Conclusion \& Data Availability}
-In this mining challenge paper, we resolved the ``ghost reference'' puzzle in SpecMine:
-\begin{itemize}
-    \item \textbf{RQ1:} Unresolved task references are not evidence of widespread breakdown; 63.1\% in open tasks are planned anticipatory creations, while true friction is rare (2.44\%).
-    \item \textbf{RQ2:} Path length, basename size, and document depth are the primary structural predictors of friction, with test specifications exhibiting the highest volatility (50.9\%).
-\end{itemize}
+\emph{Sampling and inference:} The frame inherits SpecMine's extraction and path-resolution choices. References are the randomly selected units, so the reported intervals target finite-frame reference shares; they do not support repository-level or future-corpus inference. The nested selection preserves the pre-evidence random ranking, but any frame omissions remain outside our estimand. Approximate intervals and exploratory contrasts exclude model error; the contrast intervals are not adjusted for multiple comparisons. Class-specific margins are wider or unstable for rare outcomes. The 90-case Gold was deliberately balanced across task/existence groups and does not estimate prevalence.
 
-\textbf{Replication Package:} All scripts, models, datasets, and figures are archived and available at our anonymous replication repository: \url{https://anonymous.4open.science/r/specpath-challenge-2027}.
+\emph{Interpretation:} Task wording and repository evidence support an intent-based classification at one commit. They cannot establish downstream delivery, developer intent beyond recorded artifacts, or causality. Findings apply to OpenSpec references in this SpecMine release; transfer to other specification systems needs study.
 
-\balance
+\section{Ethical Implications}
+The analysis uses public repository material while preserving source attribution and commit provenance. Personal identifiers are not study variables; the review archive replaces incidental email-like strings and user-home path segments with documented placeholders. Automated labels can be wrong, especially for rare classes, so the dataset should support research and review rather than judgments about developer quality.
+
+\section{Conclusion and Data Availability}
+In the probability sample, the judge most often classified literally absent OpenSpec paths as planned creation. Non-file and move/removal assignments were similarly frequent, while creation assignments were more frequent for open than completed tasks. The true population distribution, particularly problematic absence, remains sensitive to unmeasured classification error. We contribute an explicit decision procedure, a frozen human Gold, and a probability-sampled model Silver dataset with case-level provenance. An anonymous artifact link will be added after the release package passes double-anonymous checks.
+
 \bibliographystyle{IEEEtran}
 \bibliography{references}
-
 \end{document}

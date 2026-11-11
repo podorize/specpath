@@ -1,0 +1,50 @@
+{
+  "status": "agentic_development_run",
+  "created_at_utc": "2026-11-05T13:42:02.742417+00:00",
+  "records": 90,
+  "development_data": true,
+  "starting_information": "same_label_free_columns_as_human_reviewers",
+  "model_configuration": {
+    "model": "gpt-6.1-sol",
+    "endpoint": "/v1/responses",
+    "reasoning": {
+      "effort": "low",
+      "mode": "standard"
+    },
+    "text_verbosity": "low",
+    "max_output_tokens": 3000,
+    "max_tool_calls_per_api_response": 40,
+    "max_tool_calls_per_case": 50,
+    "store": false,
+    "github_web_search": true
+  },
+  "repository_access": {
+    "main_repository": "read-only exact anchor commit",
+    "history": "anchor and ancestors only",
+    "web": "GitHub domains; current content discovery-only",
+    "git_cache": "outputs/openai_sol_90_v3/git_cache"
+  },
+  "excluded": [
+    "access_issue",
+    "adjudication_rationale",
+    "classification",
+    "evidence_note",
+    "exists_at_anchor",
+    "gemini_classification",
+    "gold_human_classification",
+    "manual_classification",
+    "r1_initial_classification",
+    "r2_initial_classification",
+    "reviewer_id"
+  ],
+  "files": {
+    "data/interim/validation_final_90_en.csv": "de1218f68b297831bbe1afb92341c5179014f99c4c2ea49ff79925c3607fc2b2",
+    "validation/LLM_JUDGE_PROMPT_FINAL_90_OPENAI_AGENTIC_V2.md": "4089bcb23c2e2fd7c6a56e09cc32aeedfa02ddae3af616ef12d6e7744ac773d3",
+    "validation/OPENAI_SOL_90_AGENTIC_V2_PROTOCOL.md": "f482423229333c167f16a9abf9644ca631d347f0404579d79a6a11a1993550b1",
+    "validation/llm_judge_output_schema_openai_agentic.json": "0f3cbc9b06b46fc7d854ed7f5f33a2f09a9bf6d1a313adc5ade46d06d6ade8ad",
+    "src/run_openai_sol_90_agentic.py": "96688c21069e142769312a07b8be93b9a4d2cfa665f0766ad675e9b776ebf39d",
+    "src/run_openai_sol_90_agentic_v2.py": "740710fb129970ecaedbd14eed0b3a27009c3286f295939794350cdf688b28eb"
+  },
+  "output_directory": "outputs/openai_sol_90_agentic_v2",
+  "version": "agentic_v2_tree_aligned_temporal_invalidity"
+}

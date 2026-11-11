@@ -1,0 +1,15 @@
+sampling_stratum,classification,sample_count,stratum_n,sample_proportion_within_stratum
+completed_missing,confirmed_exists,10,252,0.03968253968253968
+completed_missing,confirmed_missing_problematic,9,252,0.03571428571428571
+completed_missing,expected_absence_create,67,252,0.26587301587301587
+completed_missing,expected_absence_move_or_delete,56,252,0.2222222222222222
+completed_missing,external_repository_reference,25,252,0.0992063492063492
+completed_missing,inaccessible_or_invalid,31,252,0.12301587301587301
+completed_missing,non_file_reference,54,252,0.21428571428571427
+open_missing,confirmed_exists,3,130,0.023076923076923078
+open_missing,confirmed_missing_problematic,4,130,0.03076923076923077
+open_missing,expected_absence_create,64,130,0.49230769230769234
+open_missing,expected_absence_move_or_delete,15,130,0.11538461538461539
+open_missing,external_repository_reference,7,130,0.05384615384615385
+open_missing,inaccessible_or_invalid,19,130,0.14615384615384616
+open_missing,non_file_reference,18,130,0.13846153846153847

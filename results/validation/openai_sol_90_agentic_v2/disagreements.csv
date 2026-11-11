@@ -1,0 +1,201 @@
+review_id,repo_name,anchor_sha,artifact_path,code_path,resolved_path,task_url,literal_path_url,anchor_path,anchor_path_url,task_context,r1_initial_classification,r1_evidence_note,r2_initial_classification,r2_evidence_note,gold_human_classification,gold_decision_source,adjudication_rationale,decision_makers,review_process,unresolved_issue,r1_access_issue,r2_access_issue,validation_group,exists_at_anchor,agentic_classification,completed_at_utc,confidence,decision,evidence_quote,model,rationale,rounds,tool_calls,input_tokens,output_tokens,total_tokens,tool_names_json,evidence_paths_json,missing_evidence_json,agentic_matches_gold,gold_decision,decision_matches_gold
+F025,barbiepenafiel/Pharmacy,9c30f81b33050ac0a79e750808f64c8af7ea7642,openspec/changes/fix-product-fetching-and-connectivity/tasks.md,src/lib/prisma.ts,,https://github.com/barbiepenafiel/Pharmacy/blob/9c30f81b33050ac0a79e750808f64c8af7ea7642/openspec/changes/fix-product-fetching-and-connectivity/tasks.md,https://github.com/barbiepenafiel/Pharmacy/blob/9c30f81b33050ac0a79e750808f64c8af7ea7642/src/lib/prisma.ts,src/lib/prisma.ts,https://github.com/barbiepenafiel/Pharmacy/blob/9c30f81b33050ac0a79e750808f64c8af7ea7642/src/lib/prisma.ts,"## 1. Backend Database Connection Fix
+- [x] 1.1 Update `prisma/schema.prisma` to add connection pool settings for Neon
+- [x] 1.2 Modify `src/lib/prisma.ts` to add proper error handling and connection validation
+- [x] 1.3 Add database health check on server startup
+- [x] 1.4 Test database connection with Neon PostgreSQL
+- [x] 1.5 Verify Prisma Client generation with correct SSL configuration
+
+## 2. Backend API Enhancements
+- [x] 2.1 Add health check endpoint `/api/health` that tests database connectivity
+- [x] 2.2 Enhance error responses in `/api/products/route.ts` with specific error codes
+- [ ] 2.3 Add request logging middleware for debugging
+- [x] 2.4 Add CORS headers for external access (removed for now due to Next.js 16 proxy deprecation)
+- [ ] 2.5 Test products API endpoint returns data successfully
+
+## 3. Backend Network Configuration
+- [x] 3.1 Verify `package.json` dev script uses `-H 0.0.0.0` flag
+- [x] 3.2 Add environment variable validation on server startup
+- [x] 3.3 Document required environment variables in README
+- [ ] 3.4 Test backend accessibility from external devices on same network
+
+## 4. Flutter App Configuration Updates
+- [x] 4.1 Update `lib/config/app_config.dart` with environment-based backend URLs
+- [x] 4.2 Add backend URL selection mechanism (local/ngrok/production)
+- [x] 4.3 Update `lib/services/auth_service.dart` to use centralized config
+- [x] 4.4 Remove hardcoded IP addresses from all screen files
+
+## 5. Flutter HTTP Client Improvements
+- [x] 5.1 Add retry logic with exponential backoff in product fetching
+- [x] 5.2 Increase timeout from 5s to 10s for better reliability
+- [x] 5.3 Add detailed error messages for different failure scenarios
+- [x] 5.4 Implement connection status indicator in UI
+- [ ] 5.5 Add offline mode detection and user feedback
+
+## 6. Testing & Validation
+- [ ] 6.1 Test product fetching with backend on local network
+- [ ] 6.2 Test product fetching with ngrok tunnel
+- [ ] 6.3 Test product fetching when device is not plugged in/debugging
+- [ ] 6.4 Verify error messages are user-friendly
+- [ ] 6.5 Test with poor network conditions (airplane mode, slow connection)
+- [ ] 6.6 Verify database connection pool behavior under load
+
+## 7. Documentation
+- [x] 7.1 Update README with backend URL configuration instructions
+- [x] 7.2 Document ngrok setup for external testing
+- [x] 7.3 Add troubleshooting guide for common connection issues
+- [x] 7.4 Document production deployment checklist
+",external_repository_reference,"O caminho `src/lib/prisma.ts` pertence ao repositório backend Next.js da aplicação, enquanto este repositório contém apenas o cliente móvel Flutter.",external_repository_reference,"The Pharmacy repository contains the Flutter application. src/lib/prisma.ts belongs to the separately scoped backend/Prisma work, not the Flutter application repository. This is an external project/repository reference rather than a missing file in Pharmacy.",confirmed_missing_problematic,human_methodological_review_2026-11-04,No affirmative external-repository evidence; the anchor README describes the backend path as local.,human reviewers + study lead methodological confirmation,post-provenance methodological review; model outputs were not decision criteria,,,,completed + missing,0,expected_absence_move_or_delete,2026-11-05T13:43:14.456684+00:00,0.99,classify,"- [x] 1.2 Modify `src/lib/prisma.ts` to add proper error handling and connection validation
+- `backend/src/lib/prisma.ts` - Database connection configuration
+- Remove database connection code (`backend/src/lib/prisma.ts`)",gpt-6.1-sol,"The occurrence is verified at the anchor. Its proposal resolves the reference under backend/. Neither path exists, and the anchor's Firebase migration explicitly removes this exact file and the entire backend directory, explaining its absence.",9,12,85406,594,86000,"[""read_file"", ""read_file"", ""search_paths"", ""list_tree"", ""search_content"", ""path_history"", ""read_file"", ""search_content"", ""read_file"", ""search_content"", ""read_file"", ""read_file""]","[""openspec/changes/fix-product-fetching-and-connectivity/tasks.md"", ""openspec/changes/fix-product-fetching-and-connectivity/proposal.md"", ""openspec/changes/migrate-to-firebase-realtime-db/proposal.md""]",[],False,classify,True
+F033,Benni-Math/ormstunga,43ef92205fd9755db7d19835c0bb3d47dde8a37a,openspec/changes/archive/2026-04-02-http-api-server/tasks.md,src/cli.ts,,https://github.com/Benni-Math/ormstunga/blob/43ef92205fd9755db7d19835c0bb3d47dde8a37a/openspec/changes/archive/2026-04-02-http-api-server/tasks.md,https://github.com/Benni-Math/ormstunga/blob/43ef92205fd9755db7d19835c0bb3d47dde8a37a/src/cli.ts,src/cli.ts,https://github.com/Benni-Math/ormstunga/blob/43ef92205fd9755db7d19835c0bb3d47dde8a37a/src/cli.ts,"## 1. Dependencies and Project Structure
+
+- [ ] 1.1 Add `hono` dependency to `package.json`; create `src/api/` directory structure (`server.ts`, `proxy.ts`, `projects.ts`, `config.ts`, `middleware.ts`, `format.ts`, `index.ts`)
+- [ ] 1.2 Define `ApiConfig` type in `src/api/config.ts`: `port` (default 7433), `host` (default ""localhost""), `project_dirs` (string[]), `api_key` (optional string), `max_tool_iterations` (default 10)
+- [ ] 1.3 Implement `loadApiConfig()` in `src/api/config.ts`: parse `[api]` section from `~/.dorian/config.toml`, apply defaults
+
+## 2. HTTP Server Foundation
+
+- [ ] 2.1 Implement Hono app setup in `src/api/server.ts`: create app, bind to `Bun.serve()`, export `startApiServer(config: ApiConfig)` that returns the server instance
+- [ ] 2.2 Add `GET /health` route returning `{ ""status"": ""ok"" }` with status 200
+- [ ] 2.3 Add CORS middleware in `src/api/middleware.ts`: handle OPTIONS preflight, add `Access-Control-Allow-Origin: *` and related headers to all responses
+- [ ] 2.4 Add bearer token auth middleware in `src/api/middleware.ts`: check `Authorization: Bearer <token>` against `config.api_key`, skip for `/health`, return 401 with OpenAI error format on failure
+- [ ] 2.5 Implement graceful shutdown: handle SIGINT/SIGTERM, stop accepting requests, wait for in-progress requests, exit 0
+- [ ] 2.6 Add error handling middleware: catch unhandled errors, return OpenAI-format error responses (status 500, `{ ""error"": { ""message"": ""..."", ""type"": ""server_error"" } }`)
+
+## 3. Models Endpoint
+
+- [ ] 3.1 Add `GET /v1/models` route: query configured providers from ModelRouter, return OpenAI-format models list with `id`, `object: ""model""`, `created`, `owned_by`
+
+## 4. OpenAI Format Conversion
+
+- [ ] 4.1 Implement `parseOpenAIMessages()` in `src/api/format.ts`: convert OpenAI message format to internal `Message[]` type
+- [ ] 4.2 Implement `formatOpenAIResponse()` in `src/api/format.ts`: convert `GenerateResult` to OpenAI chat completion response with `id`, `object`, `created`, `model`, `choices`, `usage`
+- [ ] 4.3 Implement `formatOpenAIError()` in `src/api/format.ts`: create OpenAI-format error responses with `message` and `type`
+- [ ] 4.4 Implement `convertRegistryToolsToAdapterFormat()` in `src/api/format.ts`: convert ToolRegistry `ToolDefinition` (with `inputSchema`) to adapter `ToolDefinition` (with `parameters`)
+
+## 5. Project Discovery
+
+- [ ] 5.1 Implement `scanProjectDirs()` in `src/api/projects.ts`: scan configured directories one level deep for `book.toml` or `DORIAN.md`, return project metadata (path, title, last modified)
+- [ ] 5.2 Implement `validateProjectPath()` in `src/api/projects.ts`: resolve path, check it is within a configured `project_dirs` entry, reject path traversal attempts
+- [ ] 5.3 Implement `dorian_list_projects` tool handler: call `scanProjectDirs()`, format results as `ToolResult`
+- [ ] 5.4 Implement `dorian_select_project` tool handler: validate path, load project context via `loadProjectContext()`, return project details
+- [ ] 5.5 Register `dorian_list_projects` and `dorian_select_project` in the ToolRegistry (via `createDefaultRegistry()` or as add-ons for the API server)
+
+## 6. LLM Proxy with Tool-Call Loop
+
+- [ ] 6.1 Implement `buildSystemPrompt()` in `src/api/proxy.ts`: construct system prompt with dorian role description, available tools, and optional project context
+- [ ] 6.2 Implement `executeToolCallLoop()` in `src/api/proxy.ts`: the core loop — call `generateWithTools()`, check for tool calls, execute via ToolRegistry, append results, repeat until text or max iterations
+- [ ] 6.3 Handle tool execution errors within the loop: include error as tool result message, let LLM continue
+- [ ] 6.4 Handle unknown tool requests: return error message as tool result
+- [ ] 6.5 Track cumulative token usage across all loop iterations
+- [ ] 6.6 Implement max iteration guard: stop loop at configured limit, return last available text or limit-reached message with `finish_reason: ""length""`
+
+## 7. Chat Completions Endpoint
+
+- [ ] 7.1 Add `POST /v1/chat/completions` route: validate request body (model required, messages non-empty, stream not true), return 400 on validation failure
+- [ ] 7.2 Wire route handler to proxy: parse messages, resolve model, build system prompt, call `executeToolCallLoop()`, format and return response
+- [ ] 7.3 Handle LLM adapter errors: catch adapter exceptions, return 500 with OpenAI error format
+
+## 8. CLI Command
+
+- [ ] 8.1 Add `dorian serve` command in `src/commands/serve.ts`: accept `--port`, `--host`, `--project-dir` flags, merge with config, call `startApiServer()`
+- [ ] 8.2 Register `serve` command in `src/cli.ts`
+
+## 9. Tests
+
+- [ ] 9.1 Write unit tests for `src/api/config.ts`: parse valid config, defaults, missing section, CLI flag overrides
+- [ ] 9.2 Write unit tests for `src/api/format.ts`: message parsing, response formatting, error formatting, tool definition conversion
+- [ ] 9.3 Write unit tests for `src/api/middleware.ts`: auth with valid/invalid/missing token, auth disabled, health bypass, CORS headers
+- [ ] 9.4 Write unit tests for `src/api/projects.ts`: scan directories, validate paths, path traversal rejection, missing directories
+- [ ] 9.5 Write unit tests for `src/api/proxy.ts`: tool-call loop with mock adapter (no tools, single tool, multi-tool, chain, max iterations, error handling, unknown tool, usage accumulation)
+- [ ] 9.6 Write unit tests for `src/api/server.ts`: health endpoint, models endpoint, completions with mock proxy
+- [ ] 9.7 Write unit tests for project tools: `dorian_list_projects` handler, `dorian_select_project` handler
+- [ ] 9.8 Write E2E test for `dorian serve`: spawn server, send health check, send chat completion with mock adapter, verify response format
+
+## 10. Integration and Verification
+
+- [ ] 10.1 `task test` — all tests pass (existing + new)
+- [ ] 10.2 `task typecheck` — zero TypeScript errors
+- [ ] 10.3 `task lint` — no lint errors
+- [ ] 10.4 `task test:coverage` — 80%+ line coverage on `src/api/`
+- [ ] 10.5 Manual verification: start `dorian serve`, send curl requests to health, models, and chat completions endpoints
+",expected_absence_create,"A tarefa aberta descreve a implementação de um novo servidor HTTP/CLI em TypeScript, instruindo registrar o comando em `src/cli.ts`; ausência esperada.",confirmed_missing_problematic,"Task 8.2 requests registering the new serve command in the existing src/cli.ts file, but the file is absent at the anchor commit.",confirmed_missing_problematic,human_consensus_after_disagreement,43ef9220 tree (repo now benni-arnarsson/ormstunga): src/cli.ts absent; CLI is Go at internal/commands/cli.go. HTTP API tasks.md §8.2 assumes registration in src/cli.ts. No lifecycle instruction explains the missing file.,"R1, R2",human consensus,Task conflicts with Go layout.,,,open + missing,0,expected_absence_move_or_delete,2026-11-05T13:46:30.059448+00:00,0.97,classify,"- [ ] 8.2 Register `serve` command in `src/cli.ts`
+- [x] 9.1 Remove TypeScript files: `src/`, `package.json`, `bun.lock`, `bunfig.toml`, `tsconfig.json`, `eslint.config.ts`",gpt-6.1-sol,"The occurrence is present at the anchor, but src/cli.ts is absent. Completed migration tasks explicitly remove the entire TypeScript source tree, explaining its absence. The Go CLI now registers ServeCmd in internal/commands/cli.go.",8,9,99735,554,100289,"[""read_file"", ""read_file"", ""search_paths"", ""read_file"", ""read_file"", ""read_file"", ""search_content"", ""path_history"", ""read_file""]","[""openspec/changes/archive/2026-04-02-http-api-server/tasks.md"", ""openspec/changes/archive/2026-03-30-golang-core-scaffold/tasks.md"", ""internal/commands/cli.go""]",[],False,classify,True
+F049,HAProxy-Template-IC/haproxy-template-ingress-controller,ae67905fa2aad0d586360b8ba5f226121eda7548,openspec/changes/archive/2026-06-23-pluggable-validator-sidecar/tasks.md,zz_generated_deepcopy.go,,https://github.com/HAProxy-Template-IC/haproxy-template-ingress-controller/blob/ae67905fa2aad0d586360b8ba5f226121eda7548/openspec/changes/archive/2026-06-23-pluggable-validator-sidecar/tasks.md,https://github.com/HAProxy-Template-IC/haproxy-template-ingress-controller/blob/ae67905fa2aad0d586360b8ba5f226121eda7548/zz_generated_deepcopy.go,zz_generated_deepcopy.go,https://github.com/HAProxy-Template-IC/haproxy-template-ingress-controller/blob/ae67905fa2aad0d586360b8ba5f226121eda7548/zz_generated_deepcopy.go,"# Tasks
+
+## 1. Wire-protocol primitives (TDD)
+
+- [ ] 1.1 `pkg/controller/pluggablevalidator/protocol_test.go` — table-driven tests: encode + decode of valid frames, reject zero-length frame, reject frame larger than configured max, reject malformed JSON, reject mismatched `protocol_version`, reject empty `files` array.
+- [ ] 1.2 `pkg/controller/pluggablevalidator/protocol.go` — `Request`, `Response`, `Diagnostic`, `Severity` types with JSON tags matching the hub-side wire format. `Encode` / `Decode` helpers using length-prefixed JSON. `MaxFrameSize` constant (default 1 MiB; configurable on the client side per-validator).
+
+## 2. Result cache (TDD)
+
+- [ ] 2.1 `pkg/controller/pluggablevalidator/cache_test.go` — content-hash key derivation is stable across goroutines; LRU evicts oldest under capacity pressure; cache hit returns the cached `Response` byte-for-byte; cache key incorporates plugin-name to prevent cross-plugin pollution.
+- [ ] 2.2 `pkg/controller/pluggablevalidator/cache.go` — `ResultCache` with `Get(key)` / `Put(key, response)`, content-hash key derivation (sha256 of plugin-name + TOML bytes), capacity bound (default 256 entries).
+
+## 3. Unix-socket client (TDD)
+
+- [ ] 3.1 `pkg/controller/pluggablevalidator/client_test.go` with a fixture socket server (`testutil/fixturesocket.go`) that scripts canned responses. Cases: happy-path round-trip, server-side timeout (client respects per-call timeout), connection refused (returns synthetic `connection refused` diagnostic), malformed response frame, partial write retry semantics if applicable.
+- [ ] 3.2 `pkg/controller/pluggablevalidator/client.go` — `Client.Validate(ctx, configBytes)` blocking call that opens the socket, writes one request frame, reads one response frame, closes. Per-call timeout via `context.Context` and the configured `timeoutMs`. No retries (plumbed at the component level).
+- [ ] 3.3 `pkg/controller/pluggablevalidator/health.go` — `HealthCheck(socketPath) error` for `/healthz` callers: stat the path, verify it's a unix socket, attempt `O_WRONLY` open + close. Sub-millisecond happy path.
+
+## 4. CRD field
+
+- [ ] 4.1 `pkg/apis/haproxytemplate/v1alpha1/types_validators.go` — `ValidatorConfig` type with `name`, `socketPath`, `plugins []string`, `timeoutMs *int32`, plus kubebuilder validation tags. Add `Validators []ValidatorConfig` to `HAProxyTemplateConfigSpec`.
+- [ ] 4.2 `make generate` — codegen refreshes the CRD YAML and the `zz_generated_deepcopy.go`.
+- [ ] 4.3 Acceptance check: `kubectl apply` of an HAProxyTemplateConfig with a `validators` block does not fail OpenAPI validation (covered by the next change's e2e test; here we assert the rendered CRD passes `kubectl --validate=true` against an example fixture).
+
+## 5. Event types
+
+- [ ] 5.1 `pkg/controller/events/pluggable_validation.go` — `PluggableValidationRequest` and `PluggableValidationResponse` event structs mirroring `ConfigValidationRequest` / `ConfigValidationResponse`. Document why they're separate (different correlation IDs, different scatter-gather group).
+
+## 6. Event adapter
+
+- [ ] 6.1 `pkg/controller/pluggablevalidator/component_test.go` — subscribes to bus, on `PluggableValidationRequest` invokes the client (or returns cached `Response`), publishes `PluggableValidationResponse`. On client error, publishes a response with a single error-severity diagnostic and `result: ""error""`.
+- [ ] 6.2 `pkg/controller/pluggablevalidator/component.go` — wraps `component.Base` like `pkg/controller/validator/base.go`. Constructor takes the EventBus, a logger, the parsed `[]ValidatorConfig` slice, and the cache. Exposes `Healthy() (bool, []string)` summarising socket health for `/healthz` injection in the next MR.
+
+## 7. Controller startup wiring
+
+- [ ] 7.1 `pkg/controller/controller.go` — instantiate the component during `setupComponents()`. Component subscribes to the bus but no one publishes its event yet, so it's dormant. Verifies the component compiles into the binary and survives shutdown without leaking goroutines.
+
+## 8. Protocol relocation
+
+- [ ] 8.1 `docs/development/validator-protocol.md` — verbatim copy of the hub-side `validate-socket-protocol.md`, minus the ""interim ownership"" disclaimer (which belongs only on the redirect copy). Add HAPTIC-side framing: who calls this, the LRU cache layered on top, the protocol-version evolution policy from HAPTIC's POV.
+- [ ] 8.2 Hub-side spec gets a separate tiny MR after this lands: replace the body with a one-liner pointing at the new HAPTIC URL. Tracked separately so the cross-repo diff stays minimal.
+
+## 9. CHANGELOG
+
+- [ ] 9.1 Add `[Unreleased] / ### Added` entry naming the new CRD field and the new package, plus a pointer at the protocol doc.
+",expected_absence_create,A tarefa aberta instrui a execução do codegen (`make generate`) para produzir o arquivo gerado `zz_generated_deepcopy.go`; ausência esperada.,expected_absence_create,"Task 4.2 requests running make generate to regenerate the CRD YAML and zz_generated_deepcopy.go. The file is absent at the anchor commit, consistent with a planned code generation step.",expected_absence_create,initial_human_agreement,,"R1, R2",initial R1/R2 agreement,,,,open + missing,0,confirmed_exists,2026-11-05T13:44:30.001238+00:00,0.96,classify,"Task 4.2: `make generate` — codegen refreshes the CRD YAML and the `zz_generated_deepcopy.go`.
+Existing file: // Code generated by controller-gen. DO NOT EDIT.
+func (in *ValidatorConfig) DeepCopyInto(out *ValidatorConfig)
+Makefile: generate: generate-crds generate-deepcopy generate-clientset ...",gpt-6.1-sol,"The occurrence is verified at the anchor. Its CRD-package context and generation target resolve the shorthand filename to the existing controller-generated deepcopy file, including ValidatorConfig methods; the task uses an underscore where the actual basename uses a dot.",5,8,51689,525,52214,"[""read_file"", ""search_paths"", ""search_paths"", ""read_file"", ""list_tree"", ""read_file"", ""search_content"", ""search_content""]","[""openspec/changes/archive/2026-06-23-pluggable-validator-sidecar/tasks.md"", ""pkg/apis/haproxytemplate/v1alpha1/zz_generated.deepcopy.go"", ""Makefile""]",[],False,classify,True
+F069,lucassus/lucky-script,9e5d117e3338920b3caaeaf87bbd5e421e08e743,openspec/changes/archive/2026-05-27-add-property-access-and-methods/tasks.md,Call.ts,,https://github.com/lucassus/lucky-script/blob/9e5d117e3338920b3caaeaf87bbd5e421e08e743/openspec/changes/archive/2026-05-27-add-property-access-and-methods/tasks.md,https://github.com/lucassus/lucky-script/blob/9e5d117e3338920b3caaeaf87bbd5e421e08e743/Call.ts,Call.ts,https://github.com/lucassus/lucky-script/blob/9e5d117e3338920b3caaeaf87bbd5e421e08e743/Call.ts,"[Context around occurrence 1]
+- [x] 1.3 Flip the `vm/run.test.ts` scenarios that today assert `INDEX_GET` OOB returns `NONE_VALUE` (lines around 812, 844, and the corresponding empty-string / past-start cases) so they `expect(() => run(...)).toThrow(IndexError)` instead.
+- [x] 1.4 Grep `src/v2/examples/` and `src/v2/` more broadly for OOB-read patterns in tests; rewrite assertions to expect the new error. Confirm `yarn test v2` passes the strict-indexing half before continuing.
+
+## 2. Foundations: errors and the bound-native value kind
+
+- [x] 2.1 Add `NoSuchProperty` class to `src/v2/vm/errors.ts`, extending `VmError`. Include receiver-kind and property-name fields.
+- [x] 2.2 Add the `BoundNativeValue` type to `src/v2/vm/value.ts`: `{ kind: ""bound_native""; name: string; receiver: Value; fn: (args: Value[]) => Value }`. Add it to the `Value` discriminated union.
+- [x] 2.3 Add a `boundNativeValue(name, receiver, fn)` factory in `vm/value.ts` for parity with the existing `stringValue` helper.
+- [x] 2.4 Extend the `formatValueAt` exhaustiveness switch in `src/v2/runtime/builtins.ts` with a `case ""bound_native""` that renders as `<bound method NAME>`. Confirm the existing `value satisfies never` guard still type-checks.
+
+## 3. Grammar and AST
+
+- [x] 3.1 In `src/v2/parser/grammar.ohm`, add `PostfixExp ""."" ident -- property` to the `PostfixExp` rule, between the existing `_call` and `_index` arms (or at any position — order is unambiguous; choose for readability).
+- [x] 3.2 The PostToolUse hook regenerates `grammar.ohm-bundle.*` on save. If running manually, `yarn ohm`. Verify the new `PostfixExp_property` action key appears in the generated types.
+- [x] 3.3 Add `src/v2/parser/ast/PropertyAccess.ts` (or matching naming convention used by `Call.ts`, `Index.ts`) exporting `PropertyAccess { kind: ""PropertyAccess""; receiver: Expr; name: string; span: Span }`.
+- [x] 3.4 Extend the `Expr` union in `src/v2/parser/ast/index.ts` with `PropertyAccess`.
+- [x] 3.5 Add `src/v2/parser/semantics/PostfixExp_property.ts` (mirror the structure of `PostfixExp_call.ts` and `PostfixExp_index.ts`) producing the new AST node with a proper span via `spanOf`.
+- [x] 3.6 Register the new semantics file in `src/v2/parser/parser.ts`'s `mergeActions(...)` call. The duplicate-key guard will catch any accidental overlap.
+- [x] 3.7 Extend `parser/parser.test.ts` with cases covering: `a.b`, `a.b()`, `a.b.c`, `a[0].b`, `a.b[0]`, `a.b(x, y)`, and an error case for `a.` (trailing dot with no identifier — parse error).
+- [x] 3.8 Extend `parser/parser.spans.test.ts` with span assertions for `PropertyAccess` nodes covering receiver start through identifier end.
+
+## 4. Compiler
+
+- [x] 4.1 Add `{ opcode: ""GET_PROPERTY""; name: string }` to the `Instruction` union in `src/v2/compiler/bytecode.ts`.
+- [x] 4.2 In `src/v2/compiler/expressions.ts`, add a case in the expression-compilation switch for `PropertyAccess`: compile the receiver, then push `{ opcode: ""GET_PROPERTY"", name }`. No special handling required for the chained `Call` case — the existing `Call` compilation already wraps any postfix.
+- [x] 4.3 Add compiler tests in `src/v2/compiler/expressions.test.ts`: `PropertyAccess` emits `[<receiver bytecode>, GET_PROPERTY name]`; `PropertyAccess + Call` emits `[<receiver bytecode>, GET_PROPERTY name, CALL argc]` (two separate ops, no `OP_INVOKE` in this change).",non_file_reference,"`Call.ts` é citado apenas como exemplo hipotético de convenção de nomenclatura na tarefa ('used by Call.ts, Index.ts'), não como um arquivo existente.",non_file_reference,"Call.ts is cited only as an illustrative file-naming convention, not as a file to locate or modify. No src/v2/parser/ast/Call.ts exists at the anchor commit; the AST is organized in consolidated modules such as postfix.ts, expressions.ts, and primaries.ts. Evidence: https://github.com/lucassus/lucky-script/tree/9e5d117e3338920b3caaeaf87bbd5e421e08e743/src/v2/parser/ast",non_file_reference,initial_human_agreement,,"R1, R2",initial R1/R2 agreement,,,,completed + missing,0,ambiguous_reference,2026-11-05T13:47:11.208217+00:00,0.83,abstain,"3.3 Add `src/v2/parser/ast/PropertyAccess.ts` (or matching naming convention used by `Call.ts`, `Index.ts`)
+export interface Call extends Node<""Call""> {",gpt-6.1-sol,"The occurrence is anchor-aligned, but no Call.ts exists anywhere in the anchor tree. Call is defined in postfix.ts; that establishes the symbol, not equivalent file identity. The task cites Call.ts only as a naming exemplar, without requiring its modification or explicitly replacing it, so problematic absence is not established.",7,6,68665,483,69148,"[""read_file"", ""search_paths"", ""list_tree"", ""read_file"", ""path_history"", ""path_history""]","[""openspec/changes/archive/2026-05-27-add-property-access-and-methods/tasks.md"", ""src/v2/parser/ast/postfix.ts""]","[""Evidence establishing Call.ts as a historical or resolved file identity, or explaining its absence.""]",False,classify,False

@@ -1,0 +1,150 @@
+{
+  "status": "population_distribution_estimated",
+  "population_n": 51979,
+  "sample_n": 382,
+  "sample_repositories": 296,
+  "confidence_level": 0.95,
+  "maximum_design_margin_of_error": 0.05002305824660837,
+  "weighted_distribution": {
+    "confirmed_exists": {
+      "sample_count": 13,
+      "proportion": 0.03401134735519776,
+      "wilson_95": [
+        0.019979190886229636,
+        0.05732238097190334
+      ]
+    },
+    "confirmed_missing_problematic": {
+      "sample_count": 13,
+      "proportion": 0.03402543799915816,
+      "wilson_95": [
+        0.019989675291032256,
+        0.05733979727875964
+      ]
+    },
+    "expected_absence_create": {
+      "sample_count": 131,
+      "proportion": 0.34320556124842466,
+      "wilson_95": [
+        0.2973672524912506,
+        0.392165998251355
+      ]
+    },
+    "expected_absence_move_or_delete": {
+      "sample_count": 71,
+      "proportion": 0.18573477158675028,
+      "wilson_95": [
+        0.14993386325352182,
+        0.22779340407206217
+      ]
+    },
+    "external_repository_reference": {
+      "sample_count": 32,
+      "proportion": 0.0837148201651174,
+      "wilson_95": [
+        0.05991520840470088,
+        0.11580360167288387
+      ]
+    },
+    "non_file_reference": {
+      "sample_count": 72,
+      "proportion": 0.18839004932042505,
+      "wilson_95": [
+        0.15235287763882563,
+        0.23063207263083066
+      ]
+    },
+    "ambiguous_reference": {
+      "sample_count": 0,
+      "proportion": 0.0,
+      "wilson_95": [
+        0.0,
+        0.009956119204913605
+      ]
+    },
+    "inaccessible_or_invalid": {
+      "sample_count": 50,
+      "proportion": 0.13091801232492667,
+      "wilson_95": [
+        0.10073565744617746,
+        0.16844961573503486
+      ]
+    }
+  },
+  "interpretive_groups": {
+    "expected_lifecycle_change": {
+      "sample_count": 202,
+      "proportion": 0.5289403328351752,
+      "design_normal_95": [
+        0.47926308885076135,
+        0.578617576819589
+      ]
+    },
+    "scope_or_non_file": {
+      "sample_count": 104,
+      "proportion": 0.2721048694855425,
+      "design_normal_95": [
+        0.22790998061136555,
+        0.3162997583597195
+      ]
+    },
+    "inaccessible_or_ambiguous": {
+      "sample_count": 50,
+      "proportion": 0.13091801232492667,
+      "design_normal_95": [
+        0.09714066942005241,
+        0.16469535522980094
+      ]
+    },
+    "problematic_absence": {
+      "sample_count": 13,
+      "proportion": 0.034025437999158165,
+      "design_normal_95": [
+        0.015868439725156704,
+        0.052182436273159626
+      ]
+    },
+    "exists_after_resolution": {
+      "sample_count": 13,
+      "proportion": 0.034011347355197764,
+      "design_normal_95": [
+        0.01587985553582834,
+        0.05214283917456719
+      ]
+    }
+  },
+  "abstentions": 50,
+  "classifiable_n": 332,
+  "prior_development_overlap_n": 2,
+  "trace_audit": {
+    "complete_traces": 382,
+    "traces_with_label_leakage": 0,
+    "artifact_read_attempted": 382,
+    "artifact_read_found": 348,
+    "artifact_read_anchor_unavailable": 32,
+    "artifact_read_not_found_at_anchor": 2,
+    "function_calls": 1007,
+    "web_calls": 5,
+    "cases_using_web": 5
+  },
+  "usage": {
+    "input": 10405714,
+    "cached": 9067264,
+    "cache_write": 1333289,
+    "uncached": 5161,
+    "output": 99118,
+    "responses": 1269
+  },
+  "estimated_api_cost_usd": 5.2914509,
+  "execution_elapsed_seconds": 11906.411587,
+  "retry_note": "P0123 first returned malformed JSON; no result was retained and the case was rerun once unchanged.",
+  "pricing_basis": {
+    "as_of": "2026-11-05",
+    "model": "gpt-6.1-sol",
+    "uncached_input_per_million_usd": 2.0,
+    "cached_input_per_million_usd": 0.1,
+    "cache_write_per_million_usd": 2.5,
+    "output_per_million_usd": 10.0,
+    "web_search_per_1000_calls_usd": 10.0
+  }
+}

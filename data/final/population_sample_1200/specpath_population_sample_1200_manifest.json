@@ -1,0 +1,32 @@
+{
+  "created_at_utc": "2026-11-05T02:53:10.334557+00:00",
+  "source": "data/raw/openspec_code_refs.parquet",
+  "source_sha256": "a30924c09c35cead7d10643947ea480d71ef41a99214a19aea3991864c79412a",
+  "target_population": "all literal path references recorded as absent at their anchor commit with non-null sampling keys",
+  "semantic_class_used_for_sampling": false,
+  "model_prediction_used_for_sampling": false,
+  "replacement_or_class_complement": false,
+  "prior_development_cases_excluded": false,
+  "prior_overlap_policy": "Retain probabilistically selected overlaps, flag them, and report sensitivity without them; exclusion would change the target population.",
+  "status": "population_sample_frozen_before_evidence_or_labels",
+  "seed": 20261104,
+  "population_n": 51979,
+  "population_repositories": 4444,
+  "sample_n": 1200,
+  "sample_repositories": 761,
+  "strata": {
+    "open_missing": {
+      "population_n": 17752,
+      "sample_n": 410
+    },
+    "completed_missing": {
+      "population_n": 34227,
+      "sample_n": 790
+    }
+  },
+  "prior_development_overlap_n": 10,
+  "output_csv": "data/final/population_sample_1200/specpath_population_sample_1200.csv",
+  "output_parquet": "data/final/population_sample_1200/specpath_population_sample_1200.parquet",
+  "output_csv_sha256": "09048574d5a0e8aea3ca8f300505d6ebc839f4d24772d84b2eda6e37e891160b",
+  "output_parquet_sha256": "8787d8ea83fb3aae1f1e768ece4c6a7ee392219ab0fff4fa14876714ca937a60"
+}

@@ -1,0 +1,50 @@
+{
+  "status": "agentic_development_run",
+  "created_at_utc": "2026-11-05T14:21:06.321063+00:00",
+  "records": 382,
+  "development_data": false,
+  "starting_information": "label-free frozen probability-sample record",
+  "model_configuration": {
+    "model": "gpt-6.1-sol",
+    "endpoint": "/v1/responses",
+    "reasoning": {
+      "effort": "low",
+      "mode": "standard"
+    },
+    "text_verbosity": "low",
+    "max_output_tokens": 3000,
+    "max_tool_calls_per_api_response": 40,
+    "max_tool_calls_per_case": 50,
+    "store": false,
+    "github_web_search": true
+  },
+  "repository_access": {
+    "main_repository": "read-only exact anchor commit",
+    "history": "anchor and ancestors only",
+    "web": "GitHub domains; current content discovery-only",
+    "git_cache": "outputs/population_1200_anchor_evidence/git_cache"
+  },
+  "excluded": [
+    "access_issue",
+    "adjudication_rationale",
+    "classification",
+    "evidence_note",
+    "exists_at_anchor",
+    "gemini_classification",
+    "gold_human_classification",
+    "manual_classification",
+    "r1_initial_classification",
+    "r2_initial_classification",
+    "reviewer_id"
+  ],
+  "files": {
+    "data/final/population_sample_382/specpath_population_sample_382.csv": "21c7690c7acf2cc2f92614c2e6c041132eea8f1c18a24c2cb3e97bcccb41630a",
+    "validation/LLM_JUDGE_PROMPT_FINAL_90_OPENAI_AGENTIC_V2.md": "4089bcb23c2e2fd7c6a56e09cc32aeedfa02ddae3af616ef12d6e7744ac773d3",
+    "validation/OPENAI_SOL_POPULATION_382_AGENTIC_PROTOCOL.md": "6752f77cc4882e00ba2634e8ad450c8e631d14b4524c4b310cc238e73ea997f8",
+    "validation/llm_judge_output_schema_openai_agentic.json": "0f3cbc9b06b46fc7d854ed7f5f33a2f09a9bf6d1a313adc5ade46d06d6ade8ad",
+    "src/run_openai_sol_90_agentic.py": "96688c21069e142769312a07b8be93b9a4d2cfa665f0766ad675e9b776ebf39d",
+    "src/run_openai_sol_population_382_agentic.py": "aea25ed8c9ad8ba6665960398c3d2cd9d51a234e2ce03eb1c6741ee5e5c15237"
+  },
+  "output_directory": "outputs/openai_sol_population_382_agentic",
+  "version": "population_382_agentic_tree_aligned_v2"
+}

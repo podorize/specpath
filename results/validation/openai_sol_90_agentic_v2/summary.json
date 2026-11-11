@@ -1,0 +1,70 @@
+{
+  "model": "gpt-6.1-sol",
+  "evaluation_role": "same_90_development_evaluation_with_comparable_investigative_capabilities",
+  "all_90": {
+    "n": 90,
+    "matches": 86,
+    "accuracy": 0.9555555555555556,
+    "cohen_kappa": 0.9397791903646706,
+    "macro_f1_gold_supported_classes": 0.890566758248257,
+    "gold_supported_class_count": 7
+  },
+  "missing_60": {
+    "n": 60,
+    "matches": 56,
+    "accuracy": 0.9333333333333333,
+    "cohen_kappa": 0.903303787268332,
+    "macro_f1_gold_supported_classes": 0.8724261686790961,
+    "gold_supported_class_count": 7
+  },
+  "abstentions": 8,
+  "decision_level": {
+    "matches": 89,
+    "accuracy": 0.9888888888888889,
+    "abstention_subtype_disagreements": 0,
+    "semantic_class_disagreements": 4
+  },
+  "prediction_distribution": {
+    "expected_absence_create": 30,
+    "confirmed_exists": 32,
+    "external_repository_reference": 4,
+    "non_file_reference": 3,
+    "inaccessible_or_invalid": 7,
+    "expected_absence_move_or_delete": 12,
+    "confirmed_missing_problematic": 1,
+    "ambiguous_reference": 1
+  },
+  "gold_distribution": {
+    "expected_absence_create": 31,
+    "confirmed_exists": 31,
+    "external_repository_reference": 4,
+    "non_file_reference": 4,
+    "inaccessible_or_invalid": 7,
+    "expected_absence_move_or_delete": 10,
+    "confirmed_missing_problematic": 3
+  },
+  "trace_audit": {
+    "complete_traces": 90,
+    "traces_with_label_field_leakage": 0,
+    "artifact_read_attempted": 90,
+    "artifact_read_found": 86,
+    "artifact_read_anchor_unavailable": 4,
+    "total_function_calls": 270,
+    "total_web_calls": 0,
+    "cases_using_web": 0
+  },
+  "investigation": {
+    "tool_calls_total": 270,
+    "tool_calls_mean": 3.0,
+    "tool_calls_median": 2.0,
+    "tool_calls_max": 12,
+    "rounds_mean": 3.577777777777778,
+    "rounds_max": 9
+  },
+  "token_usage": {
+    "input_tokens": 2944708,
+    "output_tokens": 24897,
+    "total_tokens": 2969605
+  },
+  "version": "agentic_v2_tree_aligned_temporal_invalidity"
+}
