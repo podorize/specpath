@@ -3,19 +3,93 @@
   "evaluation_role": "same_90_development_evaluation_with_comparable_investigative_capabilities",
   "all_90": {
     "n": 90,
-    "matches": 86,
-    "accuracy": 0.9555555555555556,
-    "cohen_kappa": 0.9397791903646706,
-    "macro_f1_gold_supported_classes": 0.890566758248257,
+    "matches": 82,
+    "accuracy": 0.9111111111111111,
+    "cohen_kappa": 0.8781519715687932,
+    "macro_f1_gold_supported_classes": 0.8093047825190682,
     "gold_supported_class_count": 7
   },
   "missing_60": {
     "n": 60,
-    "matches": 56,
-    "accuracy": 0.9333333333333333,
-    "cohen_kappa": 0.903303787268332,
-    "macro_f1_gold_supported_classes": 0.8724261686790961,
-    "gold_supported_class_count": 7
+    "matches": 52,
+    "accuracy": 0.8666666666666667,
+    "cohen_kappa": 0.8005816368923973,
+    "macro_f1_gold_supported_classes": 0.7689007421150278,
+    "gold_supported_class_count": 7,
+    "per_class": [
+      {
+        "category": "ambiguous_reference",
+        "support": 0,
+        "predicted": 1,
+        "true_positive": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      {
+        "category": "confirmed_exists",
+        "support": 3,
+        "predicted": 4,
+        "true_positive": 3,
+        "precision": 0.75,
+        "recall": 1.0,
+        "f1": 0.8571428571428571
+      },
+      {
+        "category": "confirmed_missing_problematic",
+        "support": 3,
+        "predicted": 1,
+        "true_positive": 1,
+        "precision": 1.0,
+        "recall": 0.3333333333333333,
+        "f1": 0.5
+      },
+      {
+        "category": "expected_absence_create",
+        "support": 34,
+        "predicted": 30,
+        "true_positive": 30,
+        "precision": 1.0,
+        "recall": 0.8823529411764706,
+        "f1": 0.9375
+      },
+      {
+        "category": "expected_absence_move_or_delete",
+        "support": 10,
+        "predicted": 12,
+        "true_positive": 10,
+        "precision": 0.8333333333333334,
+        "recall": 1.0,
+        "f1": 0.9090909090909091
+      },
+      {
+        "category": "external_repository_reference",
+        "support": 4,
+        "predicted": 4,
+        "true_positive": 3,
+        "precision": 0.75,
+        "recall": 0.75,
+        "f1": 0.75
+      },
+      {
+        "category": "inaccessible_or_invalid",
+        "support": 2,
+        "predicted": 5,
+        "true_positive": 2,
+        "precision": 0.4,
+        "recall": 1.0,
+        "f1": 0.5714285714285715
+      },
+      {
+        "category": "non_file_reference",
+        "support": 4,
+        "predicted": 3,
+        "true_positive": 3,
+        "precision": 1.0,
+        "recall": 0.75,
+        "f1": 0.8571428571428571
+      }
+    ]
   },
   "abstentions": 8,
   "decision_level": {
@@ -35,13 +109,13 @@
     "ambiguous_reference": 1
   },
   "gold_distribution": {
-    "expected_absence_create": 31,
+    "expected_absence_create": 34,
     "confirmed_exists": 31,
     "external_repository_reference": 4,
     "non_file_reference": 4,
-    "inaccessible_or_invalid": 7,
+    "confirmed_missing_problematic": 3,
     "expected_absence_move_or_delete": 10,
-    "confirmed_missing_problematic": 3
+    "inaccessible_or_invalid": 4
   },
   "trace_audit": {
     "complete_traces": 90,

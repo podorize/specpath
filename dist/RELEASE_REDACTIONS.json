@@ -5,14 +5,6 @@
     "user-home path segments -> REDACTED_USER"
   ],
   "changed_files": {
-    "data/final/specpath_gold_human_90.csv": {
-      "original_sha256": "901baec28fc6c504b1216f5fb3ef7f09d4c211a351ffb26abf957c4dfc35214a",
-      "released_sha256": "8e707160f33cd4c2809926eb729c426e152e7e9a0a574da3931e2909b7f1387d",
-      "counts": {
-        "email_like": 1,
-        "home_path": 2
-      }
-    },
     "data/interim/validation_final_90_en.csv": {
       "original_sha256": "de1218f68b297831bbe1afb92341c5179014f99c4c2ea49ff79925c3607fc2b2",
       "released_sha256": "20782bdd68c5be2ffe34b5790edc90cc5dc2aadaf8e05717ff23615b9b9e582f",
@@ -243,14 +235,6 @@
       "counts": {
         "email_like": 0,
         "home_path": 1
-      }
-    },
-    "results/validation/openai_sol_90_agentic_v2/case_comparison.csv": {
-      "original_sha256": "4a21760df94237e728992711b4623d0dd5ecc7eac0b7179e8839a35332d30f51",
-      "released_sha256": "b9c5e0f9bf7624fdca0b38caf916a62a571509b27a5ee9eff868b48f78ef77f3",
-      "counts": {
-        "email_like": 1,
-        "home_path": 2
       }
     }
   }

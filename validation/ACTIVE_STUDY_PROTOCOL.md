@@ -13,8 +13,8 @@ upstream snapshot.
 The 90-case Gold comprises 30 completed/existing controls, 30
 completed/missing, and 30 open/missing references from 90 repositories.
 R1/R2 initial agreement was 83/90, kappa 0.8935. Seven cases were resolved
-by human consensus. A subsequent methodological review changed five labels.
-The frozen Gold CSV and manifest record those decisions. A later human
+by human consensus, and that consensus-only Gold was frozen before the LLM
+comparison. The frozen Gold CSV and manifest record those decisions. A later human
 reconsideration of three cases occurred after model disagreements were known;
 its decisions are excluded from this study's Gold, evaluation, and package. Initial
 agreement describes the two reviewers' recorded initial decisions; their
@@ -39,8 +39,9 @@ GitHub content can aid discovery but is not evidence of anchor-commit state.
 
 The LLM judge uses GPT-6.1 Sol via the Responses API, standard mode,
 low reasoning effort, structured output, read-only exact-commit repository
-tools, and GitHub web search. Its 90-case label-blind run matched the Gold
-frozen before later human reconsideration on 86/90 (kappa 0.9398).
+tools, and GitHub web search. Its 90-case label-blind run matched the
+consensus-only Gold frozen before later human reconsideration on 82/90
+(kappa 0.8782).
 The decision rule was fixed before the responses were evaluated. This is
 observed agreement with the frozen human benchmark; it does not directly
 measure classification error in the population Silver. The frozen Gold

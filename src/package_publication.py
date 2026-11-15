@@ -14,18 +14,17 @@ ROOT = Path(__file__).resolve().parents[1]
 DIST = ROOT / "dist"
 PAPER_FILES = [
     "paper/main.tex",
+    "paper/README.md",
     "paper/IEEEtran.cls",
     "paper/references.bib",
-    "paper/figures/decision_tree_compact.pdf",
+    "paper/figures/decision_flow_compact.png",
+    "paper/figures/decision_flow_compact.svg",
 ]
 REPLICATION_FILES = [
     "README.md",
     "pyproject.toml",
-    "PUBLICATION_READINESS.md",
+    "uv.lock",
     *PAPER_FILES,
-    "paper/figures/final_decision_tree.svg",
-    "paper/figures/decision_tree_compact.svg",
-    "paper/figures/generate_compact_tree.py",
     "validation/ACTIVE_STUDY_PROTOCOL.md",
     "validation/REPRODUCE_FINAL_STUDY.md",
     "validation/OPENAI_SOL_90_AGENTIC_V2_PROTOCOL.md",
@@ -33,7 +32,6 @@ REPLICATION_FILES = [
     "validation/OPENAI_SOL_POPULATION_382_AGENTIC_PROTOCOL.md",
     "validation/LLM_JUDGE_PROMPT_FINAL_90_OPENAI_AGENTIC_V2.md",
     "validation/DECISION_TREE_CASE_EXAMPLES.md",
-    "validation/METHODOLOGICAL_REVIEW_7_CASES.md",
     "validation/llm_judge_output_schema_openai_agentic.json",
     "data/final/specpath_gold_human_90.csv",
     "data/final/specpath_gold_human_90_manifest.json",
@@ -49,6 +47,7 @@ REPLICATION_FILES = [
     "src/run_openai_sol_90_agentic.py",
     "src/run_openai_sol_90_agentic_v2.py",
     "src/analyze_population_382_agentic.py",
+    "src/analyze_gold_comparison.py",
     "src/redact_public_release.py",
 ]
 FORBIDDEN = (

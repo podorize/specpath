@@ -5,55 +5,71 @@
 \usepackage{graphicx}
 \usepackage{url}
 \begin{document}
-\title{Interpreting Absent OpenSpec Paths: A Human Decision Tree and a Probability Sample of SpecMine}
+\title{What Does a Missing Spec-to-Code Path Mean? Evidence from OpenSpec Tasks}
 \author{\IEEEauthorblockN{Anonymous Authors}}
 \maketitle
 
 \begin{abstract}
-The SpecMine corpus marks 51,979 OpenSpec task-to-code paths as absent at their reference commits, but a missing path need not signal a defect. We define an ordered eight-class decision tree, reconcile a 90-case human Gold from two reviewers, and use a repository-investigating LLM judge to classify a probability sample of 382 references. With its decision rule fixed before response evaluation, the judge agreed with the frozen Gold on 86/90 cases. Weighted \emph{model-assigned} shares are 34.3\% expected creation, 18.8\% non-file reference, 18.6\% expected move or deletion, 8.4\% external repository, 3.4\% problematic absence, and 13.1\% inaccessible or invalid. Creation labels are more common in open than completed tasks. Sampling intervals exclude model-label error. We release the Gold, probability-sample Silver, decision rules, and case-level provenance. Absence alone does not establish a defect.
+A path mentioned in a software task can be absent because it has yet to be created, was moved or deleted, belongs elsewhere, or names no file at all. SpecMine records 51,979 OpenSpec task-to-code references whose literal paths are absent at their reference commits, but does not distinguish these meanings. We introduce a rule-based classification framework and a 90-reference benchmark labeled independently by two human reviewers and reconciled by consensus (the Human Gold) to evaluate its application by an LLM-based classification agent with repository-investigation tools. After 82/90 agreement with the Human Gold ($\kappa=0.8782$), the agent classified a 382-reference probability sample with an approximately five-percentage-point maximum sampling margin at 95\% confidence. Agent-assigned estimates indicate that expected creation and expected move or deletion together account for 52.9\% of the absent-reference frame, showing that many absences are consistent with planned task evolution. Non-file and external-repository interpretations account for a further 27.2\%, while problematic absence accounts for 3.4\% and inaccessible or invalid cases for 13.1\%. Creation assignments are more frequent in open than completed tasks (49.2\% versus 26.6\%), a descriptive pattern consistent with more forward-looking work. These percentages describe agent-assigned interpretations. Their intervals capture sampling variation only and do not include classification error. We release the Human Gold, the probability-sampled agent-labeled dataset, the classification framework, and case-level provenance. A missing path alone does not establish a defect.
 \end{abstract}
 \begin{IEEEkeywords}
-Spec-driven development, mining software repositories, traceability, human annotation, probability sampling.
+Spec-driven development, repository mining, traceability, human annotation, probability sampling.
 \end{IEEEkeywords}
 
 \section{Introduction}
-Specifications may name code that has not yet been written. Treating every path absent from a repository snapshot as a broken reference can therefore conflate planned work with missing dependencies, a familiar traceability concern~\cite{gotel1994}. SpecMine's July 2026 release records 435,401 OpenSpec task-to-code references; 51,979 literal paths are marked absent at their anchoring commits~\cite{specmine2027}. The MSR Mining Challenge asks how specifications relate to code. We ask a narrower question: \emph{when a path cited in an OpenSpec task is absent at the reference commit, what does that absence permit one to conclude?}
+Consider two OpenSpec tasks that both cite a path missing from the repository at a particular commit. One asks to \emph{create} a test at that path; another asks to \emph{rewrite} a test presumed to exist. A path checker returns the same answer for both, although the first absence fits the task and the second may obstruct it. This distinction matters when specifications and tasks are used as links to code: a missing literal target is not necessarily a broken trace.
 
-We contribute a measurement instrument and a probability-sampled labeled dataset. An ordered tree distinguishes planned work from missing assumed dependencies while retaining scope errors and unavailable evidence. Two reviewers reconciled a 90-case Gold; a repository-investigating LLM judged 382 sampled Silver cases with design weights and provenance. We analyze model-assigned interpretations without class quotas or corpus-wide classifier extrapolation. SpecMine supplies extracted references and commit-level existence~\cite{specmine2027}; our semantic layer makes the traceability question~\cite{gotel1994} auditable for OpenSpec tasks.
+The July 2026 SpecMine release collects 435,401 OpenSpec task-to-code references and records whether each extracted path exists at an anchoring commit~\cite{specmine2027}. Among them, 51,979 literal paths were recorded as absent. We ask: \emph{when a path cited in an OpenSpec task is absent at the reference commit, what does that absence permit one to conclude?} The question concerns the evidence available at that commit. It does not ask whether the file was later delivered or whether a developer erred.
+
+Our contribution is an ordered eight-class framework that interprets missing paths through occurrence, object type, repository scope, and task intent. We also release two datasets: the Human Gold (90 references labeled by two reviewers and reconciled by consensus) and a probability-sampled Silver set (382 agent-labeled references). Each Silver record includes supporting evidence and a task-status sampling weight indicating how many absent references it represents. These weights estimate agent-assigned class shares, not model confidence. The Gold measures benchmark agreement; the Silver estimates describe agent-assigned interpretations.
+
+\section{Background and Related Work}
+Requirements traceability connects intent to implementation, but links may be incomplete, stale, uncertain, or costly to maintain~\cite{gotel1994,ramesh2001,ruiz2023,charalampidou2021,ghabi2015,mader2012}. Assessing links requires more than a path string~\cite{sundaram2010}. Earlier work captured requirement--code links during development~\cite{delater2013}; SEOSS offers requirements, code history, and links for entire projects~\cite{rath2019}. Open-source feature requests also act as just-in-time requirements~\cite{heck2014}. Our focus is one OpenSpec path mention still absent at its anchor. Link-recovery methods, including LLM hybrids, seek candidate connections~\cite{nagata2026}; we classify the meaning of a missing literal target. Work on message--code inconsistency in agent-authored pull requests similarly checks natural-language claims against repository state~\cite{gong2026}.
+
+SpecMine supplies path extraction and commit-level existence~\cite{specmine2027}. We add semantic interpretation to its absent subset. LLM judging can help scale annotation, but human alignment varies by task and must be examined~\cite{ahmed2025,wang2025}. Empirical LLM reporting also requires explicit inputs, tools, traces, and limits~\cite{baltes2026}. Repository mining inherits selection and measurement limits from its source corpus~\cite{kalliamvakou2014}. These considerations motivate both the framework and our separation of sampling from classification uncertainty.
 
 \section{Study Design}
-\subsection{Population and unit}
-The unit is one task-to-code reference, rather than a task, file, or repository. The target frame contains the 51,979 SpecMine references whose literal paths were recorded as absent at their reference commits and whose sampling keys were available. It spans 4,444 repositories. Mechanical absence is the entry condition; a reviewer may later find a normalized or resolved file at the same commit. Hence \texttt{confirmed\_exists} is possible within this frame. No claim of subsequent implementation follows from an anchor-commit observation.
+\subsection{Frame, reference commit, and unit}
+Our unit is a \emph{reference occurrence}: one path-like token extracted from an OpenSpec \texttt{tasks.md} task, associated with a repository, task status, and reference commit. The reference commit is the Git snapshot to which SpecMine anchored that occurrence; it is the temporal basis for the existence flag. We use the 51,979 absent references with the keys needed for sampling, spanning 4,444 repositories. These are references, not distinct files or repositories. The same path can occur more than once.
 
-\subsection{Ordered decision tree}
-The same eight-class tree governs human and model decisions (Fig.~\ref{fig:tree}). It first validates the occurrence and commit evidence, then resolves object type and repository scope, and checks file existence at the anchor. For an absent local file, task intent distinguishes creation, move/removal, and a missing assumed dependency; insufficient evidence yields ambiguity. This precedence prevents a current GitHub page or a creation verb from overriding commit and scope evidence. Boundary examples are in the artifact.
+The entry condition is \emph{literal} absence according to SpecMine's resolver. A later semantic check can resolve a variant spelling or path and find a file at the same commit; hence \texttt{confirmed\_exists} is a possible outcome. Conversely, a URL accessible today cannot prove that an artifact existed at the reference commit. We therefore keep current web pages as discovery aids and require commit-aligned evidence for the classification.
+
+\subsection{Ordered interpretation instrument}
+Figure~\ref{fig:framework} shows the shared human/LLM procedure. Gate 1 asks whether the reference occurrence and anchoring evidence are temporally compatible and inspectable; otherwise the result is \texttt{inaccessible\_or\_invalid}. Gate 2 checks what the token denotes and which repository owns it. A command, output artifact, or conceptual name that is not a source-file reference becomes \texttt{non\_file\_reference}; an identifiable file in another repository becomes \texttt{external\_repository}. External scope requires affirmative repository evidence, rather than a guess from an unfamiliar directory name.
 
 \begin{figure*}[t]
 \centering
-\includegraphics[width=\textwidth]{figures/decision_tree_compact.pdf}
-\caption{Ordered decision tree used by both human reviewers and the LLM judge. Follow the upper path only when the preceding gate does not decide the reference. The four outcomes at the last gate depend on task wording and exact-commit repository evidence.}
-\label{fig:tree}
+\includegraphics[width=\textwidth]{figures/decision_flow_compact.png}
+\caption{Ordered classification of paths recorded as absent. Checks use the reference commit; external scope requires affirmative evidence, and a generated artifact may still be a file.}
+\label{fig:framework}
 \end{figure*}
 
-For example, F001 requests a new test, \path{apps/server/src/db/__tests__/0010_summary_length_check.test.ts}; its absence at the reference commit is expected creation at step 4. F061 instead requests rewriting the existing \path{python/scripts/test_cl_buck.py}, which is absent at its reference commit; step 4 identifies an assumed but missing dependency. Both enter the frame as absent paths, but their task verbs and commit evidence support different interpretations. Source URLs and reviewer notes are in the artifact.
+Gate 3 tests whether the resolved local file is present in the exact Git tree, yielding \texttt{confirmed\_exists} if so. Only an absent local file reaches Gate 4. A request to add or generate the file supports \texttt{expected\_creation}; an instruction to rename, relocate, or remove it supports \texttt{expected\_move\_or\_deletion}. A task that requires an already existing file that is missing supports \texttt{confirmed\_missing\_problematic}. When text and commit evidence do not distinguish these, the framework abstains with \texttt{ambiguous}. Ordering matters: an apparent creation verb cannot override a demonstrated external scope, and an inaccessible commit cannot be treated as proof of absence.
 
-\subsection{Human reference and automated measurement}
-The human Gold covers 90 task-to-code references: 30 completed/existing controls, 30 completed/missing, and 30 open/missing, all from different repositories. Reviewer 1 (R1) and Reviewer 2 (R2) initially agreed on 83/90 labels (Cohen's $\kappa=0.8935$)~\cite{cohen1960}; seven disagreements were resolved by consensus. We incorporated these decisions and froze the Gold before comparing the LLM responses. The final set contains three \texttt{confirmed\_missing\_problematic} cases. Its balanced design supports method evaluation, not prevalence estimation.
+Two Gold examples illustrate the decisive distinction. F001 requests a new test at \path{apps/server/src/db/__tests__/0010_summary_length_check.test.ts}; its absence at the anchor is consistent with planned creation. F061 asks to rewrite an existing \path{python/scripts/test_cl_buck.py}; because that file is absent at the anchor, the same mechanical signal instead points to a missing assumed dependency. The released case records preserve the task wording, commit, rationale, and source locations needed to revisit these decisions.
 
-GPT-6.1 Sol used a fixed tree-aligned prompt, structured eight-class output, read-only exact-commit repository tools, and GitHub search for discovery. The decision rule was finalized before the reported responses were evaluated. The LLM judge could inspect complete task artifacts, other files, paths, and history through the anchor; current web content never replaced commit evidence. Inputs omitted human labels, notes, and the mechanical existence flag. Its traces show 86/90 agreement with the frozen Gold ($\kappa=0.9398$), including 56/60 originally absent cases ($\kappa=0.9033$). Of the three Gold cases labeled \texttt{confirmed\_missing\_problematic}, the LLM judge identified one and classified the other two as expected move or deletion. These were two of the four disagreements overall. Thus, observed sensitivity for the problematic class was 1/3 in this benchmark; with only three such cases, it cannot reliably estimate sensitivity in the population or establish the error rate of the 382 Silver labels.
+\subsection{Human Gold and LLM-based classification agent}
+The Human Gold covers 90 task-to-code references: 30 completed/existing controls, 30 completed/missing, and 30 open/missing, all from different repositories. Reviewer 1 (R1) and Reviewer 2 (R2) independently labeled the references and initially agreed on 83/90 labels (Cohen's $\kappa=0.8935$)~\cite{cohen1960}; seven disagreements were resolved by consensus. We incorporated these decisions and froze the Human Gold before comparing the agent responses. The final set contains three \texttt{confirmed\_missing\_problematic} cases. Its balanced design supports method evaluation, not prevalence estimation.
 
-\subsection{Probability sample and estimation}
-We selected 382 absent references by pre-evidence random rank within each task-status stratum: 130 open and 252 completed references, spanning 296 repositories. No predicted class, access result, or evidence outcome influenced selection. The respective population stratum sizes are 17,752 and 34,227. Each case receives weight $w_h=N_h/n_h$, and the estimated proportion of class $c$ is
-\begin{equation}
-\hat p_c=\sum_h\frac{N_h}{N}\left(\frac{1}{n_h}\sum_{i\in h}\mathbb{1}[y_i=c]\right).
-\end{equation}
-We retain inaccessible or invalid records in the denominator. Our estimand is the finite-frame share \emph{assigned} to each class by the judge, not the unknown share of correct human interpretations. The conventional worst-case 95\% margin with finite population correction is approximately 5.0 percentage points for an overall proportion near 0.5 under reference-level sampling. Table~\ref{tab:dist} gives approximate weighted Wilson intervals using the effective sample size; these describe sampling variation in model-assigned shares. Neither the margin nor the intervals includes model-label error or frame error. They are not simultaneous guarantees for all eight classes.
+GPT-6.1 Sol was instructed to apply the fixed framework and return one of eight structured labels with a rationale. Read-only repository tools let it inspect the complete task artifact, other files and paths, and history through the anchor commit; GitHub search helped locate repositories. Human labels, reviewer notes, and the mechanical existence flag were omitted from its starting inputs. Current web content did not replace commit evidence. The human Gold served to evaluate and calibrate this framework-aligned operating procedure before its use at scale. The rule set was finalized before the reported responses were evaluated. On the frozen Gold, the agent agreed on 82/90 cases ($\kappa=0.8782$), including 52/60 originally absent cases ($\kappa=0.8006$). It identified one of the three Gold cases labeled problematic and called the other two expected move or deletion. Thus the benchmark's observed problematic-class sensitivity is 1/3, too few cases to estimate its population sensitivity or the Silver error rate. Given the high overall benchmark agreement, we then used the agent as the measurement instrument for the probability sample; all population results therefore estimate agent-assigned interpretations.
+
+\subsection{Probability sample and estimand}
+Before classification, we selected 382 references from the finite frame of 51,979 mechanically absent references. This was the smallest integer sample meeting an approximately five-percentage-point worst-case margin of error at 95\% confidence, using a conservative population proportion of 0.5 and a finite-population correction. This target concerns sampling precision, not classification accuracy.
+
+We stratified the frame by task status and sampled before semantic investigation: 130 references from 17,752 open-task references and 252 from 34,227 completed-task references. Selection used a pre-evidence random rank within each stratum. No predicted class, access result, or evidence outcome influenced inclusion. The sample spans 296 repositories. Two sampled references also appear in the Gold; retaining them preserves the probability draw, and excluding them changes each estimated class share by less than 0.2 percentage points.
+
+Each sampled reference receives a design weight equal to the size of its population stratum divided by the number sampled from that stratum. Thus, each sampled case represents a known number of references from the same task-status group. These weights are used to estimate the distribution of agent-assigned classes in the full absent-reference frame.
+
+For example, the agent assigned expected creation to 64 of 130 open references (49.2\%) and 67 of 252 completed references (26.6\%). After weighting these two stratum-specific proportions by their population sizes, the estimated overall share is 34.3\%.
+
+The estimand is the finite-frame proportion assigned to each class by the agent. Inaccessible and invalid cases remain in the denominator. The approximate Table~\ref{tab:dist} intervals use weighted Wilson scores with an effective sample size and describe sampling variation only; they do not include classification error, frame error, or uncertainty about whether the agent's labels are correct human interpretations.
 
 \section{Results}
-All 382 cases have one valid classification and a complete case trace. The judge attempted to read the reference-commit artifact for every case: 348 reads found it, 32 reported an unavailable commit, and two did not find the artifact at that commit. It made 1,007 repository-tool calls and five web searches. No prohibited label fields appeared in the starting records. One malformed response was rerun once without changing the frozen configuration. Two sampled references overlap the 90-case Gold benchmark and remain in the probability estimate; excluding them changes each reported share by less than 0.2 percentage points.
+\subsection{Class distribution in the absent-reference frame}
+Every sampled case has one structured label and an investigative trace. The agent attempted the reference-commit task artifact for all 382: 348 reads found it, 32 returned an unavailable commit, and two did not find the artifact at that commit. The run used 1,007 repository-tool calls and five web searches.
 
 \begin{table}[t]
-\caption{LLM-assigned classes among 51,979 mechanically absent references. Weighted estimates and approximate 95\% intervals describe sampling variation, not label error.}
+\caption{Agent-assigned interpretations in the 51,979-reference absent frame. Intervals describe sampling variation only.}
 \label{tab:dist}
 \centering\scriptsize
 \begin{tabular}{p{3.35cm}rr}
@@ -66,34 +82,69 @@ Non-file reference & 72 & 18.8\% [15.2, 23.1]\\
 External repository & 32 & 8.4\% [6.0, 11.6]\\
 Inaccessible or invalid & 50 & 13.1\% [10.1, 16.8]\\
 Confirmed problematic absence & 13 & 3.4\% [2.0, 5.7]\\
-Confirmed exists after resolution & 13 & 3.4\% [2.0, 5.7]\\
+Confirmed exists & 13 & 3.4\% [2.0, 5.7]\\
 Ambiguous & 0 & 0.0\% [0.0, 1.0]\\
 \bottomrule
 \end{tabular}
 \end{table}
 
-Expected creation or move/removal accounts for 52.9\% of weighted model assignments (exploratory design-based 95\% interval [47.9, 57.9]); even for model labels, a strict majority is not established. Scope or non-file interpretations account for 27.2\%. Creation exceeds each of the next two classes by about 15.5 percentage points; exploratory design-based difference intervals are [8.5, 22.5] points versus non-file and [8.8, 22.7] versus move/removal. Non-file and move/removal differ by only 0.3 points (interval [-5.9, 6.4]); their ordering is unresolved by sampling. Only 13 cases received a problematic label (3.4\% weighted), and 13.1\% were inaccessible/invalid. The two missed problematic Gold cases make this rare-class share especially uncertain; neither the share nor its sampling interval establishes the true problematic rate. Among the 332 semantically classifiable cases, creation accounts for 39.5\%, a conditional result that excludes unavailable evidence.
+Expected creation is the largest agent-assigned category at 34.3\%. Its estimated share exceeds non-file by 15.5 points and move/deletion by 15.7 points; exploratory difference intervals are [8.5, 22.5] and [8.8, 22.7] points, respectively. Non-file and move/deletion are nearly tied: their difference is 0.3 points, interval [-5.9, 6.4]. Together, expected creation and move/deletion comprise 52.9\% (interval [47.9, 57.9]); thus even a strict majority of agent assignments is not resolved by sampling alone. Non-file and external scope together account for 27.2\%.
 
-The judge assigned creation to 64/130 open cases (49.2\%) and 67/252 completed cases (26.6\%): a 22.6-point open-minus-completed difference (exploratory design-based interval [12.5, 32.8]). It assigned move/removal to 11.5\% and 22.2\%, respectively (difference -10.7 points; interval [-18.2, -3.2]). These unadjusted contrasts concern model labels and sampling variation only; they neither observe transitions nor establish an effect of task status.
+The agent labeled 13 cases (3.4\%) as problematic. This small agent-assigned share cannot be read as a reliable defect prevalence: two of the three problematic Gold examples were missed, and the error rate for the sampled cases is unknown. Another 50 cases (13.1\%) were inaccessible or invalid, so their underlying semantic mix is not observed. There were no ambiguous outputs under the fixed rule; this describes the agent's decisions, not proof that the population contains no genuinely ambiguous cases.
 
-\section{Discussion and Implications}
-The answer to our question is conditional: absence establishes that a literal path was not found by a particular resolver at a particular commit. It does not by itself identify a defect, a hallucinated file, abandoned work, or successful later implementation. The ordered tree supplies the additional evidence needed to make narrower conclusions. For a repository tool, a missing-path alert should prompt commit-aligned checks of object type, scope, and task intent before claiming a defect. The F001/F061 contrast illustrates why treating every missing path alike would misrepresent both planned work and assumed existing dependencies.
+\subsection{Task status as context}
+Creation labels occur in 64/130 open cases (49.2\%) and 67/252 completed cases (26.6\%), a 22.6-point open-minus-completed difference (exploratory interval [12.5, 32.8]). Move/deletion labels occur in 11.5\% of open and 22.2\% of completed cases (difference -10.7 points, interval [-18.2, -3.2]). The direction fits a simple task-life-cycle interpretation, yet these are cross-sectional, unadjusted contrasts of model labels. We do not observe a path moving through states, and task status need not cause either interpretation.
 
-The released Silver is useful for future studies because each sampled reference carries its selection weight, source identifiers, model-assigned class, rationale, and investigative trace. It is an auditable measurement output, not 382 human-confirmed labels. The frozen Gold documents the two-reviewer consensus and pre-comparison methodological corrections. For scale, moving ten weighted-near-equal sample cases into or out of one class would change its estimated share by about 2.6 percentage points; this illustrative perturbation is not an error bound. The broad observation that literal absence has several plausible meanings is supported by the tree and human cases, while the exact class shares depend on the judge's unmeasured error. Future work can audit a fresh probability subset and investigate rare classes or later implementation.
+Table~\ref{tab:status} shows higher non-file (21.4\% versus 13.8\%) and external-repository (9.9\% versus 5.4\%) shares in completed than open tasks. Problematic labels are rare in both (3.6\% versus 3.1\%), making this contrast particularly vulnerable to label error. Inaccessible or invalid cases occur in both groups. Table~\ref{tab:dist} weights these strata by their population sizes.
+
+\begin{table}[t]
+\caption{Agent-assigned classes by task status. Percentages use the 130 open or 252 completed sampled references as their denominators.}
+\label{tab:status}
+\centering\scriptsize
+\begin{tabular}{p{3.30cm}rr}
+\toprule
+\textbf{Interpretation} & \textbf{Open} & \textbf{Completed}\\
+\midrule
+Expected creation & 49.2\% & 26.6\%\\
+Expected move or deletion & 11.5\% & 22.2\%\\
+Non-file reference & 13.8\% & 21.4\%\\
+External repository & 5.4\% & 9.9\%\\
+Inaccessible or invalid & 14.6\% & 12.3\%\\
+Confirmed problematic absence & 3.1\% & 3.6\%\\
+Confirmed exists & 2.3\% & 4.0\%\\
+Ambiguous & 0.0\% & 0.0\%\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Discussion}
+Mechanical absence means a resolver did not find a literal path in a Git tree. Repository scope, object type, and task language may instead indicate planned creation or removal, an external target, or a missing assumed dependency. The F001/F061 pair shows why an alert should expose the anchoring commit and decisive framework evidence before calling a missing path a defect.
+
+Gold evaluates the procedure through two-reviewer consensus but, as a balanced set, cannot estimate prevalence. Silver retains probability selection, weights, agent label, rationale, and repository investigation to estimate agent-assigned interpretations in the target frame.
+
+\emph{What can a missing-path alert say?} Expected creation or move/deletion relates the task to the anchor without showing that the change occurred later. Non-file or external labels indicate that the local file check targeted the wrong object or repository. A problematic label identifies an absent local file on which the task appears to rely: it warrants investigation, not a defect verdict. Inaccessible or ambiguous labels mark evidence limits. Alerts should report the decisive gate and source rather than one binary ``broken reference'' count.
+
+\emph{Why keep the whole probability sample?} Dropping inaccessible cases would estimate the class mix only among inspectable cases: creation is 34.3\% of all 382 references but 39.5\% of the 332 semantically classifiable cases. This conditional share cannot replace the frame estimate. Selecting extra rare problematic cases could aid their study but would alter the design for overall class shares. We retain the pre-evidence draw and interpret rare classes cautiously.
 
 \section{Threats to Validity}
-\emph{Measurement:} The 90-case benchmark was deliberately balanced and contains only three problematic Gold cases, limiting conclusions about class-specific performance. Later model-informed human decisions were excluded. No independent human audit of the population sample was conducted, so the 86/90 benchmark agreement does not quantify Silver-label error. The 50 inaccessible/invalid Silver cases may hide a different class mix. Evidence available to the judge may also differ from what humans saw, despite commit anchoring.
+\emph{Construct and measurement.} The eight outcomes depend on task wording and available repository evidence; neither proves developer intent beyond the record. The Gold has only three problematic cases, and its 82/90 agreement does not directly measure misclassification of the 382 Silver labels. Inaccessible and invalid cases may hide another class mix. Human and LLM investigations may differ in what repository material was reachable, despite the shared exact-commit rule.
 
-\emph{Sampling and inference:} The frame inherits SpecMine's extraction and path-resolution choices. References are the randomly selected units, so the reported intervals target finite-frame reference shares; they do not support repository-level or future-corpus inference. Selection used pre-evidence random ranks, but any frame omissions remain outside our estimand. Approximate intervals and exploratory contrasts exclude model error; the contrast intervals are not adjusted for multiple comparisons. Class-specific margins are wider or unstable for rare outcomes. The 90-case Gold was deliberately balanced across task/existence groups and does not estimate prevalence.
+Errors have asymmetric consequences: missing a problematic case can understate reliance on absent files, whereas calling expected creation problematic creates a false alarm. Overall agreement can mask both errors. With only three problematic Gold cases, observed sensitivity of 1/3 is too unstable to correct the Silver shares.
 
-\emph{Interpretation:} Task wording and repository evidence support an intent-based classification at one commit. They cannot establish downstream delivery, developer intent beyond recorded artifacts, or causality. Findings apply to OpenSpec references in this SpecMine release; transfer to other specification systems needs study.
+\emph{Sampling and inference.} SpecMine's extraction and resolver define the frame, so omitted or incorrectly parsed references lie outside our estimates. The selected units are references, potentially clustered within repositories; intervals target reference shares in this finite frame, not repository shares or future OpenSpec populations. The approximate intervals and exploratory contrasts omit model error and multiple-comparison adjustment. The Gold's balanced design likewise precludes a Gold prevalence estimate.
 
-\section{Ethical Implications}
-The analysis uses public repository material while preserving source attribution and commit provenance. Personal identifiers are not study variables; the review archive replaces incidental email-like strings and user-home path segments with documented placeholders. Automated labels can be wrong, especially for rare classes, so the dataset should support research and review rather than judgments about developer quality.
+Status contrasts are observational and unadjusted for repository, language, maturity, or task wording; neither status nor the anchor reveals later implementation. Reference-level inference cannot establish repository- or file-level shares.
+
+\section{Ethical Considerations}
+Public repository material is retained with commit provenance; incidental personal strings in the review archive are replaced with documented placeholders. The Silver should be used as an auditable research measurement, not as 382 human-verified facts or a score of developer quality. False negative problematic labels are especially consequential for any automated defect alert.
 
 \section{Conclusion and Data Availability}
-In the probability sample, the judge most often classified literally absent OpenSpec paths as planned creation. Non-file and move/removal assignments were similarly frequent, while creation assignments were more frequent for open than completed tasks. The true population distribution, particularly problematic absence, remains sensitive to unmeasured classification error. We contribute an explicit decision procedure, a frozen human Gold, and a probability-sampled model Silver dataset with case-level provenance. An anonymous artifact link will be added after the release package passes double-anonymous checks.
+The Human Gold evaluated and calibrated the agent before it classified the 382-reference probability sample. Weighted estimates describe the agent's interpretations in the SpecMine absent-reference frame; expected creation is most common, especially in open tasks. The released framework, Gold, Silver, and provenance enable audit~\cite{artifact}. A missing path proves neither a defect nor completed implementation. Future work can enlarge the fixed-procedure sample to narrow sampling intervals, not label error, and inspect later commits for anticipated creation, moves, replacements, or deletions.
 
+\section{Use of Artificial Intelligence}
+Generative AI helped organize research materials and workflows, develop the LLM-based classification agent, and edit the manuscript. The agent assigned the Silver labels used in our estimates. The authors made all methodological and editorial decisions and take full responsibility for the paper's analyses, citations, and conclusions.
+
+\clearpage
 \bibliographystyle{IEEEtran}
 \bibliography{references}
 \end{document}
