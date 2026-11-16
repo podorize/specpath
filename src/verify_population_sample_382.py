@@ -28,11 +28,8 @@ def sha256(path: Path) -> str:
 def main() -> None:
     manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
     sample_path = ROOT / manifest["output_csv"]
-    parquet_path = ROOT / manifest["output_parquet"]
     if sha256(sample_path) != manifest["output_csv_sha256"]:
         raise ValueError("Frozen sample CSV hash changed")
-    if parquet_path.is_file() and sha256(parquet_path) != manifest["output_parquet_sha256"]:
-        raise ValueError("Frozen sample Parquet hash changed")
 
     sample = pd.read_csv(sample_path)
     if len(sample) != manifest["sample_n"] or sample.id.nunique() != len(sample):

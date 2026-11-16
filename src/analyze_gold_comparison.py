@@ -54,8 +54,9 @@ def main() -> None:
     case_path = RESULTS / "case_comparison.csv"
     rows = list(csv.DictReader(case_path.open()))
     for row in rows:
-        row["gold_human_classification"] = gold[row["review_id"]]["gold_human_classification"]
-        row["gold_decision_source"] = gold[row["review_id"]]["gold_decision_source"]
+        for field in gold[row["review_id"]]:
+            if field in row:
+                row[field] = gold[row["review_id"]][field]
         row["agentic_matches_gold"] = str(row["gold_human_classification"] == row["agentic_classification"])
         row["decision_matches_gold"] = str(row["gold_human_classification"] == row["agentic_classification"])
         row["gold_decision"] = row["gold_human_classification"]

@@ -30,7 +30,5 @@
   "prior_development_overlap_n": 2,
   "prior_overlap_policy": "Retain probabilistically selected overlaps, flag them, and report sensitivity without them; exclusion would change the target population.",
   "output_csv": "data/final/population_sample_382/specpath_population_sample_382.csv",
-  "output_csv_sha256": "21c7690c7acf2cc2f92614c2e6c041132eea8f1c18a24c2cb3e97bcccb41630a",
-  "output_parquet": "data/final/population_sample_382/specpath_population_sample_382.parquet",
-  "output_parquet_sha256": "b33344e1ab64e37fb636dba6b5ada7a021d86e54b54fd72f12bd2e96ed0bd127"
+  "output_csv_sha256": "21c7690c7acf2cc2f92614c2e6c041132eea8f1c18a24c2cb3e97bcccb41630a"
 }

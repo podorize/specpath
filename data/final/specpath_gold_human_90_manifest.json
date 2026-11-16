@@ -2,7 +2,7 @@
   "status": "frozen_human_gold_for_reported_comparison",
   "row_count": 90,
   "gold_csv": "data/final/specpath_gold_human_90.csv",
-  "gold_csv_sha256": "eb23103422fa71e711b9a14376498b92faeb63403b56b0641cbc74c1f029651c",
+  "gold_csv_sha256": "fe93fc217417f0eb69c3c1022aa86e503a0ea1f87ae8263055d236443ac3cf33",
   "initial_r1_r2_agreement": {
     "matches": 83,
     "n": 90,

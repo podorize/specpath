@@ -6,19 +6,19 @@
       "paper/README.md": "8b176b80818ced66f146e7ce65165fc9fbdcedb920ea67f8f972dcdb15b4d832",
       "paper/figures/decision_flow_compact.png": "c8f84c0739ee4359adf8c2f7e33f64bce7dc1b6ad9f903c624f40cc69b7e777f",
       "paper/figures/decision_flow_compact.svg": "e20c588e5e97b493ba3bafb7016cbae05945f42d1322a9860911166c7448d1db",
-      "paper/main.tex": "b77a3aab554ae676032467d1d15134c81657639c2f8fb6465922f926a5f6a529",
+      "paper/main.tex": "33971c0cab24a41ecb7050b9d0c2093109047f72fa22aa53b2b6830e691fd235",
       "paper/references.bib": "130e50ae5bd2313851cc2ba8692418b3f2b3a3b075251a69d3c008ba04111c18"
     },
-    "sha256": "75bfb2ac0e1cd21d38305f8eb7555f6e0fb858fcea3b1544ab917f2386f8711e"
+    "sha256": "fb4eadc40cd67baecd38f9f0769c0cdc3b40cd8792ee2b4f5881e3f9b0904b51"
   },
   "replication": {
     "archive": "specpath_msr2027_anonymous_replication_candidate.zip",
     "files": {
       "README.md": "f058cd720dd1fe524461b4c29602cc5ff684df70364b7356e0726d6a3b472c4f",
       "data/final/population_sample_382/specpath_population_sample_382.csv": "21c7690c7acf2cc2f92614c2e6c041132eea8f1c18a24c2cb3e97bcccb41630a",
-      "data/final/population_sample_382/specpath_population_sample_382_manifest.json": "325120b9419e65e4bf967850cfae015256e5b775c8165a4769dd06becc7272b8",
-      "data/final/specpath_gold_human_90.csv": "eb23103422fa71e711b9a14376498b92faeb63403b56b0641cbc74c1f029651c",
-      "data/final/specpath_gold_human_90_manifest.json": "354ff38a0c6477bc7227af1e3ba0e5eea82e06f187754c10288d1a3c63754d7c",
+      "data/final/population_sample_382/specpath_population_sample_382_manifest.json": "36675f5e79028110872b1bb7e97cc710419389098a17a0d709e08af20702b681",
+      "data/final/specpath_gold_human_90.csv": "fe93fc217417f0eb69c3c1022aa86e503a0ea1f87ae8263055d236443ac3cf33",
+      "data/final/specpath_gold_human_90_manifest.json": "3c610068258e059835c4361122058000f00a16367629c60dd0e692019dcb1146",
       "data/interim/validation_final_90_en.csv": "20782bdd68c5be2ffe34b5790edc90cc5dc2aadaf8e05717ff23615b9b9e582f",
       "outputs/openai_sol_90_agentic_v2/frozen_manifest.json": "c5563b3c8d198a7dc60735e4fdace53893e200f93d4a6f17482342b311f7f8ed",
       "outputs/openai_sol_90_agentic_v2/predictions.jsonl": "743591ee0f85cb92cb4841ecacca106ee25c3d85022b172f27a0902875f7c4c4",
@@ -500,7 +500,7 @@
       "paper/README.md": "8b176b80818ced66f146e7ce65165fc9fbdcedb920ea67f8f972dcdb15b4d832",
       "paper/figures/decision_flow_compact.png": "c8f84c0739ee4359adf8c2f7e33f64bce7dc1b6ad9f903c624f40cc69b7e777f",
       "paper/figures/decision_flow_compact.svg": "e20c588e5e97b493ba3bafb7016cbae05945f42d1322a9860911166c7448d1db",
-      "paper/main.tex": "b77a3aab554ae676032467d1d15134c81657639c2f8fb6465922f926a5f6a529",
+      "paper/main.tex": "33971c0cab24a41ecb7050b9d0c2093109047f72fa22aa53b2b6830e691fd235",
       "paper/references.bib": "130e50ae5bd2313851cc2ba8692418b3f2b3a3b075251a69d3c008ba04111c18",
       "pyproject.toml": "3598a988a44a9a7950d3fa2d07a8c8affd9ba99ea5c421aef265fb7d3f18dc5a",
       "results/population_382_agentic/EXECUTION_NOTES.md": "099130e69ae89cdd3e1f71c902898f05f1979ed213499a9686a281b2604d6983",
@@ -518,22 +518,22 @@
       "results/population_382_agentic/weighted_class_distribution.csv": "92f168e7474c0c2e0eb606475454db79bd7f76ce4415a8623c84a3b9a11c3044",
       "results/validation/openai_sol_90_agentic_v2/EXECUTION_NOTES.md": "f418d2b1f8dd42916678d1ca2854f7c292c9b8e78436f6bd6e156241a60e5de6",
       "results/validation/openai_sol_90_agentic_v2/REPORT.md": "d0595e019740a192b74389111a79a285fafa11d1e8b2f7829ed9d1858dc34ab2",
-      "results/validation/openai_sol_90_agentic_v2/case_comparison.csv": "2f658052fbb7bce294dd13cd9b81c8c50d56a6cebd53286309256c7fe9bfe2a1",
+      "results/validation/openai_sol_90_agentic_v2/case_comparison.csv": "ac40bb1fc58d465959212b79c92c17a3b39b9887e321c75861a00d77fe1358bb",
       "results/validation/openai_sol_90_agentic_v2/confusion_all_90.csv": "283182bbc8032acc22077bff13bd2a13ad16ecd1c6b3b24e24b962ea2bfcef41",
       "results/validation/openai_sol_90_agentic_v2/confusion_missing_60.csv": "15442c9488ccbb28094662cabb7baab5e27029810874338c8952c4fb5804e960",
-      "results/validation/openai_sol_90_agentic_v2/disagreements.csv": "afc4f9f97f96667910c6c2a1117439bff7a022ebeb4f6f5053dfa2c5f0e1d32c",
+      "results/validation/openai_sol_90_agentic_v2/disagreements.csv": "89bd22608243bae211c425c9274eeb43a04239fbe423daf31942ad2363897e30",
       "results/validation/openai_sol_90_agentic_v2/per_class_all_90.csv": "e15f175c04e0487c938da43225fcbecb270a621b57b08ac88aa46ff06847b44f",
       "results/validation/openai_sol_90_agentic_v2/per_class_missing_60.csv": "07b19cc5e58bf70f2acf593f4e09e45c88c00652c10913b82d3d88e7c61ed758",
       "results/validation/openai_sol_90_agentic_v2/predictions.csv": "d8ac34ba82abd7ef4bfd0b46739868b55dc0d0b787a4ca8b780de1dc1213531d",
       "results/validation/openai_sol_90_agentic_v2/summary.json": "e86d4521dce89c83379b369515cac64f95d3ad06eb5bcc87bd8b8c8cc4cff963",
       "results/validation/openai_sol_90_agentic_v2/trace_audit.csv": "e3aa1f102e27d9a1e4315ed322241500aa53830140605561a2d1edb276b42bb4",
-      "src/analyze_gold_comparison.py": "604184e4efd76d9c02dc9d81e99eb7113da9092cb346319246de918931b66fd1",
+      "src/analyze_gold_comparison.py": "aab7a44f469179a20d0d2912aa407a883e0b3a9f41cf219b5a5ec2786a429a53",
       "src/analyze_population_382_agentic.py": "d1eb4de35769e604a4c7802451cde976a9d7747be29264f166124bb622d4d813",
       "src/redact_public_release.py": "96e8bc9dac6d42be738a2b8f46e656d9e63d8698102ebb22dcf0a1fa21dc638c",
       "src/run_openai_sol_90_agentic.py": "96688c21069e142769312a07b8be93b9a4d2cfa665f0766ad675e9b776ebf39d",
       "src/run_openai_sol_90_agentic_v2.py": "740710fb129970ecaedbd14eed0b3a27009c3286f295939794350cdf688b28eb",
       "src/run_openai_sol_population_382_agentic.py": "fb649f4795adaa995e2192a61377c8badf6c43c4939731cd97571764fc11f5fb",
-      "src/verify_population_sample_382.py": "9f8a0cc753fdaaf8d99d887009916a36d3187e8f0154ea056cf270a3a066dfde",
+      "src/verify_population_sample_382.py": "0ae120761403eaf7d79892b9cc894d31466cead6eba757ab4bdb97e29cebfdee",
       "uv.lock": "a29e68d7290ad6fdc4b24b661fe46b0d3d91f78097a021a3468cfea9f29cdd46",
       "validation/ACTIVE_STUDY_PROTOCOL.md": "a2a1ca418d2d222b627cb5e687275205f6d02f8d6c124088633418660972ba04",
       "validation/DECISION_TREE_CASE_EXAMPLES.md": "6a57ed3172f81e46725668d47eade7c05960fd0e6a11d22f2002a48e557645e9",
@@ -545,6 +545,6 @@
       "validation/llm_judge_output_schema_openai_agentic.json": "0f3cbc9b06b46fc7d854ed7f5f33a2f09a9bf6d1a313adc5ade46d06d6ade8ad",
       "RELEASE_REDACTIONS.json": "a97615790f1223d47bc417ab7276ab90e05b1b37b7916ac6ba711b659743ecea"
     },
-    "sha256": "68b1d4296a95691614dab45a0d3e37a90411e2fb74497f9a570a4f13efbdd178"
+    "sha256": "c06ca584f1d11fb71266232efb05d2272bb5a0be8edb28f489489430111a5084"
   }
 }
