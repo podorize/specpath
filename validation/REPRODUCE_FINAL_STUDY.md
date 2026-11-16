@@ -2,7 +2,7 @@
 
 ## Published numerical results
 
-The 90-case agreement uses only `data/final/specpath_gold_human_90.csv`, which
+The 90-case agreement uses only `data/specpath_gold_human_90.csv`, which
 was frozen before the reported LLM comparison. The population analysis uses
 the frozen 382-case probability sample and its 382 model predictions. Later
 model-informed human reconsiderations are excluded from this study.

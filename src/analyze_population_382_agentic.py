@@ -16,8 +16,8 @@ from jsonschema import validate as validate_json_schema
 
 
 ROOT = Path(__file__).resolve().parents[1]
-SAMPLE = ROOT / "data" / "final" / "population_sample_382" / "specpath_population_sample_382.csv"
-SAMPLE_MANIFEST = ROOT / "data" / "final" / "population_sample_382" / "specpath_population_sample_382_manifest.json"
+SAMPLE = ROOT / "data" / "population_sample_382" / "specpath_population_sample_382.csv"
+SAMPLE_MANIFEST = ROOT / "data" / "population_sample_382" / "specpath_population_sample_382_manifest.json"
 OUTPUT = ROOT / "outputs" / "openai_sol_population_382_agentic"
 PREDICTIONS = OUTPUT / "predictions.jsonl"
 RUN_MANIFEST = OUTPUT / "frozen_manifest.json"

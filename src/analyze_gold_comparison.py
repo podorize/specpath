@@ -8,7 +8,7 @@ from collections import Counter
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-GOLD = ROOT / "data/final/specpath_gold_human_90.csv"
+GOLD = ROOT / "data/specpath_gold_human_90.csv"
 RESULTS = ROOT / "results/validation/openai_sol_90_agentic_v2"
 
 

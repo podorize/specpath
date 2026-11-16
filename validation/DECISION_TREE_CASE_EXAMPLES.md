@@ -3,7 +3,7 @@
 These examples explain the ordered rules. They are drawn from the 90 human-reviewed
 cases, so they are illustrations of the measurement instrument, not independent
 validation or prevalence evidence. Source repository, commit, task URL, reviewer
-notes, and full task context are in `data/final/specpath_gold_human_90.csv`.
+notes, and full task context are in `data/specpath_gold_human_90.csv`.
 
 | Case | Commit-aligned observation | Decisive tree test | Human conclusion |
 | --- | --- | --- | --- |

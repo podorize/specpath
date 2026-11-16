@@ -16,7 +16,7 @@ import pandas as pd
 
 
 ROOT = Path(__file__).resolve().parents[1]
-DIRECTORY = ROOT / "data" / "final" / "population_sample_382"
+DIRECTORY = ROOT / "data" / "population_sample_382"
 MANIFEST = DIRECTORY / "specpath_population_sample_382_manifest.json"
 STRATA = {0: "open_missing", 1: "completed_missing"}
 

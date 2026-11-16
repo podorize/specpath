@@ -52,10 +52,10 @@ support a reliable performance or subgroup claim.
   `paper/figures/decision_flow_compact.svg`, and
   `validation/LLM_JUDGE_PROMPT_FINAL_90_OPENAI_AGENTIC_V2.md`
 - `validation/PROTOCOL_RECORD_AMENDMENT.json`
-- `data/final/specpath_gold_human_90.csv` and
-  `data/final/specpath_gold_human_90_manifest.json`
+- `data/specpath_gold_human_90.csv` and
+  `data/specpath_gold_human_90_manifest.json`
 - `validation/DECISION_TREE_CASE_EXAMPLES.md`
-- `data/final/population_sample_382/`
+- `data/population_sample_382/`
 - `results/population_382_agentic/`
 - `src/verify_population_sample_382.py`,
   `src/run_openai_sol_population_382_agentic.py`, and
