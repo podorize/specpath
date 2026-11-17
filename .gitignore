@@ -19,7 +19,6 @@ paper/*.blg
 paper/*.log
 paper/*.out
 paper/*.synctex.gz
-paper/main.pdf
 
 *.duckdb
 node_modules/
