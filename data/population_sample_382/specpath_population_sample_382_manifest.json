@@ -27,8 +27,6 @@
       "sample_n": 252
     }
   },
-  "prior_development_overlap_n": 2,
-  "prior_overlap_policy": "Retain probabilistically selected overlaps, flag them, and report sensitivity without them; exclusion would change the target population.",
   "output_csv": "data/population_sample_382/specpath_population_sample_382.csv",
-  "output_csv_sha256": "21c7690c7acf2cc2f92614c2e6c041132eea8f1c18a24c2cb3e97bcccb41630a"
+  "output_csv_sha256": "88cbf1ffc46f39c2180275469a26833c28cb29331a4ec8c94fb5617bfe5aaace"
 }

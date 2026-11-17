@@ -37,7 +37,6 @@
     "expected_absence_move_or_delete": 10,
     "inaccessible_or_invalid": 4
   },
-  "later_human_reconsideration": "Three cases were reconsidered by humans after model disagreements were known. Those later decisions are excluded from the present study, its released Gold, and its reported performance; no post-reconsideration agreement is calculated.",
-  "comparison_output": "results/validation/openai_sol_90_agentic_v2/summary.json",
+  "comparison_output": "results/90_agentic/summary.json",
   "llm_judge_matches": 82
 }

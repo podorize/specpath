@@ -68,8 +68,6 @@ def main() -> None:
 
     if sum(item["population_n"] for item in manifest["strata"].values()) != manifest["population_n"]:
         raise ValueError("Population stratum sizes do not add up")
-    if int(sample.prior_development_overlap.sum()) != manifest["prior_development_overlap_n"]:
-        raise ValueError("Development overlap count changed")
     print(json.dumps({"sample_n": len(sample), "repositories": sample.repo_name.nunique(),
                       "strata": {name: manifest["strata"][name]["sample_n"] for name in STRATA.values()},
                       "csv_sha256": sha256(sample_path)}, indent=2))

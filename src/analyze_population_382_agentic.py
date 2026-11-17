@@ -17,12 +17,11 @@ from jsonschema import validate as validate_json_schema
 
 ROOT = Path(__file__).resolve().parents[1]
 SAMPLE = ROOT / "data" / "population_sample_382" / "specpath_population_sample_382.csv"
-SAMPLE_MANIFEST = ROOT / "data" / "population_sample_382" / "specpath_population_sample_382_manifest.json"
-OUTPUT = ROOT / "outputs" / "openai_sol_population_382_agentic"
+OUTPUT = ROOT / "outputs" / "population_382_agentic"
 PREDICTIONS = OUTPUT / "predictions.jsonl"
 RUN_MANIFEST = OUTPUT / "frozen_manifest.json"
 TRACES = OUTPUT / "traces"
-SCHEMA = ROOT / "validation" / "llm_judge_output_schema_openai_agentic.json"
+SCHEMA = ROOT / "validation" / "llm_output_schema.json"
 RESULTS = ROOT / "results" / "population_382_agentic"
 N_POPULATION = 51_979
 Z = 1.959963984540054
@@ -271,6 +270,16 @@ def status_share_contrast(frame: pd.DataFrame, label: str) -> dict[str, Any]:
 def main() -> None:
     RESULTS.mkdir(parents=True, exist_ok=True)
     sample = pd.read_csv(SAMPLE)
+    provenance = pd.read_csv(
+        RESULTS / "classified_sample_382.csv",
+        usecols=["sample_id", "prior_development_overlap", "prior_development_sources"],
+    ).set_index("sample_id")
+    if not provenance.index.is_unique or not sample.sample_id.isin(provenance.index).all():
+        raise ValueError("Prior-development overlap provenance is incomplete")
+    insertion = sample.columns.get_loc("sampling_stratum")
+    for column in ("prior_development_overlap", "prior_development_sources"):
+        sample.insert(insertion, column, sample.sample_id.map(provenance[column]))
+        insertion += 1
     predictions = load_predictions().rename(columns={"review_id": "sample_id"})
     frame = sample.merge(predictions, on="sample_id", validate="one_to_one")
     if "classification_x" in frame and frame.classification_x.notna().any():
@@ -386,7 +395,7 @@ def main() -> None:
     sensitivity_dist.to_csv(RESULTS / "sensitivity_excluding_prior_development_overlap.csv", index=False)
     trace_frame.to_csv(RESULTS / "trace_audit.csv", index=False)
     (RESULTS / "summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    (RESULTS / "EXECUTION_NOTES.md").write_text(
+    (RESULTS / "execution_notes.md").write_text(
         "# Execution notes\n\n"
         "- The first launch used the system interpreter and failed before any API request.\n"
         "- P0123's first API response was malformed JSON and was not appended. It was rerun once with the identical frozen configuration.\n"
@@ -437,7 +446,7 @@ def main() -> None:
         "",
         "Two probabilistically retained cases overlap prior development data; a sensitivity table excluding them is provided. Rare-class subgroup analysis, independent population measurement auditing, and narrower-margin replication remain future work and threats to validity.",
     ]
-    (RESULTS / "REPORT.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
+    (RESULTS / "report.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
     print("\n".join(lines))
 
 

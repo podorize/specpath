@@ -9,7 +9,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 GOLD = ROOT / "data/specpath_gold_human_90.csv"
-RESULTS = ROOT / "results/validation/openai_sol_90_agentic_v2"
+RESULTS = ROOT / "results/90_agentic"
 
 
 def metrics(rows: list[dict[str, str]]) -> tuple[dict, list[str], list[list[int]]]:
@@ -88,7 +88,7 @@ R1 and R2 initially agreed on 83/90 labels. The seven initial disagreements were
 
 The frozen Gold contains three problematic cases. The judge matched one and missed two; this 1/3 observed recall is too small for reliable rare-class sensitivity inference.
 """
-    (RESULTS / "REPORT.md").write_text(report)
+    (RESULTS / "report.md").write_text(report)
     print(json.dumps({"all_90": all_metrics, "missing_60": missing_metrics, "disagreements": len(disagreements)}, indent=2))
 
 

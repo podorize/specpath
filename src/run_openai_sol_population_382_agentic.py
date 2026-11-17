@@ -17,9 +17,9 @@ THIS_FILE = Path(__file__).resolve()
 SAMPLE = ROOT / "data" / "population_sample_382" / "specpath_population_sample_382.csv"
 POPULATION_CACHE = ROOT / "outputs" / "population_anchor_evidence" / "git_cache"
 base.SOURCE = SAMPLE
-base.PROMPT_FILE = ROOT / "validation" / "LLM_JUDGE_PROMPT_FINAL_90_OPENAI_AGENTIC_V2.md"
-base.PROTOCOL_FILE = ROOT / "validation" / "OPENAI_SOL_POPULATION_382_AGENTIC_PROTOCOL.md"
-base.DEFAULT_OUTPUT = ROOT / "outputs" / "openai_sol_population_382_agentic"
+base.PROMPT_FILE = ROOT / "validation" / "llm_classification_prompt.md"
+base.PROTOCOL_FILE = ROOT / "validation" / "silver_382_run_protocol.md"
+base.DEFAULT_OUTPUT = ROOT / "outputs" / "population_382_agentic"
 base.GIT_CACHE = POPULATION_CACHE
 
 

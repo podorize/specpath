@@ -15,5 +15,5 @@ defect. The examples are illustrations from the frozen Gold; they do not
 estimate class prevalence or LLM performance on new cases.
 
 The complete decision sequence and output taxonomy are in
-`validation/ACTIVE_STUDY_PROTOCOL.md` and the judge prompt; the frozen Gold CSV
+`validation/study_protocol.md` and the judge prompt; the frozen Gold CSV
 preserves the human decisions used for the reported comparison.

@@ -32,7 +32,7 @@ The eight classes and precedence are:
    and assumed pre-existing missing dependencies.
 5. Use ambiguous_reference if remaining evidence is insufficient.
 
-The detailed prompt is LLM_JUDGE_PROMPT_FINAL_90_OPENAI_AGENTIC_V2.md. Current
+The detailed prompt is llm_classification_prompt.md. Current
 GitHub content can aid discovery but is not evidence of anchor-commit state.
 
 ## Model and Gold comparison

@@ -11,9 +11,9 @@ import run_openai_sol_90_agentic as base
 
 ROOT = Path(__file__).resolve().parents[1]
 THIS_FILE = Path(__file__).resolve()
-base.PROMPT_FILE = ROOT / "validation" / "LLM_JUDGE_PROMPT_FINAL_90_OPENAI_AGENTIC_V2.md"
-base.PROTOCOL_FILE = ROOT / "validation" / "OPENAI_SOL_90_AGENTIC_V2_PROTOCOL.md"
-base.DEFAULT_OUTPUT = ROOT / "outputs" / "openai_sol_90_agentic_v2"
+base.PROMPT_FILE = ROOT / "validation" / "llm_classification_prompt.md"
+base.PROTOCOL_FILE = ROOT / "validation" / "gold_90_run_protocol.md"
+base.DEFAULT_OUTPUT = ROOT / "outputs" / "90_agentic"
 
 original_manifest_payload = base.manifest_payload
 

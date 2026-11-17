@@ -39,13 +39,13 @@
   ],
   "files": {
     "data/population_sample_382/specpath_population_sample_382.csv": "21c7690c7acf2cc2f92614c2e6c041132eea8f1c18a24c2cb3e97bcccb41630a",
-    "validation/LLM_JUDGE_PROMPT_FINAL_90_OPENAI_AGENTIC_V2.md": "4089bcb23c2e2fd7c6a56e09cc32aeedfa02ddae3af616ef12d6e7744ac773d3",
-    "validation/OPENAI_SOL_POPULATION_382_AGENTIC_PROTOCOL.md": "3beca1df8f478e8c93d2d5358fdc8639fbdfeb72101b022caad715d8d97eefd1",
-    "validation/llm_judge_output_schema_openai_agentic.json": "0f3cbc9b06b46fc7d854ed7f5f33a2f09a9bf6d1a313adc5ade46d06d6ade8ad",
+    "validation/llm_classification_prompt.md": "4089bcb23c2e2fd7c6a56e09cc32aeedfa02ddae3af616ef12d6e7744ac773d3",
+    "validation/silver_382_run_protocol.md": "3beca1df8f478e8c93d2d5358fdc8639fbdfeb72101b022caad715d8d97eefd1",
+    "validation/llm_output_schema.json": "0f3cbc9b06b46fc7d854ed7f5f33a2f09a9bf6d1a313adc5ade46d06d6ade8ad",
     "src/run_openai_sol_90_agentic.py": "96688c21069e142769312a07b8be93b9a4d2cfa665f0766ad675e9b776ebf39d",
     "src/run_openai_sol_population_382_agentic.py": "6133daa2f135943e82385ca1dc872a3604732d384b731ae35ec04ce522597a69"
   },
-  "output_directory": "outputs/openai_sol_population_382_agentic",
+  "output_directory": "outputs/population_382_agentic",
   "version": "population_382_agentic_tree_aligned_v2",
   "release_amendment": {
     "scope": "Repository-cache path, sample-description prose, and released sample path updated for publication; no case, prompt, prediction, or trace changed.",

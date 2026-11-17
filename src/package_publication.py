@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
+import csv
 import hashlib
+import io
 import json
 from pathlib import Path
 from zipfile import ZIP_DEFLATED, ZipFile, ZipInfo
@@ -25,23 +27,23 @@ REPLICATION_FILES = [
     "pyproject.toml",
     "uv.lock",
     *PAPER_FILES,
-    "validation/ACTIVE_STUDY_PROTOCOL.md",
-    "validation/REPRODUCE_FINAL_STUDY.md",
-    "validation/OPENAI_SOL_90_AGENTIC_V2_PROTOCOL.md",
-    "validation/PROTOCOL_RECORD_AMENDMENT.json",
-    "validation/OPENAI_SOL_POPULATION_382_AGENTIC_PROTOCOL.md",
-    "validation/LLM_JUDGE_PROMPT_FINAL_90_OPENAI_AGENTIC_V2.md",
-    "validation/DECISION_TREE_CASE_EXAMPLES.md",
-    "validation/llm_judge_output_schema_openai_agentic.json",
+    "validation/study_protocol.md",
+    "validation/reproduction_guide.md",
+    "validation/gold_90_run_protocol.md",
+    "validation/protocol_amendment.json",
+    "validation/silver_382_run_protocol.md",
+    "validation/llm_classification_prompt.md",
+    "validation/classification_examples.md",
+    "validation/llm_output_schema.json",
     "data/specpath_gold_human_90.csv",
     "data/specpath_gold_human_90_manifest.json",
     "data/interim/validation_final_90_en.csv",
     "data/population_sample_382/specpath_population_sample_382.csv",
     "data/population_sample_382/specpath_population_sample_382_manifest.json",
-    "outputs/openai_sol_90_agentic_v2/predictions.jsonl",
-    "outputs/openai_sol_90_agentic_v2/frozen_manifest.json",
-    "outputs/openai_sol_population_382_agentic/predictions.jsonl",
-    "outputs/openai_sol_population_382_agentic/frozen_manifest.json",
+    "outputs/90_agentic/predictions.jsonl",
+    "outputs/90_agentic/frozen_manifest.json",
+    "outputs/population_382_agentic/predictions.jsonl",
+    "outputs/population_382_agentic/frozen_manifest.json",
     "src/verify_population_sample_382.py",
     "src/run_openai_sol_population_382_agentic.py",
     "src/run_openai_sol_90_agentic.py",
@@ -123,7 +125,7 @@ def write_archive(name: str, files: list[str], *, redact: bool = False) -> dict:
 
 def verify_frozen_inputs(manifest_path: str) -> None:
     manifest = json.loads((ROOT / manifest_path).read_text(encoding="utf-8"))
-    amendment = json.loads((ROOT / "validation/PROTOCOL_RECORD_AMENDMENT.json").read_text(encoding="utf-8"))
+    amendment = json.loads((ROOT / "validation/protocol_amendment.json").read_text(encoding="utf-8"))
     redactions = json.loads((DIST / "RELEASE_REDACTIONS.json").read_text(encoding="utf-8"))["changed_files"]
     for relative, expected_sha256 in manifest["files"].items():
         path = ROOT / relative
@@ -145,12 +147,73 @@ def verify_frozen_inputs(manifest_path: str) -> None:
             and actual_sha256 == amendment["amended_sha256"]
         ):
             continue
+        if relative in {
+            "src/run_openai_sol_90_agentic.py",
+            "src/run_openai_sol_90_agentic_v2.py",
+            "src/run_openai_sol_population_382_agentic.py",
+        }:
+            original = path.read_bytes()
+            for current, frozen in (
+                (b"llm_classification_prompt.md", b"LLM_JUDGE_PROMPT_FINAL_90_OPENAI_AGENTIC_V2.md"),
+                (b"gold_90_run_protocol.md", b"OPENAI_SOL_90_AGENTIC_V2_PROTOCOL.md"),
+                (b"silver_382_run_protocol.md", b"OPENAI_SOL_POPULATION_382_AGENTIC_PROTOCOL.md"),
+                (b"llm_output_schema.json", b"llm_judge_output_schema_openai_agentic.json"),
+            ):
+                original = original.replace(current, frozen)
+            if relative == "src/run_openai_sol_90_agentic.py":
+                original = original.replace(
+                    b"LLM_JUDGE_PROMPT_FINAL_90_OPENAI_AGENTIC_V2.md",
+                    b"LLM_JUDGE_PROMPT_FINAL_90_OPENAI_AGENTIC.md",
+                ).replace(
+                    b"OPENAI_SOL_90_AGENTIC_V2_PROTOCOL.md",
+                    b"OPENAI_SOL_90_AGENTIC_PROTOCOL.md",
+                )
+            frozen_output_names = {
+                "src/run_openai_sol_90_agentic.py": b'"openai_sol_90_agentic"',
+                "src/run_openai_sol_90_agentic_v2.py": b'"openai_sol_90_agentic_v2"',
+                "src/run_openai_sol_population_382_agentic.py": b'"openai_sol_population_382_agentic"',
+            }
+            current_output_name = (
+                b'"population_382_agentic"'
+                if relative == "src/run_openai_sol_population_382_agentic.py"
+                else b'"90_agentic"'
+            )
+            original = original.replace(current_output_name, frozen_output_names[relative])
+            if hashlib.sha256(original).hexdigest() == expected_sha256:
+                continue
+        if relative == "data/population_sample_382/specpath_population_sample_382.csv":
+            sample_manifest = json.loads((ROOT / "data/population_sample_382/specpath_population_sample_382_manifest.json").read_text(encoding="utf-8"))
+            if actual_sha256 != sample_manifest["output_csv_sha256"]:
+                raise ValueError(f"Frozen input missing or changed: {relative}")
+            classified_path = ROOT / "results/population_382_agentic/classified_sample_382.csv"
+            with classified_path.open(newline="", encoding="utf-8") as classified_source:
+                classified = {row["sample_id"]: row for row in csv.DictReader(classified_source)}
+            with path.open(newline="", encoding="utf-8") as source:
+                reader = csv.DictReader(source)
+                fieldnames = list(reader.fieldnames or [])
+                removed_columns = ["prior_development_overlap", "prior_development_sources"]
+                if any(column in fieldnames for column in removed_columns):
+                    raise ValueError("Released sample still contains removed columns")
+                insertion = fieldnames.index("sampling_stratum")
+                fieldnames[insertion:insertion] = removed_columns
+                recovered = io.StringIO(newline="")
+                writer = csv.DictWriter(recovered, fieldnames=fieldnames, lineterminator="\n")
+                writer.writeheader()
+                for row in reader:
+                    historical = classified.get(row["sample_id"])
+                    if historical is None:
+                        raise ValueError("Missing original sample provenance")
+                    for column in removed_columns:
+                        row[column] = historical[column]
+                    writer.writerow(row)
+            if hashlib.sha256(recovered.getvalue().encode("utf-8")).hexdigest() == expected_sha256:
+                continue
         raise ValueError(f"Frozen input missing or changed: {relative}")
 
 
 def main() -> None:
-    verify_frozen_inputs("outputs/openai_sol_90_agentic_v2/frozen_manifest.json")
-    verify_frozen_inputs("outputs/openai_sol_population_382_agentic/frozen_manifest.json")
+    verify_frozen_inputs("outputs/90_agentic/frozen_manifest.json")
+    verify_frozen_inputs("outputs/population_382_agentic/frozen_manifest.json")
     DIST.mkdir(exist_ok=True)
     replication = REPLICATION_FILES.copy()
     replication.extend(
@@ -160,18 +223,18 @@ def main() -> None:
     )
     replication.extend(
         str(path.relative_to(ROOT))
-        for path in sorted((ROOT / "results/validation/openai_sol_90_agentic_v2").iterdir())
+        for path in sorted((ROOT / "results/90_agentic").iterdir())
         if path.is_file()
     )
     replication.extend(
         str(path.relative_to(ROOT))
-        for path in sorted((ROOT / "outputs/openai_sol_90_agentic_v2/traces").glob("*.jsonl"))
+        for path in sorted((ROOT / "outputs/90_agentic/traces").glob("*.jsonl"))
     )
     replication.extend(
         str(path.relative_to(ROOT))
-        for path in sorted((ROOT / "outputs/openai_sol_population_382_agentic/traces").glob("*.jsonl"))
+        for path in sorted((ROOT / "outputs/population_382_agentic/traces").glob("*.jsonl"))
     )
-    if len([path for path in replication if path.startswith("outputs/openai_sol_population_382_agentic/traces/")]) != 382:
+    if len([path for path in replication if path.startswith("outputs/population_382_agentic/traces/")]) != 382:
         raise ValueError("Expected exactly 382 case traces")
     result = {
         "paper": write_archive("specpath_msr2027_overleaf_current.zip", PAPER_FILES),

@@ -28,10 +28,10 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / "data" / "interim" / "validation_final_90_en.csv"
-PROMPT_FILE = ROOT / "validation" / "LLM_JUDGE_PROMPT_FINAL_90_OPENAI_AGENTIC.md"
-PROTOCOL_FILE = ROOT / "validation" / "OPENAI_SOL_90_AGENTIC_PROTOCOL.md"
-SCHEMA_FILE = ROOT / "validation" / "llm_judge_output_schema_openai_agentic.json"
-DEFAULT_OUTPUT = ROOT / "outputs" / "openai_sol_90_agentic"
+PROMPT_FILE = ROOT / "validation" / "llm_classification_prompt.md"
+PROTOCOL_FILE = ROOT / "validation" / "gold_90_run_protocol.md"
+SCHEMA_FILE = ROOT / "validation" / "llm_output_schema.json"
+DEFAULT_OUTPUT = ROOT / "outputs" / "90_agentic"
 GIT_CACHE = ROOT / "outputs" / "openai_sol_90_v3" / "git_cache"
 ENV_FILE = ROOT / ".env.local"
 MODEL = "gpt-6.1-sol"

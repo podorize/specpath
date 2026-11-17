@@ -28,7 +28,7 @@ The unit is a reference, not a repository or a task.
   non-file 18.8%, external repository 8.4%, inaccessible/invalid 13.1%,
   confirmed problematic absence 3.4%, and confirmed existence after path
   resolution 3.4%. Approximate sampling intervals and counts are in the
-  `results/population_382_agentic/REPORT.md`.
+  `results/population_382_agentic/report.md`.
 - Distribution analysis: expected lifecycle change accounts for 52.9% of
   weighted model labels, and scope or non-file references for 27.2%. Creation
   is the most frequent model label; non-file and move/removal have similar
@@ -46,15 +46,15 @@ support a reliable performance or subgroup claim.
 ## Manuscript and replication
 
 - `paper/main.tex` and `paper/README.md`
-- `validation/ACTIVE_STUDY_PROTOCOL.md`
-- `validation/REPRODUCE_FINAL_STUDY.md`
+- `validation/study_protocol.md`
+- `validation/reproduction_guide.md`
 - `paper/figures/decision_flow_compact.png`,
   `paper/figures/decision_flow_compact.svg`, and
-  `validation/LLM_JUDGE_PROMPT_FINAL_90_OPENAI_AGENTIC_V2.md`
-- `validation/PROTOCOL_RECORD_AMENDMENT.json`
+  `validation/llm_classification_prompt.md`
+- `validation/protocol_amendment.json`
 - `data/specpath_gold_human_90.csv` and
   `data/specpath_gold_human_90_manifest.json`
-- `validation/DECISION_TREE_CASE_EXAMPLES.md`
+- `validation/classification_examples.md`
 - `data/population_sample_382/`
 - `results/population_382_agentic/`
 - `src/verify_population_sample_382.py`,

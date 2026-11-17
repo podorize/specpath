@@ -22,18 +22,20 @@ contrasts, overlap sensitivity table, trace audit, and `summary.json` under
 `results/population_382_agentic/`. It reads the included predictions and
 case-level traces; no API key or repository clone is needed. The 90-case
 comparison results and per-class tables are preserved under
-`results/validation/openai_sol_90_agentic_v2/` with the exact Gold CSV hash in
+`results/90_agentic/` with the exact Gold CSV hash in
 its report.
 
 ## Frozen judge inputs
 
-The original 90-case runner, its wrapper, source CSV, prompt, and schema
-remain frozen in the internal study record. The execution protocol's prose
+The original 90-case runner, source CSV, prompt, and schema remain frozen in
+the internal study record. Validation filenames were standardized for release;
+the wrapper also uses the renamed output directory. The packager reconstructs
+and verifies the original runner hashes. The execution protocol's prose
 was amended to reflect the author-confirmed chronology. Its original and
 current hashes, and the narrow scope of the amendment, are recorded in
-`validation/PROTOCOL_RECORD_AMENDMENT.json`. The publication packager verifies
+`validation/protocol_amendment.json`. The publication packager verifies
 all other frozen inputs against
-`outputs/openai_sol_90_agentic_v2/frozen_manifest.json` and verifies this
+`outputs/90_agentic/frozen_manifest.json` and verifies this
 specific amendment before creating the anonymous archive. The protocol text
 was not supplied to the model; the prompt, predictions, and traces were not
 modified. The input CSV contains reviewer-related columns for
@@ -42,11 +44,11 @@ the eleven allowlisted case fields to the model. The released case-start
 traces permit checking that no human label or reviewer note was passed.
 
 The population run has its own frozen manifest at
-`outputs/openai_sol_population_382_agentic/frozen_manifest.json`. The
+`outputs/population_382_agentic/frozen_manifest.json`. The
 manifest records a release-only amendment to the cache path and sample-
 description prose, with the original file hashes retained. The case inputs,
 prompt, predictions, and traces did not change. Later clarifications about
-the analysis are in `validation/ACTIVE_STUDY_PROTOCOL.md` and the analysis
+the analysis are in `validation/study_protocol.md` and the analysis
 code; they did not change the model calls already made.
 
 ## Privacy-safe review archive
