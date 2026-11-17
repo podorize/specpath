@@ -2,7 +2,7 @@
   "status": "frozen_human_gold_for_reported_comparison",
   "row_count": 90,
   "gold_csv": "data/specpath_gold_human_90.csv",
-  "gold_csv_sha256": "bef259ab488a9a1bd35ce46eb38e4a97fdf663444436404d13b30ca99f20a70a",
+  "gold_csv_sha256": "6274f36161ab037873614b88bc559a7dc25a4e648b061b1e65b76cf734287bb4",
   "initial_r1_r2_agreement": {
     "matches": 83,
     "n": 90,
@@ -18,6 +18,16 @@
     "F078"
   ],
   "rule": "Use the seven human consensus decisions for initial R1/R2 disagreements and identical initial labels for the other 83; freeze this consensus-only Gold before the LLM comparison.",
+  "consensus_rationale_source": {
+    "workbook": "SpecPath_Gold_Human_Adjudication_7_completed.xlsx",
+    "sha256": "8f5440c5226658d1a8cf16ba315fac8ef3a7df8ab9791392a5d24fd20c4eb878",
+    "sheet": "first worksheet",
+    "case_id_column": "A",
+    "final_class_column": "M",
+    "rationale_column": "N",
+    "decision_makers_column": "O",
+    "review_process_column": "P"
+  },
   "gold_label_distribution": {
     "expected_absence_create": 34,
     "confirmed_exists": 31,

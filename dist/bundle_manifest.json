@@ -18,8 +18,8 @@
       "data/interim/validation_final_90_en.csv": "20782bdd68c5be2ffe34b5790edc90cc5dc2aadaf8e05717ff23615b9b9e582f",
       "data/population_sample_382/specpath_population_sample_382.csv": "21c7690c7acf2cc2f92614c2e6c041132eea8f1c18a24c2cb3e97bcccb41630a",
       "data/population_sample_382/specpath_population_sample_382_manifest.json": "45f508278ba14087812086819fe49f5ebf69ff0e208637331a3c46370bf5ff06",
-      "data/specpath_gold_human_90.csv": "bef259ab488a9a1bd35ce46eb38e4a97fdf663444436404d13b30ca99f20a70a",
-      "data/specpath_gold_human_90_manifest.json": "f0e23611525d396cb38370e8262d71f108ad43bf27044eb24c9c1c32d4536e14",
+      "data/specpath_gold_human_90.csv": "6274f36161ab037873614b88bc559a7dc25a4e648b061b1e65b76cf734287bb4",
+      "data/specpath_gold_human_90_manifest.json": "4b63d1b70980b8f1c9866468ac3466e33d0e5b4801a77819ad355925e03c1796",
       "outputs/openai_sol_90_agentic_v2/frozen_manifest.json": "c5563b3c8d198a7dc60735e4fdace53893e200f93d4a6f17482342b311f7f8ed",
       "outputs/openai_sol_90_agentic_v2/predictions.jsonl": "743591ee0f85cb92cb4841ecacca106ee25c3d85022b172f27a0902875f7c4c4",
       "outputs/openai_sol_90_agentic_v2/traces/F001.jsonl": "22e20415703d1a03296bc2341c77f966b4a81d522624506f52317106de9da446",
@@ -518,10 +518,10 @@
       "results/population_382_agentic/weighted_class_distribution.csv": "92f168e7474c0c2e0eb606475454db79bd7f76ce4415a8623c84a3b9a11c3044",
       "results/validation/openai_sol_90_agentic_v2/EXECUTION_NOTES.md": "f418d2b1f8dd42916678d1ca2854f7c292c9b8e78436f6bd6e156241a60e5de6",
       "results/validation/openai_sol_90_agentic_v2/REPORT.md": "d0595e019740a192b74389111a79a285fafa11d1e8b2f7829ed9d1858dc34ab2",
-      "results/validation/openai_sol_90_agentic_v2/case_comparison.csv": "2e1b0dadc90945d0f4b49ecf1616dcba4d6f9576cb17775f6cdec329b882ac30",
+      "results/validation/openai_sol_90_agentic_v2/case_comparison.csv": "1347cbbac6a5ed9182261f6cd1bb0acd0fd05a776ad1de2c195bf30becc042b3",
       "results/validation/openai_sol_90_agentic_v2/confusion_all_90.csv": "283182bbc8032acc22077bff13bd2a13ad16ecd1c6b3b24e24b962ea2bfcef41",
       "results/validation/openai_sol_90_agentic_v2/confusion_missing_60.csv": "15442c9488ccbb28094662cabb7baab5e27029810874338c8952c4fb5804e960",
-      "results/validation/openai_sol_90_agentic_v2/disagreements.csv": "5082da34f151bf8ad8bcd5bef78d0f8a557b6c28f9e562b9506edc75132e32ee",
+      "results/validation/openai_sol_90_agentic_v2/disagreements.csv": "ac3ac48c733e0e6bd9b998a2a2a5995e80b329ec76afec3606675ab7433c5c98",
       "results/validation/openai_sol_90_agentic_v2/per_class_all_90.csv": "e15f175c04e0487c938da43225fcbecb270a621b57b08ac88aa46ff06847b44f",
       "results/validation/openai_sol_90_agentic_v2/per_class_missing_60.csv": "07b19cc5e58bf70f2acf593f4e09e45c88c00652c10913b82d3d88e7c61ed758",
       "results/validation/openai_sol_90_agentic_v2/predictions.csv": "d8ac34ba82abd7ef4bfd0b46739868b55dc0d0b787a4ca8b780de1dc1213531d",
@@ -545,6 +545,6 @@
       "validation/llm_judge_output_schema_openai_agentic.json": "0f3cbc9b06b46fc7d854ed7f5f33a2f09a9bf6d1a313adc5ade46d06d6ade8ad",
       "RELEASE_REDACTIONS.json": "a97615790f1223d47bc417ab7276ab90e05b1b37b7916ac6ba711b659743ecea"
     },
-    "sha256": "e6ac28d101f971f87367c61128598d334e3bc41f73bf2c02628ada3eadad11d3"
+    "sha256": "31451b91cfe73b0907664696100f9c5f6300f09b89e2a1c2f6d13cb1ad7b6311"
   }
 }
